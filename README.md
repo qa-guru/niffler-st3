@@ -164,10 +164,18 @@ Dmitriis-MacBook-Pro niffler % cd niffler-frontend-gql
 ```
 
 #### 2. Запустить фронтенд (сначала обновить зависимости)
+Для *nix:
 
 ```posh
 Dmitriis-MacBook-Pro niffler-frontend % npm i
 Dmitriis-MacBook-Pro niffler-frontend % npm run build:dev
+```
+
+Для Windows:
+
+```posh
+Dmitriis-MacBook-Pro niffler-frontend % npm i
+Dmitriis-MacBook-Pro niffler-frontend % npm run build:windows
 ```
 
 #### 3. Прописать run конфигурацию для всех сервисов niffler-* - Active profiles local
