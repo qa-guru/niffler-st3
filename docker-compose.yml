@@ -8,14 +8,14 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
     healthcheck:
-      test: [ "CMD", "pg_isready -U postgres" ]
+      test: [ "CMD", "pg_isready" ]
       interval: 3s
       timeout: 3s
       retries: 5
-    expose:
-      - "5432"
+    ports:
+      - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - niffler-st3:/var/lib/postgresql/data
     restart: always
     networks:
       - niffler-network
@@ -142,7 +142,7 @@ services:
     dns_search: .
 
 volumes:
-  pgdata:
+  niffler-st3:
     external: true
 
 networks:
