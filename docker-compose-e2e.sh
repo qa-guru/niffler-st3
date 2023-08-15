@@ -12,10 +12,10 @@ front_image=""
 docker_arch=""
 if [[ "$1" = "gql" ]]; then
   front="./niffler-frontend-gql/";
-  front_image="dtuchs/niffler-frontend-gql-test:latest";
+  front_image="ivanov146/niffler-frontend-gql-test:latest";
 else
   front="./niffler-frontend/";
-  front_image="dtuchs/niffler-frontend-test:latest";
+  front_image="ivanov146/niffler-frontend-test:latest";
 fi
 
 ARCH="$docker_arch" FRONT_IMAGE="$front_image" docker-compose -f docker-compose.test.yml down
