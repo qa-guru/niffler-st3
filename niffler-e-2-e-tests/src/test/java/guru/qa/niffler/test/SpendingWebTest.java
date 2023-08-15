@@ -2,7 +2,8 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.Spend;
+import guru.qa.niffler.jupiter.category.Category;
+import guru.qa.niffler.jupiter.spend.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,27 +15,35 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
 public class SpendingWebTest {
+    private final String USERNAME = "German";
+    private final String PASSWORD = "12345";
+    private final String CATEGORY = "Рыбалка";
+    private final String DESCRIPTION = "Рыбалка на Ладоге";
+    private final Double AMOUNT = 14000.00;
 
     static {
         Configuration.browser = "chrome";
-        Configuration.browserSize = "1980x1024";
+        Configuration.browserSize = "1920x1080";
     }
 
     @BeforeEach
     void doLogin() {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
-        $("input[name='username']").setValue("German");
-        $("input[name='password']").setValue("12345");
+        $("input[name='username']").setValue(USERNAME);
+        $("input[name='password']").setValue(PASSWORD);
         $("button[type='submit']").click();
     }
 
-
+    @Category(
+            category = CATEGORY,
+            username = USERNAME
+    )
     @Spend(
-            username = "German",
-            description = "Рыбалка на Ладоге",
-            category = "Рыбалка",
-            amount = 14000.00,
+            username = USERNAME,
+            description = DESCRIPTION,
+            category = CATEGORY,
+            amount = AMOUNT,
             currency = CurrencyValues.RUB
     )
     @Test
