@@ -2,6 +2,7 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.jupiter.Category;
 import guru.qa.niffler.jupiter.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
@@ -17,7 +18,7 @@ public class SpendingWebTest {
 
     static {
         Configuration.browser = "chrome";
-        Configuration.browserSize = "1980x1024";
+        Configuration.browserSize = "1920x1080";
     }
 
     @BeforeEach
@@ -29,7 +30,10 @@ public class SpendingWebTest {
         $("button[type='submit']").click();
     }
 
-
+    @Category(
+            category = "Рыбалка",
+            username = "dima"
+    )
     @Spend(
             username = "dima",
             description = "Рыбалка на Ладоге",
