@@ -42,6 +42,7 @@ public class SpendingWebTest {
             amount = 1400.00,
             currency = CurrencyValues.RUB
     )
+
     @Test
     void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend) {
         $(".spendings__content tbody")
