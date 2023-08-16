@@ -2,6 +2,7 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.jupiter.Category;
 import guru.qa.niffler.jupiter.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
@@ -24,16 +25,19 @@ public class SpendingWebTest {
     void doLogin() {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
-        $("input[name='username']").setValue("dima");
+        $("input[name='username']").setValue("kirill");
         $("input[name='password']").setValue("12345");
         $("button[type='submit']").click();
     }
 
-
+@Category(
+        username = "kirill",
+        category = "рыбалка и прочее"
+)
     @Spend(
-            username = "dima",
-            description = "Рыбалка на Ладоге",
-            category = "Рыбалка",
+            username = "kirill",
+            description = "рыбалка",
+            category = "рыбалка и прочее",
             amount = 14000.00,
             currency = CurrencyValues.RUB
     )
