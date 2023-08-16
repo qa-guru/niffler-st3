@@ -5,22 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
 public class CategoryJson {
-    @JsonProperty("id")
-    private UUID id;
     @JsonProperty("category")
     private String category;
     @JsonProperty("username")
     private String username;
 
     public CategoryJson() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getCategory() {
