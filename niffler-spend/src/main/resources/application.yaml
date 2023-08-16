@@ -57,7 +57,7 @@ grpc:
 niffler-currency:
   base-uri: 'http://127.0.0.1:8091'
 niffler-userdata:
-  base-uri: 'http://127.0.0.1:8089'
+  base-uri: 'http://127.0.0.1:8087'
 ---
 spring:
   config:
@@ -77,5 +77,5 @@ grpc:
 niffler-currency:
   base-uri: 'http://currency.niffler.dc:8091'
 niffler-userdata:
-  base-uri: 'http://userdata.niffler.dc:8089'
+  base-uri: 'http://userdata.niffler.dc:8087'
 ---

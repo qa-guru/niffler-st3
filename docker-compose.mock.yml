@@ -114,11 +114,11 @@ services:
   #    container_name: userdata.niffler.dc
   #    image: wiremock/wiremock:2.35.0
   #    ports:
-  #      - "8089:8089"
+  #      - "8087:8087"
   #    restart: always
   #    networks:
   #      - niffler-network
-  #    command: [ "--port", "8089" ]
+  #    command: [ "--port", "8087" ]
   #    volumes:
   #      - ./wiremock/rest:/home/wiremock
   #    dns_search: .
@@ -127,7 +127,7 @@ services:
     container_name: userdata.niffler.dc
     image: dtuchs/niffler-userdata:latest
     expose:
-      - "8089"
+      - "8087"
     depends_on:
       auth.niffler.dc:
         condition: service_healthy

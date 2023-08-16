@@ -112,7 +112,7 @@ services:
     container_name: userdata.niffler.dc
     image: dtuchs/niffler-userdata:latest
     expose:
-      - "8089"
+      - "8087"
     depends_on:
       auth.niffler.dc:
         condition: service_healthy
