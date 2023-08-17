@@ -2,6 +2,7 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.jupiter.Category;
 import guru.qa.niffler.jupiter.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
@@ -15,6 +16,12 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class SpendingWebTest {
 
+    private final String user = "dima";
+    private final String password = "12345";
+    private final String categoryName = "Рыбалка";
+    private final String description = "Рыбалка на Ладоге";
+    private final double amount = 14000.00;
+
     static {
         Configuration.browser = "chrome";
         Configuration.browserSize = "1980x1024";
@@ -24,17 +31,21 @@ public class SpendingWebTest {
     void doLogin() {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
-        $("input[name='username']").setValue("dima");
-        $("input[name='password']").setValue("12345");
+        $("input[name='username']").setValue(user);
+        $("input[name='password']").setValue(password);
         $("button[type='submit']").click();
     }
 
 
+    @Category(
+            username = user,
+            category = categoryName
+    )
     @Spend(
-            username = "dima",
-            description = "Рыбалка на Ладоге",
-            category = "Рыбалка",
-            amount = 14000.00,
+            username = user,
+            description = description,
+            category = categoryName,
+            amount = amount,
             currency = CurrencyValues.RUB
     )
     @Test
