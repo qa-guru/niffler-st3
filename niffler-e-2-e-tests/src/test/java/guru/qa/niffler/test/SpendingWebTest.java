@@ -37,7 +37,7 @@ public class SpendingWebTest {
 	}
 
 	@Category(
-			username = "ivanov",
+			username = USERNAME,
 			category = CATEGORY
 	)
 	@Spend(
