@@ -2,10 +2,8 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.BrowserExtension;
-import guru.qa.niffler.jupiter.Spend;
-import guru.qa.niffler.jupiter.User;
-import guru.qa.niffler.jupiter.WebTest;
+import guru.qa.niffler.jupiter.category.Category;
+import guru.qa.niffler.jupiter.spend.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.model.UserJson;
@@ -21,6 +19,13 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
 
+public class SpendingWebTest {
+	private static final String USERNAME = "ivanov";
+	private static final String PASSWORD = "12345678";
+	private static final String CATEGORY = "День рождения";
+	private static final String DESCRIPTION = "Погулять в кафе";
+	private static final double AMOUNT = 10000.00;
+
 public class SpendingWebTest extends BaseWebTest {
 
 	//ivanov, irina - with friends
@@ -33,24 +38,26 @@ public class SpendingWebTest extends BaseWebTest {
 	}
 
 	@BeforeEach
-	void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+	void doLogin() {
 		Selenide.open("http://127.0.0.1:3000/main");
 		$("a[href*='redirect']").click();
-		$("input[name='username']").setValue(userForTest.getUsername());
-		$("input[name='password']").setValue(userForTest.getPassword());
+		$("input[name='username']").setValue(USERNAME);
+		$("input[name='password']").setValue(PASSWORD);
 		$("button[type='submit']").click();
 	}
 
-
+	@Category(
+			username = USERNAME,
+			category = CATEGORY
+	)
 	@Spend(
-			username = "ivanov",
-			description = "Рыбалка на Ладоге",
-			category = "Рыбалка",
-			amount = 14000.00,
+			username = USERNAME,
+			description = DESCRIPTION,
+			category = CATEGORY,
+			amount = AMOUNT,
 			currency = CurrencyValues.RUB
 	)
 	@Test
-	@AllureId("100")
 	void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend) {
 		$(".spendings__content tbody")
 				.$$("tr")

@@ -1,4 +1,4 @@
-package guru.qa.niffler.jupiter;
+package guru.qa.niffler.jupiter.spend;
 
 import guru.qa.niffler.model.CurrencyValues;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,14 +13,14 @@ import java.lang.annotation.Target;
 @ExtendWith({SpendExtension.class, SpendExtensionParameterResolver.class})
 public @interface Spend {
 
-    String username();
+	String username();
 
-    String description();
+	String description();
 
-    String category();
+	String category();
 
-    double amount();
+	double amount();
 
-    CurrencyValues currency();
+	CurrencyValues currency();
 
 }
