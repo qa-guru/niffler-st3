@@ -2,7 +2,6 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.Category;
 import guru.qa.niffler.jupiter.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
@@ -31,10 +30,6 @@ public class SpendingWebTest {
     }
 
 
-    @Category(
-            username = "dima",
-            category = "Рыбалка"
-    )
     @Spend(
             username = "dima",
             description = "Рыбалка на Ладоге",
