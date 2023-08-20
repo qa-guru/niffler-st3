@@ -65,7 +65,7 @@ Docker version 20.10.14, build a224086
 ```posh
 docker pull postgres:15.1
 docker pull confluentinc/cp-zookeeper:7.3.2
-docker pull confluentinc/cp-kafka:7.3.2
+ 
 ```
 
 После `pull` вы увидите спуленный image командой `docker images`
@@ -276,7 +276,7 @@ Niffler при запуске в докере будет работать для
 
 Допустим, что ваш username на https://hub.docker.com - *foobazz*
 
-#### 2. заменить в проекте все имена image dtuchs/niffler на foobazz/niffler
+#### 2. заменить в проекте все имена image buyamv90/niffler на foobazz/niffler
 
 - где foobazz - ваш юзернэйм на https://hub.docker.com/
 
