@@ -30,10 +30,11 @@ public class SpendingWebTest {
         $("button[type='submit']").click();
     }
 
-@Category(
+    @Category(
         username = "kirill",
         category = "рыбалка и прочее"
-)
+    )
+
     @Spend(
             username = "kirill",
             description = "рыбалка",
@@ -46,8 +47,7 @@ public class SpendingWebTest {
         $(".spendings__content tbody")
                 .$$("tr")
                 .find(text(createdSpend.getDescription()))
-                .$$("td")
-                .first()
+                .$("td")
                 .scrollTo()
                 .click();
 

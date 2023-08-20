@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@ExtendWith({CategoryExtension.class, CategoryExtensionParameterResolver.class})
+@ExtendWith({CategoryExtension.class})
 public @interface Category {
     String username();
 
