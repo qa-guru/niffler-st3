@@ -2,7 +2,8 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.Spend;
+import guru.qa.niffler.jupiter.category.Category;
+import guru.qa.niffler.jupiter.spend.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,9 @@ public class SpendingWebTest {
         Configuration.browserSize = "1980x1024";
     }
 
+    private final String user = "dima";
+    private final String category = "Не рыбалка";
+
     @BeforeEach
     void doLogin() {
         Selenide.open("http://127.0.0.1:3000/main");
@@ -29,11 +33,14 @@ public class SpendingWebTest {
         $("button[type='submit']").click();
     }
 
-
+    @Category(
+        username = user,
+        category = category
+    )
     @Spend(
-            username = "dima",
+            username = user,
             description = "Рыбалка на Ладоге",
-            category = "Рыбалка",
+            category = category,
             amount = 14000.00,
             currency = CurrencyValues.RUB
     )

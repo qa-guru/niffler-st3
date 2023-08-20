@@ -24,59 +24,40 @@ public class SpendJson {
     public SpendJson() {
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Date getSpendDate() {
-        return spendDate;
-    }
-
-    public void setSpendDate(Date spendDate) {
-        this.spendDate = spendDate;
-    }
-
     public String getCategory() {
         return category;
     }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public CurrencyValues getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(CurrencyValues currency) {
-        this.currency = currency;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
     public String getDescription() {
         return description;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+
+    /** Setters */
+    public SpendJson spendDate(Date spendDate) {
+        this.spendDate = spendDate;
+        return this;
+    }
+    public SpendJson category(String category) {
+        this.category = category;
+        return this;
+    }
+    public SpendJson currency(CurrencyValues currency) {
+        this.currency = currency;
+        return this;
+    }
+    public SpendJson amount(Double amount) {
+        this.amount = amount;
+        return this;
+    }
+    public SpendJson description(String description) {
+        this.description = description;
+        return this;
+    }
+    public SpendJson username(String username) {
         this.username = username;
+        return this;
     }
 }
