@@ -2,6 +2,7 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.jupiter.Category;
 import guru.qa.niffler.jupiter.Spend;
 import guru.qa.niffler.jupiter.User;
 import guru.qa.niffler.model.CurrencyValues;
@@ -21,11 +22,6 @@ import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
 
 @Disabled
 public class SpendingWebTest extends BaseWebTest {
-
-    static {
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1980x1024";
-    }
 
     private static final String user = "dima";
 
