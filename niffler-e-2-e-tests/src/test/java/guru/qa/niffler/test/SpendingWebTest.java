@@ -11,7 +11,6 @@ import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -22,12 +21,12 @@ import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
 
 public class SpendingWebTest extends BaseWebTest {
 
+    private static final String user = "kirill";
+
     static {
         Configuration.browser = "chrome";
         Configuration.browserSize = "1980x1024";
     }
-
-    private static final String user = "kirill";
 
     @BeforeEach
     void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
@@ -39,8 +38,8 @@ public class SpendingWebTest extends BaseWebTest {
     }
 
     @Category(
-        username = "kirill",
-        category = "рыбалка и прочее"
+            username = "kirill",
+            category = "рыбалка и прочее"
     )
 
     @Spend(

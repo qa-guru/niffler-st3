@@ -1,13 +1,15 @@
 package guru.qa.niffler.test;
 
 
-import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.*;
 import guru.qa.niffler.jupiter.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
 
@@ -24,19 +26,34 @@ public class FriendsWebTest extends BaseWebTest {
 
     @Test
     @AllureId("101")
-    void friendShouldBeDisplayedInTable0(@User(userType = WITH_FRIENDS) UserJson userForTest) throws InterruptedException {
-        Thread.sleep(3000);
+    void friendShouldBeDisplayedInTable1(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+        $(Selectors.byAttribute("href", "/friends")).click();
+        SelenideElement friendsTable =
+                $(".people-content")
+                        .$("table")
+                        .shouldBe(Condition.visible);
+
+        friendsTable.$("tbody").$$("tr").shouldHave(CollectionCondition.size(1));
+        friendsTable.$("tbody").$$("td").filterBy(text("You are friends")).shouldHave(CollectionCondition.size(1));
     }
 
     @Test
     @AllureId("102")
-    void friendShouldBeDisplayedInTable1(@User(userType = WITH_FRIENDS) UserJson userForTest) throws InterruptedException {
-        Thread.sleep(3000);
+    void friendShouldBeDisplayedInTable2(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+        $(Selectors.byAttribute("href", "/friends")).click();
+        SelenideElement friendsTable =
+                $(".people-content")
+                        .$("table")
+                        .shouldBe(Condition.visible);
+
+        friendsTable.$("tbody").$$("tr").shouldHave(CollectionCondition.size(1));
+        friendsTable.$("tbody").$$("td").filterBy(text("You are friends")).shouldHave(CollectionCondition.size(1));
     }
 
     @Test
     @AllureId("103")
-    void friendShouldBeDisplayedInTable2(@User(userType = WITH_FRIENDS) UserJson userForTest) throws InterruptedException {
-        Thread.sleep(3000);
+    void noUserDataRequired() {
+        Assertions.assertTrue(true);
     }
+
 }

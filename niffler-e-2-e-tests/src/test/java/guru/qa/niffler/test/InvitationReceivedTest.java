@@ -10,15 +10,13 @@ import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
-import static guru.qa.niffler.jupiter.User.UserType.INVITATION_SENT;
+import static guru.qa.niffler.jupiter.User.UserType.INVITATION_RECEIVED;
 import static io.qameta.allure.Allure.step;
 
-public class InvitationWebTest {
-
+public class InvitationReceivedTest extends BaseWebTest {
     @BeforeEach
-    void doLogin(@User(userType = INVITATION_SENT) UserJson userForTest) {
+    void doLogin(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
         $("input[name='username']").setValue(userForTest.getUsername());
@@ -27,38 +25,52 @@ public class InvitationWebTest {
     }
 
     @Test
-    @AllureId("104")
-    void invitationShouldBeDisplayedInTable(@User(userType = INVITATION_SENT) UserJson userForTest) {
+    @AllureId("106")
+    void invitationDecisionButtonsShouldBeDisplayedInTable(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
         System.out.println(userForTest.getUsername());
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()
         );
 
-        step("Количество строк со статусом \"Pending invitation\" должно равняться 1", () ->
+        step("Количество кнопок \"Submit invitation\" должно равняться 1", () ->
                 $(".people-content").$("table").shouldBe(Condition.visible)
                         .$("tbody")
-                        .$$("td")
-                        .filterBy(text("Pending invitation"))
+                        .$$("[data-tooltip-id='submit-invitation']")
+                        .shouldHave(CollectionCondition.size(1))
+        );
+
+        step("Количество кнопок \"Decline invitation\" должно равняться 1", () ->
+                $(".people-content").$("table").shouldBe(Condition.visible)
+                        .$("tbody")
+                        .$$("[data-tooltip-id='decline-invitation']")
                         .shouldHave(CollectionCondition.size(1))
         );
     }
 
     @Test
-    @AllureId("105")
-    void invitationShouldBeDisplayedInTable2(@User(userType = INVITATION_SENT) UserJson userForTest) {
+    @AllureId("107")
+    void invitationDecisionButtonsShouldBeDisplayedInTable2(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
         System.out.println(userForTest.getUsername());
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()
         );
 
-        step("Количество строк со статусом \"Pending invitation\" должно равняться 1", () ->
+        step("Количество кнопок \"Submit invitation\" должно равняться 1", () ->
                 $(".people-content").$("table").shouldBe(Condition.visible)
                         .$("tbody")
-                        .$$("td")
-                        .filterBy(text("Pending invitation"))
+                        .$$("[data-tooltip-id='submit-invitation']")
+                        .shouldHave(CollectionCondition.size(1))
+        );
+
+        step("Количество кнопок \"Decline invitation\" должно равняться 1", () ->
+                $(".people-content").$("table").shouldBe(Condition.visible)
+                        .$("tbody")
+                        .$$("[data-tooltip-id='decline-invitation']")
                         .shouldHave(CollectionCondition.size(1))
         );
     }
 }
+
+
