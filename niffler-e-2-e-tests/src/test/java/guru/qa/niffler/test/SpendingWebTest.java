@@ -1,9 +1,9 @@
 package guru.qa.niffler.test;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.Spend;
-import guru.qa.niffler.jupiter.User;
+import guru.qa.niffler.jupiter.annotations.Category;
+import guru.qa.niffler.jupiter.annotations.Spend;
+import guru.qa.niffler.jupiter.annotations.User;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.model.UserJson;
@@ -17,17 +17,12 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
-import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
+import static guru.qa.niffler.jupiter.annotations.User.UserType.WITH_FRIENDS;
 
 @Disabled
 public class SpendingWebTest extends BaseWebTest {
 
-    static {
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1980x1024";
-    }
-
-    private static final String user = "dima";
+    private static final String user = "misha";
 
     @BeforeEach
     void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
@@ -38,6 +33,10 @@ public class SpendingWebTest extends BaseWebTest {
         $("button[type='submit']").click();
     }
 
+    @Category(
+            username = user,
+            category = "Рыбалка"
+    )
     @Spend(
             username = user,
             description = "Рыбалка на Ладоге",
@@ -59,8 +58,8 @@ public class SpendingWebTest extends BaseWebTest {
 
         Allure.step(
                 "Delete spending",
-                () -> $(byText("Delete selected")).click())
-        ;
+                () -> $(byText("Delete selected")).click()
+        );
 
         Allure.step(
                 "Check spendings",

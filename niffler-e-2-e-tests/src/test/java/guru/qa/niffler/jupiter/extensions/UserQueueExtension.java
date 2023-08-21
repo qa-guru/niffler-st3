@@ -1,5 +1,6 @@
-package guru.qa.niffler.jupiter;
+package guru.qa.niffler.jupiter.extensions;
 
+import guru.qa.niffler.jupiter.annotations.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
@@ -23,7 +24,7 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
 
     static {
         Queue<UserJson> usersWithFriends = new ConcurrentLinkedQueue<>();
-        usersWithFriends.add(bindUser("dima", "12345"));
+        usersWithFriends.add(bindUser("misha", "12345"));
         usersWithFriends.add(bindUser("barsik", "12345"));
         usersQueue.put(User.UserType.WITH_FRIENDS, usersWithFriends);
         Queue<UserJson> usersInSent = new ConcurrentLinkedQueue<>();
