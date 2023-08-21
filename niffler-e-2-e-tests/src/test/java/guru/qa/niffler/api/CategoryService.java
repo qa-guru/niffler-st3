@@ -5,7 +5,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface CategoriesService {
+public interface CategoryService {
     @POST("/category")
-    Call<CategoryJson> addCategories(@Body CategoryJson categoryJson);
+    Call<CategoryJson> addCategory(@Body CategoryJson categoryJson);
 }
