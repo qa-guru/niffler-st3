@@ -1,9 +1,7 @@
-package guru.qa.niffler.jupiter;
+package guru.qa.niffler.jupiter.user;
 
-import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
-import org.apache.kafka.common.protocol.types.Field;
 import org.junit.jupiter.api.extension.*;
 
 import java.lang.reflect.Parameter;

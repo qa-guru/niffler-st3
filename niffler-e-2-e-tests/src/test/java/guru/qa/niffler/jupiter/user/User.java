@@ -1,4 +1,4 @@
-package guru.qa.niffler.jupiter;
+package guru.qa.niffler.jupiter.user;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 

@@ -6,27 +6,22 @@ import guru.qa.niffler.jupiter.category.Category;
 import guru.qa.niffler.jupiter.spend.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
-import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
-import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
 
-public class SpendingWebTest {
+public class SpendingWebTest extends BaseWebTest{
 	private static final String USERNAME = "ivanov";
 	private static final String PASSWORD = "12345678";
 	private static final String CATEGORY = "День рождения";
 	private static final String DESCRIPTION = "Погулять в кафе";
 	private static final double AMOUNT = 10000.00;
-
-public class SpendingWebTest extends BaseWebTest {
 
 	//ivanov, irina - with friends
 	//ivanov146, marina invitation send
@@ -58,12 +53,12 @@ public class SpendingWebTest extends BaseWebTest {
 			currency = CurrencyValues.RUB
 	)
 	@Test
+	@AllureId("100")
 	void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend) {
 		$(".spendings__content tbody")
 				.$$("tr")
 				.find(text(createdSpend.getDescription()))
-				.$$("td")
-				.first()
+				.$("td")
 				.scrollTo()
 				.click();
 
