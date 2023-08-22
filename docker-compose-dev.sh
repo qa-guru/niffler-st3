@@ -9,10 +9,10 @@ front=""
 front_image=""
 if [[ "$1" = "gql" ]]; then
   front="./niffler-frontend-gql/";
-  front_image="dtuchs/niffler-frontend-gql:latest";
+  front_image="aleksandrafirsova/niffler-frontend-gql:latest";
 else
   front="./niffler-frontend/";
-  front_image="dtuchs/niffler-frontend:latest";
+  front_image="aleksandrafirsova/niffler-frontend:latest";
 fi
 
 FRONT_IMAGE="$front_image" docker-compose down

@@ -89,8 +89,8 @@ dependencies {
 
 docker {
     dependsOn build
-    name "dtuchs/niffler-gateway:${project.version}"
-    tag 'latest', 'dtuchs/niffler-gateway:latest'
+    name "aleksandrafirsova/niffler-gateway:${project.version}"
+    tag 'latest', 'aleksandrafirsova/niffler-gateway:latest'
     files bootJar.archiveFile
     buildArgs([APP_VER: project.version, DOCKER: project.ext.dockerImage])
     noCache true
