@@ -21,17 +21,55 @@ import static guru.qa.niffler.jupiter.user.User.UserType.INVITATION_SEND;
 public class InvitationReceivedWebTest extends BaseWebTest {
 
 	@BeforeEach
-	void doLogin(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
+	void doLogin(@User(userType = INVITATION_RECEIVED) UserJson userReceived) {
 		Selenide.open("http://127.0.0.1:3000/main");
 		$("a[href*='redirect']").click();
-		$("input[name='username']").setValue(userForTest.getUsername());
-		$("input[name='password']").setValue(userForTest.getPassword());
+		$("input[name='username']").setValue(userReceived.getUsername());
+		$("input[name='password']").setValue(userReceived.getPassword());
 		$("button[type='submit']").click();
 	}
 
 	@Test
-	@AllureId("101")
-	void receivedInvitationShouldBeDisplayedInTable(@User(userType = INVITATION_RECEIVED) UserJson userForTest){
+	@AllureId("107")
+	void receivedInvitationShouldBeDisplayedInTable107(@User(userType = INVITATION_RECEIVED) UserJson userReceived){
+		$("[data-tooltip-id='friends']").$(".header__sign").shouldBe(visible);
+		$("[data-tooltip-id='friends']").click();
+		$("[data-tooltip-id='submit-invitation']").shouldBe(visible);
+		$("[data-tooltip-id='decline-invitation']").shouldBe(visible);
+		ElementsCollection friends = $$(".abstract-table tbody tr");
+		ArrayList<String> newFriendsUsername = new ArrayList<>();
+		for (SelenideElement friend : friends) {
+			newFriendsUsername.add(friend.$x("td[2]").getText());
+		}
+		$("[data-tooltip-id='people']").click();
+		for (String name : newFriendsUsername) {
+			$x("//td[text()='"+name+"']/following-sibling::*/div/div[@data-tooltip-id='submit-invitation']").shouldBe(visible);
+			$x("//td[text()='"+name+"']/following-sibling::*/div/div[@data-tooltip-id='decline-invitation']").shouldBe(visible);
+		}
+	}
+
+	@Test
+	@AllureId("108")
+	void receivedInvitationShouldBeDisplayedInTable108(@User(userType = INVITATION_RECEIVED) UserJson userReceived){
+		$("[data-tooltip-id='friends']").$(".header__sign").shouldBe(visible);
+		$("[data-tooltip-id='friends']").click();
+		$("[data-tooltip-id='submit-invitation']").shouldBe(visible);
+		$("[data-tooltip-id='decline-invitation']").shouldBe(visible);
+		ElementsCollection friends = $$(".abstract-table tbody tr");
+		ArrayList<String> newFriendsUsername = new ArrayList<>();
+		for (SelenideElement friend : friends) {
+			newFriendsUsername.add(friend.$x("td[2]").getText());
+		}
+		$("[data-tooltip-id='people']").click();
+		for (String name : newFriendsUsername) {
+			$x("//td[text()='"+name+"']/following-sibling::*/div/div[@data-tooltip-id='submit-invitation']").shouldBe(visible);
+			$x("//td[text()='"+name+"']/following-sibling::*/div/div[@data-tooltip-id='decline-invitation']").shouldBe(visible);
+		}
+	}
+
+	@Test
+	@AllureId("109")
+	void receivedInvitationShouldBeDisplayedInTable109(@User(userType = INVITATION_RECEIVED) UserJson userReceived){
 		$("[data-tooltip-id='friends']").$(".header__sign").shouldBe(visible);
 		$("[data-tooltip-id='friends']").click();
 		$("[data-tooltip-id='submit-invitation']").shouldBe(visible);

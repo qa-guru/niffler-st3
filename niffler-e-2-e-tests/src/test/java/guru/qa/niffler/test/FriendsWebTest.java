@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static guru.qa.niffler.jupiter.user.User.UserType.WITH_FRIENDS;
@@ -28,24 +29,28 @@ public class FriendsWebTest extends BaseWebTest {
 
 	@Test
 	@AllureId("101")
-	void friendsShouldBeDisplayedInTable(@User(userType = WITH_FRIENDS) UserJson userForTest){
+	void friendsShouldBeDisplayedInTable101(@User(userType = WITH_FRIENDS) UserJson userForTest){
 		$("[data-tooltip-id='friends']").click();
-		ElementsCollection friends = $$(".abstract-table tbody tr");
-		friends.shouldHave(sizeGreaterThan(0));
-		for (SelenideElement friend : friends) {
-			friend.$(".abstract-table__buttons").$("div:first-child").shouldHave(text("You are friends"));
-		}
+		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
+		$("[data-tooltip-id='people']").click();
+		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
 	}
 
 	@Test
 	@AllureId("102")
-	void friendsShouldBeDisplayedInTable3(@User(userType = WITH_FRIENDS) UserJson userForTest){
-		System.out.println();
+	void friendsShouldBeDisplayedInTable102(@User(userType = WITH_FRIENDS) UserJson userForTest){
+		$("[data-tooltip-id='friends']").click();
+		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
+		$("[data-tooltip-id='people']").click();
+		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
 	}
 
 	@Test
 	@AllureId("103")
-	void friendsShouldBeDisplayedInTable2(@User(userType = WITH_FRIENDS) UserJson userForTest){
-		System.out.println();
+	void friendsShouldBeDisplayedInTable103(@User(userType = WITH_FRIENDS) UserJson userForTest){
+		$("[data-tooltip-id='friends']").click();
+		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
+		$("[data-tooltip-id='people']").click();
+		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
 	}
 }
