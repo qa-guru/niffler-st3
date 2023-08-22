@@ -1,6 +1,5 @@
 package guru.qa.niffler.test;
 
-
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.User;
 import guru.qa.niffler.model.UserJson;
@@ -11,12 +10,13 @@ import org.junit.jupiter.api.Test;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static guru.qa.niffler.jupiter.User.UserType.INVITATION_RECEIVED;
 import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
 
-public class FriendsWebTest extends BaseWebTest {
+public class InvitationReceivedWebTest extends BaseWebTest {
 
     @BeforeEach
-    void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+    void doLogin(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
         $("input[name='username']").setValue(userForTest.getUsername());
@@ -25,30 +25,31 @@ public class FriendsWebTest extends BaseWebTest {
     }
 
     @Test
-    @AllureId("101")
-    void tableShouldHaveFriends0(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+    @AllureId("201")
+    void friendShouldBeDisplayedInTable0(@User(userType = WITH_FRIENDS) UserJson userForTest, @User(userType = INVITATION_RECEIVED) UserJson userForTest1) {
         $("[data-tooltip-id=friends]").click();
-        $$("[data-tooltip-id=remove-friend]").shouldHave(size(1));
+        $$("[data-tooltip-id=submit-invitation]").shouldHave(size(1));
     }
 
     @Test
-    @AllureId("102")
-    void tableShouldHaveFriends1(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+    @AllureId("202")
+    void friendShouldBeDisplayedInTable1() {
         $("[data-tooltip-id=friends]").click();
-        $$("[data-tooltip-id=remove-friend]").shouldHave(size(1));
+        $$("[data-tooltip-id=submit-invitation]").shouldHave(size(1));
+        Selenide.sleep(3000);
     }
 
     @Test
-    @AllureId("103")
-    void tableShouldHaveFriends2(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+    @AllureId("203")
+    void friendShouldBeDisplayedInTable2(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
         $("[data-tooltip-id=friends]").click();
-        $$("[data-tooltip-id=remove-friend]").shouldHave(size(1));
+        $$("[data-tooltip-id=submit-invitation]").shouldHave(size(1));
     }
 
     @Test
-    @AllureId("104")
-    void tableShouldHaveFriends3(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+    @AllureId("204")
+    void friendShouldBeDisplayedInTable3(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
         $("[data-tooltip-id=friends]").click();
-        $$("[data-tooltip-id=remove-friend]").shouldHave(size(1));
+        $$("[data-tooltip-id=submit-invitation]").shouldHave(size(1));
     }
 }
