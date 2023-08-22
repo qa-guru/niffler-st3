@@ -2,7 +2,8 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.Spend;
+import guru.qa.niffler.jupiter.annotations.Category;
+import guru.qa.niffler.jupiter.annotations.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +15,15 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
 public class SpendingWebTest {
+    private final String
+            USER_NAME = "Kirill",
+            PASSWORD = "12345",
+            DESCRIPTION = "Ужин в ресторане",
+            CATEGORY = "Ресторан";
+    private final double AMOUNT = 7000.00;
+
 
     static {
-        Configuration.browser = "chrome";
         Configuration.browserSize = "1980x1024";
     }
 
@@ -24,26 +31,26 @@ public class SpendingWebTest {
     void doLogin() {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
-        $("input[name='username']").setValue("dima");
-        $("input[name='password']").setValue("12345");
+        $("input[name='username']").setValue(USER_NAME);
+        $("input[name='password']").setValue(PASSWORD);
         $("button[type='submit']").click();
     }
 
-
-    @Spend(
-            username = "dima",
-            description = "Рыбалка на Ладоге",
-            category = "Рыбалка",
-            amount = 14000.00,
-            currency = CurrencyValues.RUB
+    @Category(
+            username = USER_NAME,
+            category = CATEGORY
     )
+    @Spend(username = USER_NAME,
+            description = DESCRIPTION,
+            category = CATEGORY,
+            amount = AMOUNT,
+            currency = CurrencyValues.RUB)
     @Test
     void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend) {
         $(".spendings__content tbody")
                 .$$("tr")
                 .find(text(createdSpend.getDescription()))
-                .$$("td")
-                .first()
+                .$("td")
                 .scrollTo()
                 .click();
 
