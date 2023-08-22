@@ -8,6 +8,7 @@ import guru.qa.niffler.jupiter.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
@@ -29,9 +30,8 @@ public class TwoUsersTest {
 
     @Test
     @AllureId("106")
-    void invitationShouldBeDisplayedInTableDuo(@User(userType = INVITATION_SENT) UserJson user1, @User(userType = INVITATION_RECEIVED) UserJson user2) {
-        System.out.println(user1.getUsername());
-        System.out.println(user2.getUsername());
+    @DisplayName("Проверка использующая сразу двух пользователей разного типа")
+    void invitationShouldBeDisplayedInTableTwoUsers(@User(userType = INVITATION_SENT) UserJson user1, @User(userType = INVITATION_RECEIVED) UserJson user2) throws InterruptedException{
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()

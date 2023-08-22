@@ -8,6 +8,7 @@ import guru.qa.niffler.jupiter.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
@@ -28,8 +29,8 @@ public class InvitationWebTest {
 
     @Test
     @AllureId("104")
-    void invitationShouldBeDisplayedInTable(@User(userType = INVITATION_SENT) UserJson userForTest) {
-        System.out.println(userForTest.getUsername());
+    @DisplayName("Проверка отображения статуса \"Pending invitation\" на странице /people")
+    void invitationShouldBeDisplayedInTable(@User(userType = INVITATION_SENT) UserJson userForTest) throws InterruptedException {
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()
@@ -46,8 +47,8 @@ public class InvitationWebTest {
 
     @Test
     @AllureId("105")
-    void invitationShouldBeDisplayedInTable2(@User(userType = INVITATION_SENT) UserJson userForTest) {
-        System.out.println(userForTest.getUsername());
+    @DisplayName("Проверка отображения статуса \"Pending invitation\" на странице /people")
+    void invitationShouldBeDisplayedInTable2(@User(userType = INVITATION_SENT) UserJson userForTest) throws InterruptedException {
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()

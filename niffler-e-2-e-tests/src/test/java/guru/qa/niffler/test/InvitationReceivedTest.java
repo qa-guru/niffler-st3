@@ -8,6 +8,7 @@ import guru.qa.niffler.jupiter.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -26,8 +27,8 @@ public class InvitationReceivedTest extends BaseWebTest {
 
     @Test
     @AllureId("106")
-    void invitationDecisionButtonsShouldBeDisplayedInTable(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
-        System.out.println(userForTest.getUsername());
+    @DisplayName("Проверка отображения кнопок на странице /people")
+    void invitationDecisionButtonsShouldBeDisplayedInTable(@User(userType = INVITATION_RECEIVED) UserJson userForTest) throws InterruptedException {
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()
@@ -50,8 +51,8 @@ public class InvitationReceivedTest extends BaseWebTest {
 
     @Test
     @AllureId("107")
-    void invitationDecisionButtonsShouldBeDisplayedInTable2(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
-        System.out.println(userForTest.getUsername());
+    @DisplayName("Проверка отображения кнопок на странице /people")
+    void invitationDecisionButtonsShouldBeDisplayedInTable2(@User(userType = INVITATION_RECEIVED) UserJson userForTest) throws InterruptedException {
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()
