@@ -1,15 +1,12 @@
 package guru.qa.niffler.test;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import guru.qa.niffler.jupiter.user.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -39,15 +36,6 @@ public class FriendsWebTest extends BaseWebTest {
 	@Test
 	@AllureId("102")
 	void friendsShouldBeDisplayedInTable102(@User(userType = WITH_FRIENDS) UserJson userForTest){
-		$("[data-tooltip-id='friends']").click();
-		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
-		$("[data-tooltip-id='people']").click();
-		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
-	}
-
-	@Test
-	@AllureId("103")
-	void friendsShouldBeDisplayedInTable103(@User(userType = WITH_FRIENDS) UserJson userForTest){
 		$("[data-tooltip-id='friends']").click();
 		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
 		$("[data-tooltip-id='people']").click();
