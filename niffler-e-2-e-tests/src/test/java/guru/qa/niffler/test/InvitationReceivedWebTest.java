@@ -11,12 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static guru.qa.niffler.jupiter.user.User.UserType.INVITATION_RECEIVED;
-import static guru.qa.niffler.jupiter.user.User.UserType.INVITATION_SEND;
 
 public class InvitationReceivedWebTest extends BaseWebTest {
 
