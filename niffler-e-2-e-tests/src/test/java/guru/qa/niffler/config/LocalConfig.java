@@ -1,11 +1,15 @@
 package guru.qa.niffler.config;
 
-public interface LocalConfig {
+public class LocalConfig implements Config{
 
-	private static final LocalConfig config = new LocalConfig() {
+	static final LocalConfig config = new LocalConfig();
+
+	private LocalConfig(){
+
 	}
 
-	default String databaseHost(){
+	@Override
+	public String databaseHost(){
 		return "localhost";
 	}
 }

@@ -1,8 +1,15 @@
 package guru.qa.niffler.config;
 
-public interface DockerConfig {
+public class DockerConfig implements Config {
 
-	default String databaseHost(){
+	static final DockerConfig config = new DockerConfig();
+
+	private DockerConfig(){
+
+	}
+
+	@Override
+	public String databaseHost() {
 		return "niffler-all-db";
 	}
 }
