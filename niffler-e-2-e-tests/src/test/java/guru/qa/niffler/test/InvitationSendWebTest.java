@@ -1,16 +1,14 @@
 package guru.qa.niffler.test;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import guru.qa.niffler.jupiter.user.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static guru.qa.niffler.jupiter.user.User.UserType.INVITATION_SEND;
@@ -27,13 +25,16 @@ public class InvitationSendWebTest extends BaseWebTest {
 	}
 
 	@Test
-	@AllureId("101")
-	void sentInvitationShouldBeDisplayedInTable(@User(userType = INVITATION_SEND) UserJson userForTest){
+	@AllureId("103")
+	void sentInvitationShouldBeDisplayedInTable103(@User(userType = INVITATION_SEND) UserJson userForTest){
 		$("[data-tooltip-id='people']").click();
-		ElementsCollection friends = $$(".abstract-table tbody tr");
-		friends.shouldHave(sizeGreaterThan(0));
-		for (SelenideElement friend : friends) {
-			friend.$(".abstract-table__buttons").$("div:first-child").shouldHave(text("Pending invitation"));
-		}
+		$$(".abstract-table tbody tr").findBy(text("Pending invitation")).shouldBe(visible);
+	}
+
+	@Test
+	@AllureId("104")
+	void sentInvitationShouldBeDisplayedInTable104(@User(userType = INVITATION_SEND) UserJson userForTest){
+		$("[data-tooltip-id='people']").click();
+		$$(".abstract-table tbody tr").findBy(text("Pending invitation")).shouldBe(visible);
 	}
 }
