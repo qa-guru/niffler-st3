@@ -8,12 +8,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@ExtendWith({SpendExtension.class, SpendExtensionParameterResolver.class})
-public @interface Spend {
-
-    String username();
+@Target(ElementType.METHOD)                                                                                             // тут мы определяем что аннотацию можно поставить над методом
+@Retention(RetentionPolicy.RUNTIME)                                                                                     // доступна в рантайме
+@ExtendWith({SpendExtension.class})                                                                                     // умеет обрабатываться junit экстеншеном
+public @interface Spend {                                                                                               // аннотации похожи на поля в классе
+    String username();                                                                                                  // они выглядят как методы
 
     String description();
 
@@ -22,5 +21,4 @@ public @interface Spend {
     double amount();
 
     CurrencyValues currency();
-
 }

@@ -24,8 +24,8 @@ dependencies {
 
 docker {
     dependsOn build
-    name "dtuchs/niffler-currency:${project.version}"
-    tag 'latest', 'dtuchs/niffler-currency:latest'
+    name "rustame/niffler-currency:${project.version}"
+    tag 'latest', 'rustame/niffler-currency:latest'
     files bootJar.archiveFile
     buildArgs([APP_VER: project.version, DOCKER: project.ext.dockerImage])
     noCache true
