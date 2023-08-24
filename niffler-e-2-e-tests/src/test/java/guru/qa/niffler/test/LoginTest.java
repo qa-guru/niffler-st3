@@ -2,27 +2,36 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.model.Authority;
 import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.jupiter.Dao;
+import guru.qa.niffler.jupiter.DaoExtension;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Arrays;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+@ExtendWith(DaoExtension.class)
 public class LoginTest extends BaseWebTest{
 
-	private UserEntity user;
+	@Dao
 	private AuthUserDAO authUserDAO;
+	@Dao
+	private UserDataUserDAO userDataUserDAO;
+	private UserEntity user;
+
 
 	@BeforeEach
 	void createUser(){
 		user = new UserEntity();
-		user.setUsername("Vadim");
+		user.setUsername("Vadim2");
 		user.setPassword("12345678");
 		user.setEnabled(true);
 		user.setAccountNonExpired(true);
@@ -35,6 +44,7 @@ public class LoginTest extends BaseWebTest{
 					return ae;
 				}).toList());
 		authUserDAO.createUser(user);
+		userDataUserDAO.createUserInUserData(user);
 	}
 
 	@Test
@@ -49,6 +59,7 @@ public class LoginTest extends BaseWebTest{
 
 	@AfterEach
 	void deleteUser(){
+		userDataUserDAO.deleteUserByIdInUserData(user.getId());
 		authUserDAO.deleteUserById(user.getId());
 	}
 }
