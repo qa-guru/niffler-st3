@@ -150,4 +150,48 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 		}
 		return user;
 	}
+
+	@Override
+	public void updateUserById(UUID userId) {
+		String newUsername = "Fedya";
+		boolean enabled = false;
+		boolean accountNonExpired = false;
+		boolean accountNonLocked = false;
+		boolean credentialsNonExpired = false;
+		String updateSql = "UPDATE users SET username=?, enabled=?, account_non_expired=?, " +
+				"account_non_locked=?, credentials_non_expired=? WHERE id=?::uuid";
+		try (Connection conn = authDs.getConnection()) {
+			try (PreparedStatement usersPs = conn.prepareStatement(updateSql)) {
+				usersPs.setString(1, newUsername);
+				usersPs.setBoolean(2, enabled);
+				usersPs.setBoolean(3, accountNonExpired);
+				usersPs.setBoolean(4, accountNonLocked);
+				usersPs.setBoolean(5, credentialsNonExpired);
+				usersPs.setString(6, userId.toString());
+				usersPs.executeUpdate();
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void updateUserByIdInUserData(UUID userId) {
+		String username = getUserById(userId).getUsername();
+		String newUsername = "Fedya";
+		String newFirstname = "Fedor";
+		String newSurname = "Fedorov";
+		String updateSql = "UPDATE users SET username=?, firstname=?, surname=? WHERE username=?";
+		try (Connection conn = userdataDs.getConnection()) {
+			try (PreparedStatement usersPs = conn.prepareStatement(updateSql)) {
+				usersPs.setString(1, newUsername);
+				usersPs.setString(2, newFirstname);
+				usersPs.setString(3, newSurname);
+				usersPs.setString(4, username);
+				usersPs.executeUpdate();
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
