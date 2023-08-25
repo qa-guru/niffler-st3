@@ -1,6 +1,7 @@
 package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Selenide;
+import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.model.Authority;
@@ -27,12 +28,14 @@ public class LoginTest extends BaseWebTest {
 	@Dao
 	private UserDataUserDAO userDataUserDAO;
 	private UserEntity user;
-
+	Faker faker = new Faker();
+	String username = faker.name().username();
+	String newUsername = faker.name().username();
 
 	@BeforeEach
 	void createUser() {
 		user = new UserEntity();
-		user.setUsername("Anton2");
+		user.setUsername(username);
 		user.setPassword("12345678");
 		user.setEnabled(true);
 		user.setAccountNonExpired(true);
@@ -66,7 +69,7 @@ public class LoginTest extends BaseWebTest {
 
 	@Test
 	void mainPageShouldBeVisibleAfterLogInAfterUpdateUser() {
-		updateUserInDB(user.getId());
+		updateUserInDB(user.getId(), newUsername);
 		updateUserData(user.getId());
 
 		Selenide.open("http://127.0.0.1:3000/main");
@@ -77,12 +80,12 @@ public class LoginTest extends BaseWebTest {
 		$(".main-content .main-content__section-stats").shouldBe(visible);
 	}
 
-	private void updateUserInDB(UUID userId){
-		userDataUserDAO.updateUserByIdInUserData(userId);
-		authUserDAO.updateUserById(userId);
+	private void updateUserInDB(UUID userId, String username) {
+		userDataUserDAO.updateUserByIdInUserData(userId, username);
+		authUserDAO.updateUserById(userId, username);
 	}
 
-	private void updateUserData(UUID userId){
+	private void updateUserData(UUID userId) {
 		UserEntity userEntity = authUserDAO.getUserById(userId);
 		user.setUsername(userEntity.getUsername());
 		user.setEnabled(userEntity.getEnabled());

@@ -1,5 +1,6 @@
 package guru.qa.niffler.db.dao;
 
+import com.github.javafaker.Faker;
 import guru.qa.niffler.db.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
 import guru.qa.niffler.db.model.Authority;
@@ -14,6 +15,8 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	private static DataSource authDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.AUTH);
 	private static DataSource userdataDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.USERDATA);
+
+	Faker faker = new Faker();
 
 	@Override
 	public int createUser(UserEntity user) {
@@ -154,8 +157,8 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public void updateUserById(UUID userId) {
-		String newUsername = "Fedya3";
+	public void updateUserById(UUID userId, String username) {
+		String newUsername = username;
 		boolean enabled = true;
 		boolean accountNonExpired = true;
 		boolean accountNonLocked = true;
@@ -178,18 +181,17 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public void updateUserByIdInUserData(UUID userId) {
-		String username = getUserById(userId).getUsername();
-		String newUsername = "Fedya3";
-		String newFirstname = "Fedor";
-		String newSurname = "Fedorov";
+	public void updateUserByIdInUserData(UUID userId, String newUsername) {
+		String oldUsername = getUserById(userId).getUsername();
+		String newFirstname = faker.name().firstName();
+		String newSurname = faker.name().lastName();
 		String updateSql = "UPDATE users SET username=?, firstname=?, surname=? WHERE username=?";
 		try (Connection conn = userdataDs.getConnection()) {
 			try (PreparedStatement usersPs = conn.prepareStatement(updateSql)) {
 				usersPs.setString(1, newUsername);
 				usersPs.setString(2, newFirstname);
 				usersPs.setString(3, newSurname);
-				usersPs.setString(4, username);
+				usersPs.setString(4, oldUsername);
 				usersPs.executeUpdate();
 			}
 		} catch (SQLException e) {

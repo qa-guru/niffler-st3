@@ -10,5 +10,5 @@ public interface UserDataUserDAO {
 
 	void deleteUserByIdInUserData(UUID userId);
 
-	void updateUserByIdInUserData(UUID userId);
+	void updateUserByIdInUserData(UUID userId, String username);
 }
