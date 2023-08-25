@@ -19,7 +19,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 @ExtendWith(DaoExtension.class)
-public class LoginTest extends BaseWebTest{
+public class LoginTest extends BaseWebTest {
 
 	@Dao
 	private AuthUserDAO authUserDAO;
@@ -29,9 +29,9 @@ public class LoginTest extends BaseWebTest{
 
 
 	@BeforeEach
-	void createUser(){
+	void createUser() {
 		user = new UserEntity();
-		user.setUsername("Vadim2");
+		user.setUsername("Vadim30");
 		user.setPassword("12345678");
 		user.setEnabled(true);
 		user.setAccountNonExpired(true);
@@ -48,7 +48,7 @@ public class LoginTest extends BaseWebTest{
 	}
 
 	@Test
-	void mainPageShouldBeVisibleAfterLogIn(){
+	void mainPageShouldBeVisibleAfterLogIn() {
 		Selenide.open("http://127.0.0.1:3000/main");
 		$("a[href*='redirect']").click();
 		$("input[name='username']").setValue(user.getUsername());
@@ -58,7 +58,7 @@ public class LoginTest extends BaseWebTest{
 	}
 
 	@AfterEach
-	void deleteUser(){
+	void deleteUser() {
 		userDataUserDAO.deleteUserByIdInUserData(user.getId());
 		authUserDAO.deleteUserById(user.getId());
 	}
