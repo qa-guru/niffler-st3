@@ -129,7 +129,8 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 		}
 	}
 
-	private UserEntity getUserById(UUID userId) {
+	@Override
+	public UserEntity getUserById(UUID userId) {
 		UserEntity user = new UserEntity();
 		String getUsernameSql = "SELECT * FROM users WHERE id=?::uuid";
 		try (Connection conn = authDs.getConnection()) {
@@ -139,6 +140,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 				while (resultSet.next()) {
 					user.setId(userId);
 					user.setUsername(resultSet.getString("username"));
+					user.setPassword(pe.encode(resultSet.getString("password")));
 					user.setEnabled(resultSet.getBoolean("enabled"));
 					user.setAccountNonExpired(resultSet.getBoolean("account_non_expired"));
 					user.setAccountNonLocked(resultSet.getBoolean("account_non_locked"));
@@ -153,11 +155,11 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	public void updateUserById(UUID userId) {
-		String newUsername = "Fedya";
-		boolean enabled = false;
-		boolean accountNonExpired = false;
-		boolean accountNonLocked = false;
-		boolean credentialsNonExpired = false;
+		String newUsername = "Fedya3";
+		boolean enabled = true;
+		boolean accountNonExpired = true;
+		boolean accountNonLocked = true;
+		boolean credentialsNonExpired = true;
 		String updateSql = "UPDATE users SET username=?, enabled=?, account_non_expired=?, " +
 				"account_non_locked=?, credentials_non_expired=? WHERE id=?::uuid";
 		try (Connection conn = authDs.getConnection()) {
@@ -178,7 +180,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	@Override
 	public void updateUserByIdInUserData(UUID userId) {
 		String username = getUserById(userId).getUsername();
-		String newUsername = "Fedya";
+		String newUsername = "Fedya3";
 		String newFirstname = "Fedor";
 		String newSurname = "Fedorov";
 		String updateSql = "UPDATE users SET username=?, firstname=?, surname=? WHERE username=?";
