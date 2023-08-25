@@ -117,7 +117,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	public void deleteUserByIdInUserData(UUID userId) {
-		String username = getUsernameBuId(userId);
+		String username = getUserById(userId).getUsername();
 		String deleteSql = "DELETE FROM users WHERE username=?";
 		try (Connection conn = userdataDs.getConnection()) {
 			try (PreparedStatement usersPs = conn.prepareStatement(deleteSql)) {
@@ -129,20 +129,25 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 		}
 	}
 
-	private String getUsernameBuId(UUID userId) {
-		String username = "";
+	private UserEntity getUserById(UUID userId) {
+		UserEntity user = new UserEntity();
 		String getUsernameSql = "SELECT * FROM users WHERE id=?::uuid";
 		try (Connection conn = authDs.getConnection()) {
 			try (PreparedStatement usersPs = conn.prepareStatement(getUsernameSql)) {
 				usersPs.setString(1, userId.toString());
 				ResultSet resultSet = usersPs.executeQuery();
 				while (resultSet.next()) {
-					username = resultSet.getString("username");
+					user.setId(userId);
+					user.setUsername(resultSet.getString("username"));
+					user.setEnabled(resultSet.getBoolean("enabled"));
+					user.setAccountNonExpired(resultSet.getBoolean("account_non_expired"));
+					user.setAccountNonLocked(resultSet.getBoolean("account_non_locked"));
+					user.setCredentialsNonExpired(resultSet.getBoolean("credentials_non_expired"));
 				}
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		return username;
+		return user;
 	}
 }
