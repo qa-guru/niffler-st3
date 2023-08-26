@@ -13,24 +13,25 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
+import static guru.qa.niffler.jupiter.User.UserType.INVITATION_RECEIVED;
 import static guru.qa.niffler.jupiter.User.UserType.INVITATION_SENT;
 import static io.qameta.allure.Allure.step;
 
-public class InvitationWebTest {
+public class TwoUsersTest {
 
     @BeforeEach
-    void doLogin(@User(userType = INVITATION_SENT) UserJson userForTest) {
+    void doLogin(@User(userType = INVITATION_SENT) UserJson user1, @User(userType = INVITATION_RECEIVED) UserJson user2) {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
-        $("input[name='username']").setValue(userForTest.getUsername());
-        $("input[name='password']").setValue(userForTest.getPassword());
+        $("input[name='username']").setValue(user1.getUsername());
+        $("input[name='password']").setValue(user1.getPassword());
         $("button[type='submit']").click();
     }
 
     @Test
-    @AllureId("104")
-    @DisplayName("Проверка отображения статуса \"Pending invitation\" на странице /people")
-    void invitationShouldBeDisplayedInTable(@User(userType = INVITATION_SENT) UserJson userForTest) throws InterruptedException {
+    @AllureId("106")
+    @DisplayName("Проверка использующая сразу двух пользователей разного типа")
+    void invitationShouldBeDisplayedInTableTwoUsers(@User(userType = INVITATION_SENT) UserJson user1, @User(userType = INVITATION_RECEIVED) UserJson user2) throws InterruptedException{
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()
@@ -45,21 +46,4 @@ public class InvitationWebTest {
         );
     }
 
-    @Test
-    @AllureId("105")
-    @DisplayName("Проверка отображения статуса \"Pending invitation\" на странице /people")
-    void invitationShouldBeDisplayedInTable2(@User(userType = INVITATION_SENT) UserJson userForTest) throws InterruptedException {
-
-        step("Открыть страницу \"friends\"", () ->
-                $(Selectors.byAttribute("href", "/people")).click()
-        );
-
-        step("Количество строк со статусом \"Pending invitation\" должно равняться 1", () ->
-                $(".people-content").$("table").shouldBe(Condition.visible)
-                        .$("tbody")
-                        .$$("td")
-                        .filterBy(text("Pending invitation"))
-                        .shouldHave(CollectionCondition.size(1))
-        );
-    }
 }
