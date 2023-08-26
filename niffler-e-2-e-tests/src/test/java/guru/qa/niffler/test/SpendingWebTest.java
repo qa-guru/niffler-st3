@@ -6,6 +6,8 @@ import guru.qa.niffler.jupiter.category.Category;
 import guru.qa.niffler.jupiter.spend.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
+import io.qameta.allure.Allure;
+import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,13 +16,16 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
-public class SpendingWebTest {
+public class SpendingWebTest extends BaseWebTest{
 	private static final String USERNAME = "ivanov";
 	private static final String PASSWORD = "12345678";
 	private static final String CATEGORY = "День рождения";
 	private static final String DESCRIPTION = "Погулять в кафе";
 	private static final double AMOUNT = 10000.00;
 
+	//ivanov, irina - with friends
+	//ivanov146, marina invitation send
+	//sofia, mihail invitation received
 
 	static {
 		Configuration.browser = "chrome";
@@ -48,19 +53,23 @@ public class SpendingWebTest {
 			currency = CurrencyValues.RUB
 	)
 	@Test
+	@AllureId("100")
 	void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend) {
 		$(".spendings__content tbody")
 				.$$("tr")
 				.find(text(createdSpend.getDescription()))
-				.$$("td")
-				.first()
+				.$("td")
 				.scrollTo()
 				.click();
 
-		$(byText("Delete selected")).click();
+		Allure.step(
+				"Check spending",
+				() -> $(byText("Delete selected")).click());
 
-		$(".spendings__content tbody")
-				.$$("tr")
-				.shouldHave(size(0));
+		Allure.step(
+				"Check spending",
+				() -> $(".spendings__content tbody")
+						.$$("tr")
+						.shouldHave(size(0)));
 	}
 }
