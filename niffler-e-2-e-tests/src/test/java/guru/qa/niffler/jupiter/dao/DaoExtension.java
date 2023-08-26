@@ -1,4 +1,4 @@
-package guru.qa.niffler.jupiter;
+package guru.qa.niffler.jupiter.dao;
 
 import guru.qa.niffler.db.dao.*;
 import org.junit.jupiter.api.extension.ExtensionContext;

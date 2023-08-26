@@ -7,8 +7,8 @@ import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.model.Authority;
 import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.UserEntity;
-import guru.qa.niffler.jupiter.Dao;
-import guru.qa.niffler.jupiter.DaoExtension;
+import guru.qa.niffler.jupiter.dao.Dao;
+import guru.qa.niffler.jupiter.dao.DaoExtension;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,12 +41,11 @@ public class LoginTest extends BaseWebTest {
 		user.setAccountNonExpired(true);
 		user.setAccountNonLocked(true);
 		user.setCredentialsNonExpired(true);
-		user.setAuthorities(Arrays.stream(Authority.values())
-				.map(a -> {
-					AuthorityEntity ae = new AuthorityEntity();
-					ae.setAuthority(a);
-					return ae;
-				}).toList());
+		user.setAuthorities(Arrays.stream(Authority.values()).map(a -> {
+			AuthorityEntity ae = new AuthorityEntity();
+			ae.setAuthority(a);
+			return ae;
+		}).toList());
 		authUserDAO.createUser(user);
 		userDataUserDAO.createUserInUserData(user);
 	}

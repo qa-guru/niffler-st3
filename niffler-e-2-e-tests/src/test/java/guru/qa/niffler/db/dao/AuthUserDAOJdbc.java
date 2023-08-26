@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import guru.qa.niffler.db.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
 import guru.qa.niffler.db.model.Authority;
+import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.db.model.UserEntity;
 
@@ -19,8 +20,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	Faker faker = new Faker();
 
 	@Override
-	public int createUser(UserEntity user) {
-		int createdRows = 0;
+	public UUID createUser(UserEntity user) {
 		try (Connection conn = authDs.getConnection()) {
 
 			conn.setAutoCommit(false);
@@ -39,7 +39,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 				usersPs.setBoolean(5, user.getAccountNonLocked());
 				usersPs.setBoolean(6, user.getCredentialsNonExpired());
 
-				createdRows = usersPs.executeUpdate();
+				usersPs.executeUpdate();
 				UUID generatedUserId;
 				try (ResultSet generatedKeys = usersPs.getGeneratedKeys()) {
 					if (generatedKeys.next()) {
@@ -69,8 +69,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 			throw new RuntimeException(e);
 		}
-
-		return createdRows;
+		return null;
 	}
 
 	@Override
@@ -157,6 +156,16 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
+	public UserEntity getUser(UUID userId) {
+		return null;
+	}
+
+	@Override
+	public UserEntity getUser(String username) {
+		return null;
+	}
+
+	@Override
 	public void updateUserById(UUID userId, String username) {
 		String newUsername = username;
 		boolean enabled = true;
@@ -197,5 +206,10 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public AuthorityEntity.UserDataEntity getUserData(String username) {
+		return null;
 	}
 }

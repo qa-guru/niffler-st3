@@ -8,6 +8,8 @@ public class UserEntity {
 
 	private UUID id;
 	private String username;
+	private String firstName;
+	private String surName;
 	private String password;
 	private Boolean enabled;
 	private Boolean accountNonExpired;
@@ -37,6 +39,22 @@ public class UserEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getSurName() {
+		return surName;
+	}
+
+	public void setSurName(String surName) {
+		this.surName = surName;
 	}
 
 	public Boolean getEnabled() {
