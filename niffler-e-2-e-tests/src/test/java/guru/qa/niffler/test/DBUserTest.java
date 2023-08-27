@@ -20,5 +20,3 @@ public class DBUserTest extends BaseWebTest {
 		$(".main-content .main-content__section-stats").shouldBe(visible);
 	}
 }
-
-
