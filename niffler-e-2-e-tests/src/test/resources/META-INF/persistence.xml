@@ -1,9 +1,9 @@
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
-             version="2.1">
-    <persistence-unit name="niffler-persistence-unit-name" transaction-type="RESOURCE_LOCAL">
-        <class>guru.qa.niffler.data.entity.UsersEntity</class>
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="niffler-st3" transaction-type="RESOURCE_LOCAL">
+        <class>guru.qa.niffler.db.model.UserEntity</class>
+        <class>guru.qa.niffler.db.model.AuthorityEntity</class>
     </persistence-unit>
-
 </persistence>
