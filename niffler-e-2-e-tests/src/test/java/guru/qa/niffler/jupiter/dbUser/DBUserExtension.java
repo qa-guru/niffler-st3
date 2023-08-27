@@ -1,5 +1,6 @@
 package guru.qa.niffler.jupiter.dbUser;
 
+import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.AuthUserDAOJdbc;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
@@ -10,6 +11,8 @@ import guru.qa.niffler.jupiter.dao.DaoExtension;
 import org.junit.jupiter.api.extension.*;
 
 import java.util.Arrays;
+
+import static com.codeborne.selenide.Selenide.$;
 
 @ExtendWith(DaoExtension.class)
 public class DBUserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback {
@@ -41,6 +44,12 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 			context.getStore(NAMESPACE).put("user", user);
 			authUserDAO.createUser(user);
 			userDataUserDAO.createUserInUserData(user);
+
+			Selenide.open("http://127.0.0.1:3000/main");
+			$("a[href*='redirect']").click();
+			$("input[name='username']").setValue(user.getUsername());
+			$("input[name='password']").setValue(user.getPassword());
+			$("button[type='submit']").click();
 		}
 	}
 
