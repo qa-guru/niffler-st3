@@ -14,4 +14,14 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO {
     public void deleteUserById(UUID userId) {
 
     }
+
+    @Override
+    public int updateUser(UserEntity user) {
+        return 0;
+    }
+
+    @Override
+    public UserEntity getUserById(UUID userId) {
+        return null;
+    }
 }
