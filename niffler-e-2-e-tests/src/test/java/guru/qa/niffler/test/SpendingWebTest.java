@@ -2,10 +2,14 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.Category;
-import guru.qa.niffler.jupiter.Spend;
+import guru.qa.niffler.jupiter.annotations.Category;
+import guru.qa.niffler.jupiter.annotations.Spend;
+import guru.qa.niffler.jupiter.annotations.User;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
+import guru.qa.niffler.model.UserJson;
+import io.qameta.allure.Allure;
+import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,15 +17,9 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static guru.qa.niffler.jupiter.annotations.User.UserType.WITH_FRIENDS;
 
-public class SpendingWebTest {
-
-    //Дописать тест на таблицу спендингов (@Test void spendingShouldBeDeletedAfterDeleteAction())
-    // с первого занятия, перед тестом должен выполниться еще один, новый Extension (он должен также реализовывать интерфейс BeforeEachCallback).
-    // Он должен создавать категории для заданного пользователя. Их можно создать напрямую через REST API сервиса niffler-spend - метод @PostMapping("/category")
-    // – используйте любой знакомый Вам http клиент (RA, Retrofit, Apache http, java http и так далее, но для единообразия лучше retrofit).
-    // Пользователя для теста создайте просто руками через функционал регистрации в ниффлере (по аналогии с моим пользователем dima).
-    // Над тестом должно быть двe аннотации – одна создает категории, вторая – спендинги. Для категорий завести свою аннотацию @Category
+public class SpendingWebTest extends BaseWebTest{
 
     private final String USERNAME = "dima";
     private final String PASSWORD = "12345";
@@ -36,11 +34,11 @@ public class SpendingWebTest {
     }
 
     @BeforeEach
-    void doLogin() {
+    void doLogin(@User(userType = WITH_FRIENDS ) UserJson userForTest) {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
-        $("input[name='username']").setValue(USERNAME);
-        $("input[name='password']").setValue(PASSWORD);
+        $("input[name='username']").setValue(userForTest.getUsername());
+        $("input[name='password']").setValue(userForTest.getPassword());
         $("button[type='submit']").click();
     }
     @Category(
@@ -56,19 +54,25 @@ public class SpendingWebTest {
             amount = AMOUNT,
             currency = CurrencyValues.RUB
     )
+
     @Test
-    void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend) {
-        $(".spendings__content tbody")
+    @AllureId("101")
+    void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend,@User(userType = WITH_FRIENDS ) UserJson userForTest) {
+
+        Allure.step("Search spend", () ->
+                $(".spendings__content tbody")
                 .$$("tr")
                 .find(text(createdSpend.getDescription()))
                 .$("td")
                 .scrollTo()
-                .click();
+                .click());
 
-        $(byText("Delete selected")).click();
+        Allure.step("Delete select spend", () ->
+                $(byText("Delete selected12")).click());
 
-        $(".spendings__content tbody")
+        Allure.step("Check clear spend", () ->
+                $(".spendings__content tbody")
                 .$$("tr")
-                .shouldHave(size(0));
+                .shouldHave(size(0)));
     }
 }
