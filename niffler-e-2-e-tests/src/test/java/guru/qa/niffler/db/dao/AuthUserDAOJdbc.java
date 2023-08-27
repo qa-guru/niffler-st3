@@ -85,12 +85,12 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
                              "credentials_non_expired = ? " +
                              "WHERE id = ? ")) {
 
-            usersPs.setString(3, pe.encode(user.getPassword()));
-            usersPs.setBoolean(4, user.getEnabled());
-            usersPs.setBoolean(5, user.getAccountNonExpired());
-            usersPs.setBoolean(6, user.getAccountNonLocked());
-            usersPs.setBoolean(7, user.getCredentialsNonExpired());
-            usersPs.setObject(8, user.getId());
+            usersPs.setString(1, pe.encode(user.getPassword()));
+            usersPs.setBoolean(2, user.getEnabled());
+            usersPs.setBoolean(3, user.getAccountNonExpired());
+            usersPs.setBoolean(4, user.getAccountNonLocked());
+            usersPs.setBoolean(5, user.getCredentialsNonExpired());
+            usersPs.setObject(6, user.getId());
             usersPs.executeUpdate();
             return getUserById(user.getId());
         } catch (SQLException e) {
