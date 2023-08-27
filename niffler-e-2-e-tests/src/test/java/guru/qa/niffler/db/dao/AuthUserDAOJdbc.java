@@ -4,6 +4,7 @@ import guru.qa.niffler.db.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
 import guru.qa.niffler.db.model.Authority;
 import guru.qa.niffler.db.model.CurrencyValues;
+import guru.qa.niffler.db.model.UserEntity;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
