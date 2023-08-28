@@ -31,12 +31,13 @@ public class LoginTest extends BaseWebTest {
 	Faker faker = new Faker();
 	String username = faker.name().username();
 	String newUsername = faker.name().username();
+	String password = faker.lordOfTheRings().character();
 
 	@BeforeEach
 	void createUser() {
 		user = new UserEntity();
 		user.setUsername(username);
-		user.setPassword("12345678");
+		user.setPassword(password);
 		user.setEnabled(true);
 		user.setAccountNonExpired(true);
 		user.setAccountNonLocked(true);
