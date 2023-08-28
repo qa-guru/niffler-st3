@@ -35,5 +35,4 @@ public class CategoryJson {
     public void setUsername(String username) {
         this.username = username;
     }
-
 }
