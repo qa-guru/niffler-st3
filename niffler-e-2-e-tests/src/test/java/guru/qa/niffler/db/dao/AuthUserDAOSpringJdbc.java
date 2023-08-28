@@ -2,8 +2,10 @@ package guru.qa.niffler.db.dao;
 
 import guru.qa.niffler.db.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
+import guru.qa.niffler.db.mapper.AuthorityEntityRowMapper;
 import guru.qa.niffler.db.mapper.UserEntityRowMapper;
 import guru.qa.niffler.db.model.Authority;
+import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.db.model.UserEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -16,6 +18,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.UUID;
 
 public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
@@ -73,21 +76,45 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
     @Override
     public UserEntity updateUser(UserEntity user) {
-        return null;
+        authJdbcTemplate.update("UPDATE users SET password = ?, enabled = ?, account_non_expired = ?," +
+                        "account_non_locked = ? WHERE id = ?",
+                pe.encode(user.getPassword()), user.getEnabled(), user.getAccountNonExpired(),
+                user.getAccountNonLocked(), user.getId()
+        );
+        return getUserById(user.getId());
     }
 
     @Override
     public void deleteUserById(UUID userId) {
-
+        authTtpl.execute(status -> {
+            authJdbcTemplate.update(con -> {
+                PreparedStatement authorityPs = con.prepareStatement("DELETE from authorities WHERE user_id = ?");
+                authorityPs.setObject(1, userId);
+                return authorityPs;
+            });
+            authJdbcTemplate.update(con -> {
+                PreparedStatement usersPs = con.prepareStatement("DELETE from users WHERE id = ?");
+                usersPs.setObject(1, userId);
+                return usersPs;
+            });
+            return 0;
+        });
     }
 
     @Override
     public UserEntity getUserById(UUID userId) {
-        return authJdbcTemplate.queryForObject(
-                "SELECT * FROM users WHERE id = ? ",
+        UserEntity user = authJdbcTemplate.queryForObject(
+                "SELECT * FROM users WHERE id = ?",
                 UserEntityRowMapper.instance,
                 userId
         );
+        List<AuthorityEntity> authorities = authJdbcTemplate.query(
+                "SELECT * FROM authorities WHERE user_id = ?",
+                AuthorityEntityRowMapper.instance,
+                userId
+        );
+        user.setAuthorities(authorities);
+        return user;
     }
 
     @Override

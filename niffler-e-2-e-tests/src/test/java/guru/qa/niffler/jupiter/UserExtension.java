@@ -1,5 +1,6 @@
 package guru.qa.niffler.jupiter;
 
+import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.AuthUserDAOJdbc;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
@@ -21,9 +22,10 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver, Aft
     public void beforeEach(ExtensionContext context) throws Exception {
         DBUser annotation = context.getRequiredTestMethod().getAnnotation(DBUser.class);
         if (annotation != null) {
+            Faker faker = new Faker();
             UserEntity user = new UserEntity();
-            user.setUsername(annotation.username());
-            user.setPassword(annotation.password());
+            user.setUsername(faker.name().username());
+            user.setPassword(faker.internet().password());
             user.setEnabled(true);
             user.setAccountNonExpired(true);
             user.setAccountNonLocked(true);

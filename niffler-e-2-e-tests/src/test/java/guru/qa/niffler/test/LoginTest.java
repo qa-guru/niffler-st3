@@ -20,8 +20,7 @@ public class LoginTest extends BaseWebTest {
     private AuthUserDAO authUserDAO;
 
     @Test
-    @DBUser(username = "valentin_3",
-            password = "12345")
+    @DBUser()
     void mainPageShouldBeVisibleAfterLogin(UserEntity user) {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
@@ -32,8 +31,7 @@ public class LoginTest extends BaseWebTest {
     }
 
     @Test
-    @DBUser(username = "valentin_4",
-            password = "12345")
+    @DBUser()
     void updateUserAfterCreate(UserEntity user) {
         user.setPassword("123456");
         authUserDAO.updateUser(user);
