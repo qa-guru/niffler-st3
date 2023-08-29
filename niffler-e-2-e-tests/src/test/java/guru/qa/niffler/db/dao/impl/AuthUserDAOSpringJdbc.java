@@ -1,10 +1,14 @@
-package guru.qa.niffler.db.dao;
+package guru.qa.niffler.db.dao.impl;
 
-import guru.qa.niffler.db.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
-import guru.qa.niffler.db.mapper.UserEntityRowMapper;
-import guru.qa.niffler.db.model.Authority;
+import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.dao.UserDataUserDAO;
+import guru.qa.niffler.db.jdbc.DataSourceProvider;
 import guru.qa.niffler.db.model.CurrencyValues;
+import guru.qa.niffler.db.model.auth.AuthUserEntity;
+import guru.qa.niffler.db.model.auth.Authority;
+import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
+import guru.qa.niffler.db.springjdbc.UserEntityRowMapper;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -38,7 +42,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
     @Override
     @SuppressWarnings("unchecked")
-    public int createUser(UserEntity user) {
+    public int createUser(AuthUserEntity user) {
         return authTtpl.execute(status -> {
             KeyHolder kh = new GeneratedKeyHolder();
 
@@ -71,17 +75,17 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
     }
 
     @Override
-    public UserEntity updateUser(UserEntity user) {
+    public AuthUserEntity updateUser(AuthUserEntity user) {
         return null;
     }
 
     @Override
-    public void deleteUserById(UUID userId) {
+    public void deleteUser(AuthUserEntity userId) {
 
     }
 
     @Override
-    public UserEntity getUserById(UUID userId) {
+    public AuthUserEntity getUserById(UUID userId) {
         return authJdbcTemplate.queryForObject(
                 "SELECT * FROM users WHERE id = ? ",
                 UserEntityRowMapper.instance,
@@ -90,7 +94,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
     }
 
     @Override
-    public int createUserInUserData(UserEntity user) {
+    public int createUserInUserData(UserDataUserEntity user) {
         return userdataJdbcTemplate.update(
                 "INSERT INTO users (username, currency) VALUES (?, ?)",
                 user.getUsername(),

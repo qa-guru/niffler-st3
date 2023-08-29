@@ -3,7 +3,10 @@
              xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="niffler-st3" transaction-type="RESOURCE_LOCAL">
-        <class>guru.qa.niffler.db.model.UserEntity</class>
-        <class>guru.qa.niffler.db.model.AuthorityEntity</class>
+        <class>guru.qa.niffler.db.model.auth.AuthUserEntity</class>
+        <class>guru.qa.niffler.db.model.auth.AuthorityEntity</class>
+        <class>guru.qa.niffler.db.model.userdata.UserDataUserEntity</class>
+        <class>guru.qa.niffler.db.model.userdata.FriendsEntity</class>
+        <class>guru.qa.niffler.db.model.userdata.FriendsId</class>
     </persistence-unit>
 </persistence>
