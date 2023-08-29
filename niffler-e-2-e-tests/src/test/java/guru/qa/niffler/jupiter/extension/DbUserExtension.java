@@ -1,12 +1,13 @@
 package guru.qa.niffler.jupiter.extension;
 
+import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.AuthUserDAOJdbc;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.model.Authority;
 import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.UserEntity;
-import guru.qa.niffler.jupiter.annitation.DBUser;
+import guru.qa.niffler.jupiter.annotation.DBUser;
 import org.junit.jupiter.api.extension.*;
 
 import java.util.Arrays;
@@ -22,8 +23,9 @@ public class DbUserExtension implements BeforeEachCallback, AfterEachCallback, P
         DBUser annotation = context.getRequiredTestMethod().getAnnotation(DBUser.class);
         if (annotation != null) {
             UserEntity user = new UserEntity();
-            user.setUsername(annotation.username());
-            user.setPassword(annotation.password());
+            Faker faker = new Faker();
+            user.setUsername(faker.name().username());
+            user.setPassword(faker.internet().password());
             user.setEnabled(true);
             user.setAccountNonExpired(true);
             user.setAccountNonLocked(true);

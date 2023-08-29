@@ -1,4 +1,4 @@
-package guru.qa.niffler.jupiter.annitation;
+package guru.qa.niffler.jupiter.annotation;
 
 import guru.qa.niffler.jupiter.extension.DbUserExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @ExtendWith(DbUserExtension.class)
 public @interface DBUser {
-    String username();
-    String password();
+    String username() default "";
+    String password() default "";
 }
