@@ -1,14 +1,17 @@
-package guru.qa.niffler.jupiter;
+package guru.qa.niffler.jupiter.extension;
 
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
-import guru.qa.niffler.db.dao.impl.AuthUserDAOJdbc;
+import guru.qa.niffler.db.dao.impl.AuthUserDAOHibernate;
+import guru.qa.niffler.db.dao.impl.UserdataUserDAOHibernate;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
+import guru.qa.niffler.jupiter.annotation.DBUser;
 import guru.qa.niffler.model.CurrencyValues;
+import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.extension.*;
 
 import java.util.Arrays;
@@ -16,9 +19,9 @@ import java.util.Arrays;
 public class UserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback  {
 
     public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(UserExtension.class);
-    private static final AuthUserDAO authUserDAO = new AuthUserDAOJdbc();
+    private static final AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
 
-    private static final UserDataUserDAO userDataUserDAO = new AuthUserDAOJdbc();
+    private static final UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
@@ -27,7 +30,7 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver, Aft
             Faker faker = new Faker();
             AuthUserEntity user = new AuthUserEntity();
             user.setUsername(faker.name().username());
-            user.setPassword(faker.internet().password());
+            user.setPassword("12345");
             user.setEnabled(true);
             user.setAccountNonExpired(true);
             user.setAccountNonLocked(true);
@@ -36,6 +39,7 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver, Aft
                     .map(a -> {
                         AuthorityEntity ae = new AuthorityEntity();
                         ae.setAuthority(a);
+                        ae.setUser(user);
                         return ae;
                     }).toList());
             authUserDAO.createUser(user);
@@ -44,7 +48,7 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver, Aft
             userData.setCurrency(CurrencyValues.RUB);
 
             userDataUserDAO.createUserInUserData(userData);
-            context.getStore(NAMESPACE).put("createUser", user);
+            context.getStore(NAMESPACE).put(getAllureId(context), user);
         }
     }
 
@@ -59,13 +63,21 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver, Aft
     public AuthUserEntity resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return extensionContext
                 .getStore(NAMESPACE)
-                .get("createUser", AuthUserEntity.class);
+                .get(getAllureId(extensionContext), AuthUserEntity.class);
     }
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
-        AuthUserEntity userFromTest = context.getStore(NAMESPACE).get("createUser", AuthUserEntity.class);
+        AuthUserEntity userFromTest = context.getStore(NAMESPACE).get(getAllureId(context), AuthUserEntity.class);
         authUserDAO.deleteUser(userFromTest);
         userDataUserDAO.deleteUserByNameInUserData(userFromTest.getUsername());
+    }
+
+    private String getAllureId(ExtensionContext context) {
+        AllureId allureId = context.getRequiredTestMethod().getAnnotation(AllureId.class);
+        if (allureId == null) {
+            throw new IllegalStateException("Annotation @AllureId must be present!");
+        }
+        return allureId.value();
     }
 }

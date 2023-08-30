@@ -3,12 +3,7 @@ package guru.qa.niffler.jupiter.extension;
 import guru.qa.niffler.api.SpendServiceClient;
 import guru.qa.niffler.jupiter.annotation.Spend;
 import guru.qa.niffler.model.SpendJson;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.extension.*;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.util.Date;
 

@@ -20,6 +20,13 @@ public class UserdataUserDAOHibernate extends JpaService implements UserDataUser
 
     @Override
     public void deleteUserByNameInUserData(String username) {
+        remove(getUserData(username));
+    }
 
+    public UserDataUserEntity getUserData(String username) {
+        return em.createQuery("select u from UserDataUserEntity u where u.username=:username",
+                        UserDataUserEntity.class)
+                .setParameter("username", username)
+                .getSingleResult();
     }
 }

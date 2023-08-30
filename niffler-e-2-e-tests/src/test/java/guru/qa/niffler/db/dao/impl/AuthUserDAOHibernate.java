@@ -34,7 +34,7 @@ public class AuthUserDAOHibernate extends JpaService implements AuthUserDAO {
     @Override
     public AuthUserEntity getUserById(UUID userId) {
         return em.createQuery("select u from AuthUserEntity u where u.id=:userId", AuthUserEntity.class)
-                .setParameter("id", userId)
+                .setParameter("userId", userId)
                 .getSingleResult();
     }
 }
