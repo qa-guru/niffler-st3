@@ -18,9 +18,10 @@ import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
+import static io.qameta.allure.Allure.step;
 
-@Disabled
 public class SpendingWebTest extends BaseWebTest {
 
     private final String USER_NAME = "dima";
@@ -28,20 +29,15 @@ public class SpendingWebTest extends BaseWebTest {
     private final String DESCRIPTION = "Рыбалка на Ладоге";
     private final double AMOUNT = 14000.00;
 
-    static {
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1980x1024";
-    }
-
     private static final String user = "dima";
 
     @BeforeEach
     void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
-        Selenide.open("http://127.0.0.1:3000/main");
-        $("a[href*='redirect']").click();
-        $("input[name='username']").setValue(userForTest.getUsername());
-        $("input[name='password']").setValue(userForTest.getPassword());
-        $("button[type='submit']").click();
+        step("Открыть страницу авторизации", () -> open("http://127.0.0.1:3000/main"));
+        step("Открыть страницу авторизации", () -> $("a[href*='redirect']").click());
+        step("Ввести логин", () -> $("input[name='username']").setValue(userForTest.getUsername()));
+        step("Ввести пароль", () -> $("input[name='password']").setValue(userForTest.getPassword()));
+        step("Нажать кнопку 'Sign in'", () -> $("button[type='submit']").click());
     }
 
 
@@ -51,12 +47,8 @@ public class SpendingWebTest extends BaseWebTest {
     )
     @Spend(
             username = user,
-            description = "Рыбалка на Ладоге",
-            category = "Рыбалка",
-            amount = 14000.00,
-            username = USER_NAME,
             description = DESCRIPTION,
-            category = CATEGORY,
+            category = "Рыбалка",
             amount = AMOUNT,
             currency = CurrencyValues.RUB
     )
@@ -67,21 +59,18 @@ public class SpendingWebTest extends BaseWebTest {
         $(".spendings__content tbody")
                 .$$("tr")
                 .find(text(createdSpend.getDescription()))
-                .$$("td")
-                .first()
+                .$("td")
                 .scrollTo()
                 .click();
 
-        Allure.step(
+        step(
                 "Delete spending",
-                () -> $(byText("Delete selected")).click())
-        ;
+                () -> $(byText("Delete selected")).click());
 
-        Allure.step(
+        step(
                 "Check spendings",
                 () -> $(".spendings__content tbody")
                         .$$("tr")
-                        .shouldHave(size(0))
-        );
+                        .shouldHave(size(0)));
     }
 }
