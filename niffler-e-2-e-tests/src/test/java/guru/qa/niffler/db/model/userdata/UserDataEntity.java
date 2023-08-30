@@ -1,4 +1,6 @@
-package guru.qa.niffler.db.model;
+package guru.qa.niffler.db.model.userdata;
+
+import guru.qa.niffler.db.model.CurrencyValues;
 
 import java.util.UUID;
 

@@ -1,9 +1,10 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.dbtest;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.test.BaseWebTest;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import static guru.qa.niffler.jupiter.annotation.User.UserType.INVITATION_SENT;
 import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
 import static io.qameta.allure.Allure.step;
 
-public class TwoUsersTest extends BaseWebTest{
+public class TwoUsersTest extends BaseWebTest {
     @BeforeEach
     void doLogin(@User(userType = WITH_FRIENDS) UserJson user1ForTest,@User(userType = INVITATION_SENT) UserJson user2ForTest) {
         Selenide.open("http://127.0.0.1:3000/main");

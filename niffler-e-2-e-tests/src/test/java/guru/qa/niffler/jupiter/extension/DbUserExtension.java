@@ -2,11 +2,11 @@ package guru.qa.niffler.jupiter.extension;
 
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
-import guru.qa.niffler.db.dao.AuthUserDAOJdbc;
+import guru.qa.niffler.db.dao.impl.AuthUserDAOJdbc;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
-import guru.qa.niffler.db.model.Authority;
-import guru.qa.niffler.db.model.AuthorityEntity;
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.db.model.auth.Authority;
+import guru.qa.niffler.db.model.auth.AuthorityEntity;
+import guru.qa.niffler.db.model.auth.UserEntity;
 import guru.qa.niffler.jupiter.annotation.DBUser;
 import org.junit.jupiter.api.extension.*;
 

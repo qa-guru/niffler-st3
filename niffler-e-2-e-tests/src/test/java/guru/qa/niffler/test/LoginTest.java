@@ -1,7 +1,7 @@
 package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.db.model.auth.UserEntity;
 import guru.qa.niffler.jupiter.annotation.DBUser;
 import guru.qa.niffler.jupiter.extension.DaoExtension;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,7 @@
-package guru.qa.niffler.db.dao;
+package guru.qa.niffler.db.dao.impl;
 
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.model.auth.UserEntity;
 
 import java.util.UUID;
 

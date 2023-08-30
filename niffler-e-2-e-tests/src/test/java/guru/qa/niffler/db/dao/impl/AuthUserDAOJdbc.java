@@ -1,8 +1,14 @@
-package guru.qa.niffler.db.dao;
+package guru.qa.niffler.db.dao.impl;
 
-import guru.qa.niffler.db.DataSourceProvider;
+import guru.qa.niffler.db.jdbc.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
+import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.model.*;
+import guru.qa.niffler.db.model.auth.Authority;
+import guru.qa.niffler.db.model.auth.AuthorityEntity;
+import guru.qa.niffler.db.model.auth.UserEntity;
+import guru.qa.niffler.db.model.userdata.UserDataEntity;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
