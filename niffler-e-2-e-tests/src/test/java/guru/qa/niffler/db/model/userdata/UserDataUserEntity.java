@@ -1,6 +1,6 @@
 package guru.qa.niffler.db.model.userdata;
 
-import guru.qa.niffler.db.model.CurrencyValues;
+import guru.qa.niffler.model.CurrencyValues;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

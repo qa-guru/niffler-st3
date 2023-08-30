@@ -4,16 +4,13 @@ import guru.qa.niffler.db.ServiceDB;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.jdbc.DataSourceProvider;
-import guru.qa.niffler.db.mapper.AuthorityEntityRowMapper;
-import guru.qa.niffler.db.mapper.UserEntityRowMapper;
-import guru.qa.niffler.db.model.Authority;
-import guru.qa.niffler.db.model.AuthorityEntity;
-import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
+import guru.qa.niffler.db.model.auth.AuthorityEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
+import guru.qa.niffler.db.springjdbc.AuthorityEntityRowMapper;
 import guru.qa.niffler.db.springjdbc.UserEntityRowMapper;
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.model.CurrencyValues;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -82,8 +79,6 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
     @Override
     public AuthUserEntity updateUser(AuthUserEntity user) {
-        return null;
-    public UserEntity updateUser(UserEntity user) {
         authJdbcTemplate.update("UPDATE users SET password = ?, enabled = ?, account_non_expired = ?," +
                         "account_non_locked = ? WHERE id = ?",
                 pe.encode(user.getPassword()), user.getEnabled(), user.getAccountNonExpired(),
@@ -94,8 +89,6 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
     @Override
     public void deleteUser(AuthUserEntity userId) {
-
-    public void deleteUserById(UUID userId) {
         authTtpl.execute(status -> {
             authJdbcTemplate.update(con -> {
                 PreparedStatement authorityPs = con.prepareStatement("DELETE from authorities WHERE user_id = ?");
@@ -113,10 +106,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
     @Override
     public AuthUserEntity getUserById(UUID userId) {
-        return authJdbcTemplate.queryForObject(
-                "SELECT * FROM users WHERE id = ? ",
-    public UserEntity getUserById(UUID userId) {
-        UserEntity user = authJdbcTemplate.queryForObject(
+            AuthUserEntity user = authJdbcTemplate.queryForObject(
                 "SELECT * FROM users WHERE id = ?",
                 UserEntityRowMapper.instance,
                 userId

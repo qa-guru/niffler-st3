@@ -4,13 +4,11 @@ import guru.qa.niffler.db.ServiceDB;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.jdbc.DataSourceProvider;
-import guru.qa.niffler.db.model.Authority;
-import guru.qa.niffler.db.model.AuthorityEntity;
-import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
+import guru.qa.niffler.db.model.auth.AuthorityEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.model.CurrencyValues;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
