@@ -17,10 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
+public class AuthUserDAOJdbc implements AuthUserDAO {
 
     private static final DataSource authDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.AUTH);
-    private static final DataSource userdataDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.USERDATA);
 
     @Override
     public int createUser(AuthUserEntity user) {
@@ -65,9 +64,10 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
                 authorityPs.executeBatch();
                 user.setId(generatedUserId);
                 conn.commit();
-                conn.setAutoCommit(true);
             } catch (SQLException e) {
                 conn.rollback();
+                conn.setAutoCommit(true);
+            } finally {
                 conn.setAutoCommit(true);
             }
         } catch (SQLException e) {
@@ -121,9 +121,10 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
                 usersPs.executeUpdate();
 
                 conn.commit();
-                conn.setAutoCommit(true);
             } catch (SQLException e) {
                 conn.rollback();
+                conn.setAutoCommit(true);
+            } finally {
                 conn.setAutoCommit(true);
             }
         } catch (SQLException e) {
@@ -164,36 +165,6 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
                 user.getAuthorities().add(authorityEntity);
             }
             return user;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public int createUserInUserData(UserDataUserEntity user) {
-        int createdRows;
-        try (Connection conn = userdataDs.getConnection();
-             PreparedStatement usersPs = conn.prepareStatement("INSERT INTO users (username, currency) VALUES (?, ?)")) {
-
-            usersPs.setString(1, user.getUsername());
-            usersPs.setString(2, CurrencyValues.RUB.name());
-
-            createdRows = usersPs.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return createdRows;
-    }
-
-    @Override
-    public void deleteUserByNameInUserData(String username) {
-        try (Connection conn = userdataDs.getConnection()) {
-            try (PreparedStatement usersPs = conn.prepareStatement(
-                    "DELETE FROM users WHERE username = ?")) {
-
-                usersPs.setString(1, username);
-                usersPs.executeUpdate();
-            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

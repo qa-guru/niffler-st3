@@ -2,15 +2,12 @@ package guru.qa.niffler.db.dao.impl;
 
 import guru.qa.niffler.db.ServiceDB;
 import guru.qa.niffler.db.dao.AuthUserDAO;
-import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.jdbc.DataSourceProvider;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
-import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 import guru.qa.niffler.db.springjdbc.AuthorityEntityRowMapper;
 import guru.qa.niffler.db.springjdbc.UserEntityRowMapper;
-import guru.qa.niffler.model.CurrencyValues;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -24,12 +21,10 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.UUID;
 
-public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
+public class AuthUserDAOSpringJdbc implements AuthUserDAO {
 
     private final TransactionTemplate authTtpl;
-    private final TransactionTemplate userdataTtpl;
     private final JdbcTemplate authJdbcTemplate;
-    private final JdbcTemplate userdataJdbcTemplate;
 
     public AuthUserDAOSpringJdbc() {
         JdbcTransactionManager authTm = new JdbcTransactionManager(
@@ -38,9 +33,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
                 DataSourceProvider.INSTANCE.getDataSource(ServiceDB.USERDATA));
 
         this.authTtpl = new TransactionTemplate(authTm);
-        this.userdataTtpl = new TransactionTemplate(userdataTm);
         this.authJdbcTemplate = new JdbcTemplate(authTm.getDataSource());
-        this.userdataJdbcTemplate = new JdbcTemplate(userdataTm.getDataSource());
     }
 
     @Override
@@ -118,19 +111,5 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
         );
         user.setAuthorities(authorities);
         return user;
-    }
-
-    @Override
-    public int createUserInUserData(UserDataUserEntity user) {
-        return userdataJdbcTemplate.update(
-                "INSERT INTO users (username, currency) VALUES (?, ?)",
-                user.getUsername(),
-                CurrencyValues.RUB.name()
-        );
-    }
-
-    @Override
-    public void deleteUserByNameInUserData(String username) {
-        userdataJdbcTemplate.update("DELETE FROM users WHERE username = ?", username);
     }
 }

@@ -6,9 +6,9 @@ import guru.qa.niffler.db.jpa.EntityManagerFactoryProvider;
 import guru.qa.niffler.db.jpa.JpaService;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 
-public class UserdataUserDAOHibernate extends JpaService implements UserDataUserDAO {
+public class UserDataUserDAOHibernate extends JpaService implements UserDataUserDAO {
 
-    public UserdataUserDAOHibernate() {
+    public UserDataUserDAOHibernate() {
         super(EntityManagerFactoryProvider.INSTANCE.getDataSource(ServiceDB.USERDATA).createEntityManager());
     }
 

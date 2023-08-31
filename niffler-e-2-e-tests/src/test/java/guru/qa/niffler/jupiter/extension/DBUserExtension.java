@@ -4,7 +4,7 @@ import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.dao.impl.AuthUserDAOHibernate;
-import guru.qa.niffler.db.dao.impl.UserdataUserDAOHibernate;
+import guru.qa.niffler.db.dao.impl.UserDataUserDAOHibernate;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
@@ -16,12 +16,11 @@ import org.junit.jupiter.api.extension.*;
 
 import java.util.Arrays;
 
-public class UserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback  {
+public class DBUserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback  {
 
-    public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(UserExtension.class);
+    public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(DBUserExtension.class);
     private static final AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
-
-    private static final UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
+    private static final UserDataUserDAO userDataUserDAO = new UserDataUserDAOHibernate();
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
