@@ -15,8 +15,8 @@ import java.util.UUID;
 
 public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
-    private static DataSource authDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.AUTH);
-    private static DataSource userdataDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.USERDATA);
+    private static final DataSource authDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.AUTH);
+    private static final DataSource userdataDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.USERDATA);
 
     @Override
     public int createUser(UserEntity user) {
@@ -69,6 +69,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         return createdRows;
     }
 
@@ -84,12 +85,12 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
                              "credentials_non_expired = ? " +
                              "WHERE id = ? ")) {
 
-            usersPs.setString(3, pe.encode(user.getPassword()));
-            usersPs.setBoolean(4, user.getEnabled());
-            usersPs.setBoolean(5, user.getAccountNonExpired());
-            usersPs.setBoolean(6, user.getAccountNonLocked());
-            usersPs.setBoolean(7, user.getCredentialsNonExpired());
-            usersPs.setObject(8, user.getId());
+            usersPs.setString(1, pe.encode(user.getPassword()));
+            usersPs.setBoolean(2, user.getEnabled());
+            usersPs.setBoolean(3, user.getAccountNonExpired());
+            usersPs.setBoolean(4, user.getAccountNonLocked());
+            usersPs.setBoolean(5, user.getCredentialsNonExpired());
+            usersPs.setObject(6, user.getId());
             usersPs.executeUpdate();
             return getUserById(user.getId());
         } catch (SQLException e) {
@@ -101,11 +102,15 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
     public void deleteUserById(UUID userId) {
         try (Connection conn = authDs.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement usersPs = conn.prepareStatement("DELETE FROM users WHERE id = ?");
-                 PreparedStatement authorityPs = conn.prepareStatement("DELETE FROM authorities WHERE user_id = ?")) {
 
-                authorityPs.setObject(1, userId);
+            try (PreparedStatement usersPs = conn.prepareStatement(
+                    "DELETE from users WHERE id = ?");
+
+                 PreparedStatement authorityPs = conn.prepareStatement(
+                         "DELETE from authorities WHERE user_id = ?")) {
+
                 usersPs.setObject(1, userId);
+                authorityPs.setObject(1, userId);
 
                 authorityPs.executeUpdate();
                 usersPs.executeUpdate();
@@ -115,6 +120,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
             } catch (SQLException e) {
                 conn.rollback();
                 conn.setAutoCommit(true);
+                System.out.println(e.getMessage());
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -124,26 +130,28 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
     @Override
     public UserEntity getUserById(UUID userId) {
         UserEntity user = new UserEntity();
+
         try (Connection conn = authDs.getConnection();
-             PreparedStatement usersPs = conn.prepareStatement("SELECT * FROM users WHERE id = ? ")) {
+             PreparedStatement usersPs = conn.prepareStatement(
+                     "SELECT * FROM users WHERE id = ?")) {
+
             usersPs.setObject(1, userId);
-
             usersPs.execute();
-            ResultSet resultSet = usersPs.getResultSet();
+            ResultSet result = usersPs.getResultSet();
 
-            if (resultSet.next()) {
-                user.setId(resultSet.getObject("id", UUID.class));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEnabled(resultSet.getBoolean("enabled"));
-                user.setAccountNonExpired(resultSet.getBoolean("account_non_expired"));
-                user.setAccountNonLocked(resultSet.getBoolean("account_non_locked"));
-                user.setCredentialsNonExpired(resultSet.getBoolean("credentials_non_expired"));
+            if (result.next()) {
+                user.setId(userId);
+                user.setUsername(result.getString("username"));
+                user.setPassword(result.getString("password"));
+                user.setEnabled(result.getBoolean("enabled"));
+                user.setAccountNonExpired(result.getBoolean("account_non_expired"));
+                user.setAccountNonLocked(result.getBoolean("account_non_locked"));
+                user.setCredentialsNonExpired(result.getBoolean("credentials_non_expired"));
             }
+            return user;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return user;
     }
 
     @Override
@@ -163,22 +171,14 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
     }
 
     @Override
-    public void deleteUserByIdInUserData(UUID userId) {
-        try (Connection conn = authDs.getConnection();
-             PreparedStatement usersPs = conn.prepareStatement("DELETE FROM users WHERE id = ?")) {
-            usersPs.setObject(1, userId);
-            usersPs.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public void deleteUserByNameInUserData(String username) {
+        try (Connection conn = userdataDs.getConnection()) {
+            try (PreparedStatement usersPs = conn.prepareStatement(
+                    "DELETE FROM users WHERE username = ?")) {
 
-    @Override
-    public void deleteUserByUsernameInUserData(String username) {
-        try (Connection conn = authDs.getConnection();
-             PreparedStatement usersPs = conn.prepareStatement("DELETE FROM users WHERE username = ?")) {
-            usersPs.setString(1, username);
-            usersPs.executeUpdate();
+                usersPs.setString(1, username);
+                usersPs.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
