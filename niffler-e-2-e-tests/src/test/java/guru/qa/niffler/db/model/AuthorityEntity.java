@@ -1,96 +1,60 @@
 package guru.qa.niffler.db.model;
 
+import jakarta.persistence.*;
+
+import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name = "authorities")
 public class AuthorityEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, columnDefinition = "UUID default gen_random_uuid()")
+    private UUID id;
 
-	private UUID id;
-	private Authority authority;
-	private UserEntity user;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
 
-	public UUID getId() {
-		return id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+    public UUID getId() {
+        return id;
+    }
 
-	public Authority getAuthority() {
-		return authority;
-	}
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-	public void setAuthority(Authority authority) {
-		this.authority = authority;
-	}
+    public Authority getAuthority() {
+        return authority;
+    }
 
-	public UserEntity getUser() {
-		return user;
-	}
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
 
-	public void setUser(UserEntity user) {
-		this.user = user;
-	}
+    public UserEntity getUser() {
+        return user;
+    }
 
-	public static class UserDataEntity {
-		private UUID id;
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 
-		private String username;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthorityEntity that = (AuthorityEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(authority, that.authority) && Objects.equals(user, that.user);
+    }
 
-		private CurrencyValues currency;
-
-		private String firstname;
-
-		private String surname;
-
-		private byte[] photo;
-
-		public UUID getId() {
-			return id;
-		}
-
-		public void setId(UUID id) {
-			this.id = id;
-		}
-
-		public String getUsername() {
-			return username;
-		}
-
-		public void setUsername(String username) {
-			this.username = username;
-		}
-
-		public CurrencyValues getCurrency() {
-			return currency;
-		}
-
-		public void setCurrency(CurrencyValues currency) {
-			this.currency = currency;
-		}
-
-		public String getFirstname() {
-			return firstname;
-		}
-
-		public void setFirstname(String firstname) {
-			this.firstname = firstname;
-		}
-
-		public String getSurname() {
-			return surname;
-		}
-
-		public void setSurname(String surname) {
-			this.surname = surname;
-		}
-
-		public byte[] getPhoto() {
-			return photo;
-		}
-
-		public void setPhoto(byte[] photo) {
-			this.photo = photo;
-		}
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, authority, user);
+    }
 }

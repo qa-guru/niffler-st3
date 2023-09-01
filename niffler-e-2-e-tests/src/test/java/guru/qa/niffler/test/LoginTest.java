@@ -9,6 +9,7 @@ import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.UserEntity;
 import guru.qa.niffler.jupiter.dao.Dao;
 import guru.qa.niffler.jupiter.dao.DaoExtension;
+import guru.qa.niffler.jupiter.user.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,7 +70,7 @@ public class LoginTest extends BaseWebTest {
 
 	@Test
 	void mainPageShouldBeVisibleAfterLogInAfterUpdateUser() {
-		updateUserInDB(user.getId(), newUsername);
+		updateUserInDB(user, newUsername);
 		updateUserData(user.getId());
 
 		Selenide.open("http://127.0.0.1:3000/main");
@@ -80,13 +81,13 @@ public class LoginTest extends BaseWebTest {
 		$(".main-content .main-content__section-stats").shouldBe(visible);
 	}
 
-	private void updateUserInDB(UUID userId, String username) {
-		userDataUserDAO.updateUserByIdInUserData(userId, username);
-		authUserDAO.updateUserById(userId, username);
+	private void updateUserInDB(UserEntity user, String newUsername) {
+		userDataUserDAO.updateUserInUserData(user.getUsername(), newUsername);
+		authUserDAO.updateUserById(user.getId(), newUsername);
 	}
 
 	private void updateUserData(UUID userId) {
-		UserEntity userEntity = authUserDAO.getUserById(userId);
+		UserEntity userEntity = authUserDAO.getUser(userId);
 		user.setUsername(userEntity.getUsername());
 		user.setEnabled(userEntity.getEnabled());
 		user.setAccountNonExpired(userEntity.getAccountNonExpired());

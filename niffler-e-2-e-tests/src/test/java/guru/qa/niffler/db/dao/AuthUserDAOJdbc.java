@@ -3,10 +3,7 @@ package guru.qa.niffler.db.dao;
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
-import guru.qa.niffler.db.model.Authority;
-import guru.qa.niffler.db.model.AuthorityEntity;
-import guru.qa.niffler.db.model.CurrencyValues;
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.db.model.*;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -20,7 +17,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	Faker faker = new Faker();
 
 	@Override
-	public UUID createUser(UserEntity user) {
+	public int createUser(UserEntity user) {
 		try (Connection conn = authDs.getConnection()) {
 
 			conn.setAutoCommit(false);
@@ -69,7 +66,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 			throw new RuntimeException(e);
 		}
-		return null;
+		return 0;
 	}
 
 	@Override
@@ -119,7 +116,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	public void deleteUserByIdInUserData(UUID userId) {
-		String username = getUserById(userId).getUsername();
+		String username = getUser(userId).getUsername();
 		String deleteSql = "DELETE FROM users WHERE username=?";
 		try (Connection conn = userdataDs.getConnection()) {
 			try (PreparedStatement usersPs = conn.prepareStatement(deleteSql)) {
@@ -132,7 +129,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserEntity getUserById(UUID userId) {
+	public UserEntity getUser(UUID userId) {
 		UserEntity user = new UserEntity();
 		String getUsernameSql = "SELECT * FROM users WHERE id=?::uuid";
 		try (Connection conn = authDs.getConnection()) {
@@ -156,18 +153,36 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserEntity getUser(UUID userId) {
-		return null;
+	public UserEntity getUser(String username) {
+		UserEntity user = new UserEntity();
+		String getUsernameSql = "SELECT * FROM users WHERE username=?";
+		try (Connection conn = authDs.getConnection()) {
+			try (PreparedStatement usersPs = conn.prepareStatement(getUsernameSql)) {
+				usersPs.setString(1, username);
+				ResultSet rs = usersPs.executeQuery();
+				while (rs.next()) {
+					user.setId(rs.getObject("id", UUID.class));
+					user.setUsername(rs.getString("username"));
+					user.setPassword(pe.encode(rs.getString("password")));
+					user.setEnabled(rs.getBoolean("enabled"));
+					user.setAccountNonExpired(rs.getBoolean("account_non_expired"));
+					user.setAccountNonLocked(rs.getBoolean("account_non_locked"));
+					user.setCredentialsNonExpired(rs.getBoolean("credentials_non_expired"));
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return user;
 	}
 
 	@Override
-	public UserEntity getUser(String username) {
-		return null;
+	public void deleteUserByUsernameInUserData(UUID userId, String username) {
+
 	}
 
 	@Override
 	public void updateUserById(UUID userId, String username) {
-		String newUsername = username;
 		boolean enabled = true;
 		boolean accountNonExpired = true;
 		boolean accountNonLocked = true;
@@ -176,7 +191,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 				"account_non_locked=?, credentials_non_expired=? WHERE id=?::uuid";
 		try (Connection conn = authDs.getConnection()) {
 			try (PreparedStatement usersPs = conn.prepareStatement(updateSql)) {
-				usersPs.setString(1, newUsername);
+				usersPs.setString(1, username);
 				usersPs.setBoolean(2, enabled);
 				usersPs.setBoolean(3, accountNonExpired);
 				usersPs.setBoolean(4, accountNonLocked);
@@ -190,8 +205,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public void updateUserByIdInUserData(UUID userId, String newUsername) {
-		String oldUsername = getUserById(userId).getUsername();
+	public void updateUserInUserData(String oldUsername, String newUsername) {
 		String newFirstname = faker.name().firstName();
 		String newSurname = faker.name().lastName();
 		String updateSql = "UPDATE users SET username=?, firstname=?, surname=? WHERE username=?";
@@ -209,7 +223,25 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public AuthorityEntity.UserDataEntity getUserData(String username) {
-		return null;
+	public UserDataEntity getUserData(String username) {
+		UserDataEntity user = new UserDataEntity();
+		String getUsernameSql = "SELECT * FROM users WHERE username=?";
+		try (Connection conn = userdataDs.getConnection()) {
+			try (PreparedStatement usersPs = conn.prepareStatement(getUsernameSql)) {
+				usersPs.setString(1, username);
+				ResultSet rs = usersPs.executeQuery();
+				while (rs.next()) {
+					user.setId(rs.getObject("id", UUID.class));
+					user.setUsername(rs.getString("username"));
+					user.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
+					user.setFirstname(rs.getString("firstname"));
+					user.setSurname(rs.getString("surname"));
+					user.setPhoto(rs.getString("photo").getBytes());
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return user;
 	}
 }
