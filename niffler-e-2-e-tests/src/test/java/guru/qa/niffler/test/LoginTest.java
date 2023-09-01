@@ -86,7 +86,7 @@ public class LoginTest extends BaseWebTest {
 	}
 
 	private void updateUserData(UUID userId) {
-		UserEntity userEntity = authUserDAO.getUserById(userId);
+		UserEntity userEntity = authUserDAO.getUser(userId);
 		user.setUsername(userEntity.getUsername());
 		user.setEnabled(userEntity.getEnabled());
 		user.setAccountNonExpired(userEntity.getAccountNonExpired());

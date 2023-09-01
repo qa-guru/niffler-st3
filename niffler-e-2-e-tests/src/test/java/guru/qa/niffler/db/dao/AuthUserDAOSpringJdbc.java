@@ -18,10 +18,6 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO {
 	public void updateUserById(UUID userId, String username) {
 	}
 
-	@Override
-	public UserEntity getUserById(UUID userId) {
-		return null;
-	}
 
 	@Override
 	public UserEntity getUser(UUID userId) {

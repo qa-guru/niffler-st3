@@ -69,7 +69,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 			throw new RuntimeException(e);
 		}
-		return null;
+		return user.getId();
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	public void deleteUserByIdInUserData(UUID userId) {
-		String username = getUserById(userId).getUsername();
+		String username = getUser(userId).getUsername();
 		String deleteSql = "DELETE FROM users WHERE username=?";
 		try (Connection conn = userdataDs.getConnection()) {
 			try (PreparedStatement usersPs = conn.prepareStatement(deleteSql)) {
@@ -132,7 +132,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserEntity getUserById(UUID userId) {
+	public UserEntity getUser(UUID userId) {
 		UserEntity user = new UserEntity();
 		String getUsernameSql = "SELECT * FROM users WHERE id=?::uuid";
 		try (Connection conn = authDs.getConnection()) {
@@ -156,13 +156,27 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserEntity getUser(UUID userId) {
-		return null;
-	}
-
-	@Override
 	public UserEntity getUser(String username) {
-		return null;
+		UserEntity user = new UserEntity();
+		String getUsernameSql = "SELECT * FROM users WHERE username=?";
+		try (Connection conn = authDs.getConnection()) {
+			try (PreparedStatement usersPs = conn.prepareStatement(getUsernameSql)) {
+				usersPs.setString(1, username);
+				ResultSet resultSet = usersPs.executeQuery();
+				while (resultSet.next()) {
+					user.setId(UUID.fromString(resultSet.getString("id")));
+					user.setUsername(username);
+					user.setPassword(pe.encode(resultSet.getString("password")));
+					user.setEnabled(resultSet.getBoolean("enabled"));
+					user.setAccountNonExpired(resultSet.getBoolean("account_non_expired"));
+					user.setAccountNonLocked(resultSet.getBoolean("account_non_locked"));
+					user.setCredentialsNonExpired(resultSet.getBoolean("credentials_non_expired"));
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return user;
 	}
 
 	@Override
@@ -191,7 +205,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	public void updateUserByIdInUserData(UUID userId, String newUsername) {
-		String oldUsername = getUserById(userId).getUsername();
+		String oldUsername = getUser(userId).getUsername();
 		String newFirstname = faker.name().firstName();
 		String newSurname = faker.name().lastName();
 		String updateSql = "UPDATE users SET username=?, firstname=?, surname=? WHERE username=?";

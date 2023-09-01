@@ -16,8 +16,6 @@ public interface AuthUserDAO {
 
 	void updateUserById(UUID userId, String username);
 
-	UserEntity getUserById(UUID userId);
-
 	UserEntity getUser(UUID userId);
 
 	UserEntity getUser(String username);
