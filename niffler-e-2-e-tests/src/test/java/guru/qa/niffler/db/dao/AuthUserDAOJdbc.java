@@ -17,7 +17,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	Faker faker = new Faker();
 
 	@Override
-	public int createUser(UserEntity user) {
+	public UUID createUser(UserEntity user) {
 		try (Connection conn = authDs.getConnection()) {
 
 			conn.setAutoCommit(false);
@@ -66,7 +66,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 			throw new RuntimeException(e);
 		}
-		return 0;
+		return user.getId();
 	}
 
 	@Override
