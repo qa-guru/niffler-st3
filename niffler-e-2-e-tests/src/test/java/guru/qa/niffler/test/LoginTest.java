@@ -48,7 +48,7 @@ public class LoginTest extends BaseWebTest {
 			ae.setAuthority(a);
 			return ae;
 		}).toList());
-		authUserDAO.createUser(user);
+		user.setId(authUserDAO.createUser(user));
 		userDataUserDAO.createUserInUserData(user);
 	}
 

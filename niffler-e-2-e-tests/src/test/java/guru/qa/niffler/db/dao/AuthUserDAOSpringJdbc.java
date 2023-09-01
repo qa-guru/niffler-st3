@@ -45,7 +45,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public int createUser(UserEntity user) {
+	public UUID createUser(UserEntity user) {
 		return authTtpl.execute(status -> {
 			KeyHolder kh = new GeneratedKeyHolder();
 
@@ -76,12 +76,13 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 					return Authority.values().length;
 				}
 			});
-			return 1;
+			return userId;
 		});
 	}
 
 	@Override
 	public void deleteUserById(UUID userId) {
+		authJdbcTemplate.update("DELETE FROM authorities WHERE user_id = ? ", userId);
 		authJdbcTemplate.update("DELETE FROM users WHERE id=?", userId);
 	}
 
