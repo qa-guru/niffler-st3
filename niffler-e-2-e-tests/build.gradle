@@ -91,6 +91,7 @@ dependencies {
     testImplementation 'p6spy:p6spy:3.9.1'
     testImplementation 'org.hibernate:hibernate-core:6.1.7.Final'
     testImplementation 'com.github.vertical-blank:sql-formatter:2.0.3'
+    implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '6.1.0'
     // Allure
     testImplementation "io.qameta.allure:allure-attachments:${allureVersion}"
     testImplementation("io.qameta.allure:allure-junit5:${allureVersion}") {
@@ -127,6 +128,8 @@ dependencies {
     // Wiremock
     testImplementation 'com.github.tomakehurst:wiremock-jre8:2.35.0'
     testImplementation 'com.github.tomakehurst:wiremock-standalone:2.27.2'
+    // Test data generator
+    implementation 'com.github.javafaker:javafaker:1.0.2'
 }
 
 tasks.withType(JavaCompile) {
