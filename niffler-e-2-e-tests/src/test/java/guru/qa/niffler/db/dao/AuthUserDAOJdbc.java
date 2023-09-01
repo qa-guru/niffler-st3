@@ -3,10 +3,7 @@ package guru.qa.niffler.db.dao;
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
-import guru.qa.niffler.db.model.Authority;
-import guru.qa.niffler.db.model.AuthorityEntity;
-import guru.qa.niffler.db.model.CurrencyValues;
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.db.model.*;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -223,7 +220,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public AuthorityEntity.UserDataEntity getUserData(String username) {
+	public UserDataEntity getUserData(String username) {
 		return null;
 	}
 }

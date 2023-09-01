@@ -1,6 +1,7 @@
 package guru.qa.niffler.db.dao;
 
 import guru.qa.niffler.db.model.AuthorityEntity;
+import guru.qa.niffler.db.model.UserDataEntity;
 import guru.qa.niffler.db.model.UserEntity;
 
 import java.util.UUID;
@@ -13,5 +14,5 @@ public interface UserDataUserDAO {
 
 	void updateUserByIdInUserData(UUID userId, String username);
 
-	AuthorityEntity.UserDataEntity getUserData(String username);
+	UserDataEntity getUserData(String username);
 }

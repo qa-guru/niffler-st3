@@ -1,20 +1,16 @@
 package guru.qa.niffler.jupiter.dbUser;
 
-import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.AuthUserDAOJdbc;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.model.Authority;
 import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.UserEntity;
-import guru.qa.niffler.jupiter.dao.DaoExtension;
 import org.junit.jupiter.api.extension.*;
 
 import java.util.Arrays;
+import java.util.UUID;
 
-import static com.codeborne.selenide.Selenide.$;
-
-@ExtendWith(DaoExtension.class)
 public class DBUserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback {
 
 	public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(DBUserExtension.class);
@@ -41,40 +37,29 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 						return ae;
 					}).toList()
 			);
-			context.getStore(NAMESPACE).put("user", user);
-			authUserDAO.createUser(user);
+			UUID uuid = authUserDAO.createUser(user);
+			user.setId(uuid);
 			userDataUserDAO.createUserInUserData(user);
-
-			Selenide.open("http://127.0.0.1:3000/main");
-			$("a[href*='redirect']").click();
-			$("input[name='username']").setValue(user.getUsername());
-			$("input[name='password']").setValue(user.getPassword());
-			$("button[type='submit']").click();
+			context.getStore(NAMESPACE).put(context.getUniqueId(), user);
 		}
 	}
 
 	@Override
 	public void afterTestExecution(ExtensionContext context) throws Exception {
-		var user = context.getStore(NAMESPACE).get("user", UserEntity.class);
+		UserEntity user = context.getStore(NAMESPACE).get(context.getUniqueId(), UserEntity.class);
 		userDataUserDAO.deleteUserByIdInUserData(user.getId());
 		authUserDAO.deleteUserById(user.getId());
 	}
 
 	@Override
 	public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-//		return parameterContext
-//				.getParameter()
-//				.getType()
-//				.isAssignableFrom(UserEntity.class);
-
-		return parameterContext.getParameter().getType().equals(ExtensionContext.class);
-
+		return parameterContext.getParameter()
+				.getType()
+				.isAssignableFrom(UserEntity.class);
 	}
 
 	@Override
 	public UserEntity resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-		return extensionContext
-				.getStore(DBUserExtension.NAMESPACE)
-				.get("user", UserEntity.class);
+		return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), UserEntity.class);
 	}
 }
