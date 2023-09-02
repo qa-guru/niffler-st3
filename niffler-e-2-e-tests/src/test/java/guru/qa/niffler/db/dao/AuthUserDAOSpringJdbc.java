@@ -3,9 +3,11 @@ package guru.qa.niffler.db.dao;
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
+import guru.qa.niffler.db.mapper.AuthorityEntityRowMapper;
 import guru.qa.niffler.db.mapper.UserDataEntityRowMapper;
 import guru.qa.niffler.db.mapper.UserEntityRowMapper;
 import guru.qa.niffler.db.model.Authority;
+import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.UserDataEntity;
 import guru.qa.niffler.db.model.UserEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -18,6 +20,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.UUID;
 
 import static guru.qa.niffler.model.CurrencyValues.RUB;
@@ -100,18 +103,34 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	public UserEntity getUser(UUID userId) {
-		return authJdbcTemplate.queryForObject(
+		UserEntity user = authJdbcTemplate.queryForObject(
 				"SELECT * FROM users WHERE id=?::uuid",
 				UserEntityRowMapper.instance,
 				userId.toString());
+
+		List<AuthorityEntity> authorities = authJdbcTemplate.query(
+				"SELECT * FROM authorities WHERE user_id=?::uuid",
+				AuthorityEntityRowMapper.instance,
+				userId.toString());
+
+		user.setAuthorities(authorities);
+		return user;
 	}
 
 	@Override
 	public UserEntity getUser(String username) {
-		return authJdbcTemplate.queryForObject(
+		UserEntity user = authJdbcTemplate.queryForObject(
 				"SELECT * FROM users WHERE username=?",
 				UserEntityRowMapper.instance,
 				username);
+
+
+		List<AuthorityEntity> authorities = authJdbcTemplate.query(
+				"SELECT * FROM authorities WHERE user_id=?::uuid",
+				AuthorityEntityRowMapper.instance,
+				user.getId());
+		user.setAuthorities(authorities);
+		return user;
 	}
 
 	@Override

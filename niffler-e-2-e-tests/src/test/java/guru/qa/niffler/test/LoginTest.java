@@ -9,7 +9,6 @@ import guru.qa.niffler.db.model.AuthorityEntity;
 import guru.qa.niffler.db.model.UserEntity;
 import guru.qa.niffler.jupiter.dao.Dao;
 import guru.qa.niffler.jupiter.dao.DaoExtension;
-import guru.qa.niffler.jupiter.user.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

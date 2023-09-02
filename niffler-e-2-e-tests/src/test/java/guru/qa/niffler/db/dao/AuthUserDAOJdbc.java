@@ -131,9 +131,10 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	@Override
 	public UserEntity getUser(UUID userId) {
 		UserEntity user = new UserEntity();
-		String getUsernameSql = "SELECT * FROM users WHERE id=?::uuid";
+		String usersSql = "SELECT * FROM users WHERE id=?::uuid";
+		String authoritiesSql = "SELECT * FROM authorities WHERE user_id=?::uuid";
 		try (Connection conn = authDs.getConnection()) {
-			try (PreparedStatement usersPs = conn.prepareStatement(getUsernameSql)) {
+			try (PreparedStatement usersPs = conn.prepareStatement(usersSql)) {
 				usersPs.setString(1, userId.toString());
 				ResultSet resultSet = usersPs.executeQuery();
 				while (resultSet.next()) {
@@ -146,6 +147,16 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 					user.setCredentialsNonExpired(resultSet.getBoolean("credentials_non_expired"));
 				}
 			}
+			try (PreparedStatement usersPs = conn.prepareStatement(authoritiesSql)) {
+				usersPs.setString(1, userId.toString());
+				ResultSet resultSet = usersPs.executeQuery();
+				while (resultSet.next()) {
+					AuthorityEntity authorityEntity = new AuthorityEntity();
+					Authority authority = Authority.valueOf(resultSet.getString("authority"));
+					authorityEntity.setAuthority(authority);
+					user.addAuthorities(authorityEntity);
+				}
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -155,9 +166,10 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	@Override
 	public UserEntity getUser(String username) {
 		UserEntity user = new UserEntity();
-		String getUsernameSql = "SELECT * FROM users WHERE username=?";
+		String usersSql = "SELECT * FROM users WHERE username=?";
+		String authoritiesSql = "SELECT * FROM authorities WHERE user_id=?::uuid";
 		try (Connection conn = authDs.getConnection()) {
-			try (PreparedStatement usersPs = conn.prepareStatement(getUsernameSql)) {
+			try (PreparedStatement usersPs = conn.prepareStatement(usersSql)) {
 				usersPs.setString(1, username);
 				ResultSet rs = usersPs.executeQuery();
 				while (rs.next()) {
@@ -168,6 +180,16 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 					user.setAccountNonExpired(rs.getBoolean("account_non_expired"));
 					user.setAccountNonLocked(rs.getBoolean("account_non_locked"));
 					user.setCredentialsNonExpired(rs.getBoolean("credentials_non_expired"));
+				}
+			}
+			try (PreparedStatement usersPs = conn.prepareStatement(authoritiesSql)) {
+				usersPs.setString(1, user.getId().toString());
+				ResultSet resultSet = usersPs.executeQuery();
+				while (resultSet.next()) {
+					AuthorityEntity authorityEntity = new AuthorityEntity();
+					Authority authority = Authority.valueOf(resultSet.getString("authority"));
+					authorityEntity.setAuthority(authority);
+					user.addAuthorities(authorityEntity);
 				}
 			}
 		} catch (SQLException e) {
