@@ -1,4 +1,4 @@
-package guru.qa.niffler.db.model;
+package guru.qa.niffler.db.model.auth;
 
 import jakarta.persistence.*;
 
@@ -11,7 +11,7 @@ import static jakarta.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class AuthUserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false, columnDefinition = "UUID default gen_random_uuid()")
@@ -110,7 +110,7 @@ public class UserEntity {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		UserEntity that = (UserEntity) o;
+		AuthUserEntity that = (AuthUserEntity) o;
 		return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(enabled, that.enabled) && Objects.equals(accountNonExpired, that.accountNonExpired) && Objects.equals(accountNonLocked, that.accountNonLocked) && Objects.equals(credentialsNonExpired, that.credentialsNonExpired) && Objects.equals(authorities, that.authorities);
 	}
 

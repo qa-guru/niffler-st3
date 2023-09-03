@@ -27,7 +27,7 @@ public enum EntityManagerFactoryProvider {
 
 			EntityManagerFactory entityManagerFactory =
 					new ThreadLocalEntityManagerFactory(
-							Persistence.createEntityManagerFactory("niffler-3", props));
+							Persistence.createEntityManagerFactory("niffler-st3", props));
 
 			entityManagerFactory.createEntityManager();
 			return entityManagerFactory;

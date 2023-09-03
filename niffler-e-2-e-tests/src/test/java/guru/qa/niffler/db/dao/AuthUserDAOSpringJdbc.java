@@ -6,10 +6,11 @@ import guru.qa.niffler.db.ServiceDB;
 import guru.qa.niffler.db.mapper.AuthorityEntityRowMapper;
 import guru.qa.niffler.db.mapper.UserDataEntityRowMapper;
 import guru.qa.niffler.db.mapper.UserEntityRowMapper;
-import guru.qa.niffler.db.model.Authority;
-import guru.qa.niffler.db.model.AuthorityEntity;
+import guru.qa.niffler.db.model.auth.Authority;
+import guru.qa.niffler.db.model.auth.AuthorityEntity;
 import guru.qa.niffler.db.model.UserDataEntity;
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.db.model.auth.AuthUserEntity;
+import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -48,7 +49,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public UUID createUser(UserEntity user) {
+	public UUID createUser(AuthUserEntity user) {
 		return authTtpl.execute(status -> {
 			KeyHolder kh = new GeneratedKeyHolder();
 
@@ -84,26 +85,27 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public void deleteUserById(UUID userId) {
-		authJdbcTemplate.update("DELETE FROM authorities WHERE user_id = ? ", userId);
-		authJdbcTemplate.update("DELETE FROM users WHERE id=?", userId);
+	public void deleteUser(AuthUserEntity user) {
+		authJdbcTemplate.update("DELETE FROM authorities WHERE user_id = ? ", user.getId());
+		authJdbcTemplate.update("DELETE FROM users WHERE id=?", user.getId());
 	}
 
 	@Override
-	public void updateUserById(UUID userId, String username) {
+	public AuthUserEntity updateUser(AuthUserEntity user) {
 		boolean enabled = true;
 		boolean accountNonExpired = true;
 		boolean accountNonLocked = true;
 		boolean credentialsNonExpired = true;
 		authJdbcTemplate.update("UPDATE users SET username=?, enabled=?, account_non_expired=?, " +
 						"account_non_locked=?, credentials_non_expired=? WHERE id=?::uuid",
-				username, enabled, accountNonExpired,
-				accountNonLocked, credentialsNonExpired, userId);
+				user.getUsername(), enabled, accountNonExpired,
+				accountNonLocked, credentialsNonExpired, user.getId().toString());
+		return user;
 	}
 
 	@Override
-	public UserEntity getUser(UUID userId) {
-		UserEntity user = authJdbcTemplate.queryForObject(
+	public AuthUserEntity getUser(UUID userId) {
+		AuthUserEntity user = authJdbcTemplate.queryForObject(
 				"SELECT * FROM users WHERE id=?::uuid",
 				UserEntityRowMapper.instance,
 				userId.toString());
@@ -118,8 +120,8 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserEntity getUser(String username) {
-		UserEntity user = authJdbcTemplate.queryForObject(
+	public AuthUserEntity getUser(String username) {
+		AuthUserEntity user = authJdbcTemplate.queryForObject(
 				"SELECT * FROM users WHERE username=?",
 				UserEntityRowMapper.instance,
 				username);
@@ -134,7 +136,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public int createUserInUserData(UserEntity user) {
+	public int createUserInUserData(UserDataUserEntity user) {
 		return userdataJdbcTemplate.update(
 				"INSERT INTO users (username, currency) VALUES (?, ?)",
 				user.getUsername(), RUB.name());
@@ -146,11 +148,17 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public void updateUserInUserData(String oldUsername, String newUsername) {
+	public UserDataEntity updateUserInUserData(UserDataUserEntity user) {
+		UserDataEntity userDataEntity = new UserDataEntity();
+		String newUsername = faker.name().username();
 		String newFirstname = faker.name().firstName();
 		String newSurname = faker.name().lastName();
 		userdataJdbcTemplate.update("UPDATE users SET username=?, firstname=?, surname=? WHERE username=?",
-				newUsername, newFirstname, newSurname, oldUsername);
+				newUsername, newFirstname, newSurname, user.getUsername());
+		userDataEntity.setUsername(newUsername);
+		userDataEntity.setFirstname(newFirstname);
+		userDataEntity.setSurname(newSurname);
+		return userDataEntity;
 	}
 
 	@Override
