@@ -3,19 +3,17 @@ package guru.qa.niffler.test;
 import com.codeborne.selenide.Selenide;
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
-import guru.qa.niffler.db.dao.AuthUserDAOHibernate;
+import guru.qa.niffler.db.dao.impl.AuthUserDAOHibernate;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
-import guru.qa.niffler.db.dao.UserdataUserDAOHibernate;
+import guru.qa.niffler.db.dao.impl.UserdataUserDAOHibernate;
 import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
-import guru.qa.niffler.jupiter.dao.DaoExtension;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -88,8 +86,9 @@ public class LoginTest extends BaseWebTest {
 	}
 
 	private void updateUserInDB(AuthUserEntity user) {
-//		UserDataEntity newUserData = userDataUserDAO.updateUserInUserData(user);
-//		user.setUsername(newUserData.getUsername());
+		UserDataUserEntity newUserData = new UserDataUserEntity();
+		newUserData.setUsername(user.getUsername());
+		userDataUserDAO.updateUserInUserData(newUserData);
 		authUserDAO.updateUser(user);
 	}
 

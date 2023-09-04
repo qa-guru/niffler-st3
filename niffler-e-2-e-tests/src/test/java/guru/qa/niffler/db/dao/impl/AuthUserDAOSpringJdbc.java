@@ -1,14 +1,15 @@
-package guru.qa.niffler.db.dao;
+package guru.qa.niffler.db.dao.impl;
 
 import com.github.javafaker.Faker;
-import guru.qa.niffler.db.DataSourceProvider;
+import guru.qa.niffler.db.jdbc.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
-import guru.qa.niffler.db.mapper.AuthorityEntityRowMapper;
-import guru.qa.niffler.db.mapper.UserDataEntityRowMapper;
-import guru.qa.niffler.db.mapper.UserEntityRowMapper;
+import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.dao.UserDataUserDAO;
+import guru.qa.niffler.db.springjdbc.AuthorityEntityRowMapper;
+import guru.qa.niffler.db.springjdbc.UserDataEntityRowMapper;
+import guru.qa.niffler.db.springjdbc.UserEntityRowMapper;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
-import guru.qa.niffler.db.model.UserDataEntity;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -148,8 +149,8 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserDataEntity updateUserInUserData(UserDataUserEntity user) {
-		UserDataEntity userDataEntity = new UserDataEntity();
+	public UserDataUserEntity updateUserInUserData(UserDataUserEntity user) {
+		UserDataUserEntity userDataEntity = new UserDataUserEntity();
 		String newUsername = faker.name().username();
 		String newFirstname = faker.name().firstName();
 		String newSurname = faker.name().lastName();
@@ -167,7 +168,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserDataEntity getUserData(String username) {
+	public UserDataUserEntity getUserData(String username) {
 		return userdataJdbcTemplate.queryForObject(
 				"SELECT * FROM users WHERE username=?",
 				UserDataEntityRowMapper.instance, username);

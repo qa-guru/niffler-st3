@@ -1,9 +1,10 @@
-package guru.qa.niffler.db.dao;
+package guru.qa.niffler.db.dao.impl;
 
 import guru.qa.niffler.db.ServiceDB;
+import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.jpa.EntityManagerFactoryProvider;
 import guru.qa.niffler.db.jpa.JpaService;
-import guru.qa.niffler.db.model.UserDataEntity;
+import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 
 import java.util.UUID;
@@ -22,16 +23,19 @@ public class UserdataUserDAOHibernate extends JpaService implements UserDataUser
 
 	@Override
 	public void deleteUserByIdInUserData(UUID userId) {
-
+		AuthUserEntity user = new AuthUserDAOHibernate().getUser(userId);
+		remove(getUserData(user.getUsername()));
 	}
 
 	@Override
-	public UserDataEntity updateUserInUserData(UserDataUserEntity user) {
-		return null;
+	public UserDataUserEntity updateUserInUserData(UserDataUserEntity user) {
+		return merge(user);
 	}
 
 	@Override
-	public UserDataEntity getUserData(String username) {
-		return null;
+	public UserDataUserEntity getUserData(String username) {
+		return em.createQuery("select u from Users u where u.username=:username", UserDataUserEntity.class)
+				.setParameter("id", username)
+				.getSingleResult();
 	}
 }

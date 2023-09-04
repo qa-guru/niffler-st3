@@ -13,6 +13,8 @@ public interface Config {
 
 	String databaseHost();
 
+	String nifflerSpendUrl();
+
 	default String databaseUser() {
 		return "postgres";
 	}

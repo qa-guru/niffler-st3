@@ -103,7 +103,6 @@ dependencies {
         exclude group: 'com.codeborne'
     }
     testImplementation "io.qameta.allure:allure-okhttp3:${allureVersion}"
-    testImplementation "io.qameta.allure:allure-selenide:${allureVersion}"
     testImplementation "io.qameta.allure:allure-grpc:${allureVersion}"
     // WEB
     testImplementation "com.codeborne:selenide:${selenideVersion}"

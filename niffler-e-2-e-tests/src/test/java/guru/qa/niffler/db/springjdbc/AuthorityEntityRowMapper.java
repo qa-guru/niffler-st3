@@ -1,4 +1,4 @@
-package guru.qa.niffler.db.mapper;
+package guru.qa.niffler.db.springjdbc;
 
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;

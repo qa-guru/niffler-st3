@@ -1,10 +1,11 @@
-package guru.qa.niffler.db.dao;
+package guru.qa.niffler.db.dao.impl;
 
 import com.github.javafaker.Faker;
-import guru.qa.niffler.db.DataSourceProvider;
+import guru.qa.niffler.db.jdbc.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
+import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.model.CurrencyValues;
-import guru.qa.niffler.db.model.UserDataEntity;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
@@ -236,8 +237,8 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserDataEntity updateUserInUserData(UserDataUserEntity user) {
-		UserDataEntity userDataEntity = new UserDataEntity();
+	public UserDataUserEntity updateUserInUserData(UserDataUserEntity user) {
+		UserDataUserEntity userDataEntity = new UserDataUserEntity();
 		String newUsername = faker.name().username();
 		String newFirstname = faker.name().firstName();
 		String newSurname = faker.name().lastName();
@@ -260,8 +261,8 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public UserDataEntity getUserData(String username) {
-		UserDataEntity user = new UserDataEntity();
+	public UserDataUserEntity getUserData(String username) {
+		UserDataUserEntity user = new UserDataUserEntity();
 		String getUsernameSql = "SELECT * FROM users WHERE username=?";
 		try (Connection conn = userdataDs.getConnection()) {
 			try (PreparedStatement usersPs = conn.prepareStatement(getUsernameSql)) {

@@ -3,7 +3,7 @@ package guru.qa.niffler.test;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import guru.qa.niffler.jupiter.user.User;
+import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
-import static guru.qa.niffler.jupiter.user.User.UserType.INVITATION_RECEIVED;
+import static guru.qa.niffler.jupiter.annotation.User.UserType.INVITATION_RECEIVED;
 
 public class InvitationReceivedWebTest extends BaseWebTest {
 
