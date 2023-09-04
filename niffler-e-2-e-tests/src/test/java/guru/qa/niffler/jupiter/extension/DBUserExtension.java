@@ -28,8 +28,8 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
         if (annotation != null) {
             Faker faker = new Faker();
             AuthUserEntity user = new AuthUserEntity();
-            user.setUsername(faker.name().username());
-            user.setPassword("12345");
+            user.setUsername(annotation.login().isEmpty() ? faker.name().username() : annotation.login());
+            user.setPassword(annotation.password().isEmpty() ? faker.internet().password() : annotation.password());
             user.setEnabled(true);
             user.setAccountNonExpired(true);
             user.setAccountNonLocked(true);
