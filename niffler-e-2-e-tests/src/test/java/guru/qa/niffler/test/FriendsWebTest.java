@@ -1,17 +1,14 @@
 package guru.qa.niffler.test;
 
 
-import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.User;
-import guru.qa.niffler.jupiter.User;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.page.components.HeaderComponent;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.Test;
 
-import static guru.qa.niffler.jupiter.User.UserType.*;
-import static com.codeborne.selenide.Selenide.$;
-import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
+import static guru.qa.niffler.jupiter.annotation.User.UserType.*;
+
 
 public class FriendsWebTest extends BaseWebTest {
 
