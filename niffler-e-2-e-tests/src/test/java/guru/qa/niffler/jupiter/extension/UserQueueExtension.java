@@ -22,21 +22,21 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
 
     public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(UserQueueExtension.class);
 
-    private static final Map<User.UserType, Queue<UserJson>> usersQueue = new ConcurrentHashMap<>();
+    private static final Map<User.UserType, Queue<UserJson>> USERS_QUEUE = new ConcurrentHashMap<>();
 
     static {
         Queue<UserJson> usersWithFriends = new ConcurrentLinkedQueue<>();
         usersWithFriends.add(bindUser("dima", "12345"));
         usersWithFriends.add(bindUser("barsik", "12345"));
-        usersQueue.put(User.UserType.WITH_FRIENDS, usersWithFriends);
+        USERS_QUEUE.put(User.UserType.WITH_FRIENDS, usersWithFriends);
         Queue<UserJson> usersInSent = new ConcurrentLinkedQueue<>();
         usersInSent.add(bindUser("bee", "12345"));
         usersInSent.add(bindUser("anna", "12345"));
-        usersQueue.put(User.UserType.INVITATION_SENT, usersInSent);
+        USERS_QUEUE.put(User.UserType.INVITATION_SENT, usersInSent);
         Queue<UserJson> usersInRc = new ConcurrentLinkedQueue<>();
         usersInRc.add(bindUser("valentin", "12345"));
         usersInRc.add(bindUser("pizzly", "12345"));
-        usersQueue.put(User.UserType.INVITATION_RECEIVED, usersInRc);
+        USERS_QUEUE.put(User.UserType.INVITATION_RECEIVED, usersInRc);
     }
 
     @Override
@@ -51,23 +51,17 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
             if (parameter.getType().isAssignableFrom(UserJson.class)) {
                 User parameterAnnotation = parameter.getAnnotation(User.class);
                 User.UserType userType = parameterAnnotation.userType();
-                Queue<UserJson> usersQueueByType = usersQueue.get(userType);
-                UserJson candidateForTest = null;
-                while (candidateForTest == null) {
-                    candidateForTest = usersQueueByType.poll();
-                }
-                candidateForTest.setUserType(userType);
-                candidatesForTest.put(Pair.of(userType, parameter.getDeclaringExecutable().getName()), candidateForTest);
-                context.getStore(NAMESPACE).put(getAllureId(context), candidatesForTest);
+                candidatesForTest.put(Pair.of(userType, parameter.getDeclaringExecutable().getName()), getUser(userType));
             }
         }
+        context.getStore(NAMESPACE).put(getAllureId(context), candidatesForTest);
     }
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
         Map<Pair<User.UserType, String>, UserJson> usersFromTest = context.getStore(NAMESPACE).get(getAllureId(context), Map.class);
         for (Pair<User.UserType, String> userType : usersFromTest.keySet()) {
-            usersQueue.get(userType.getLeft()).add(usersFromTest.get(userType));
+            USERS_QUEUE.get(userType.getLeft()).add(usersFromTest.get(userType));
         }
     }
 
@@ -99,5 +93,15 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
         user.setUsername(username);
         user.setPassword(password);
         return user;
+    }
+
+    private UserJson getUser(User.UserType userType) {
+        Queue<UserJson> usersQueueByType = USERS_QUEUE.get(userType);
+        UserJson candidateForTest = null;
+        while (candidateForTest == null) {
+            candidateForTest = usersQueueByType.poll();
+        }
+        candidateForTest.setUserType(userType);
+        return candidateForTest;
     }
 }
