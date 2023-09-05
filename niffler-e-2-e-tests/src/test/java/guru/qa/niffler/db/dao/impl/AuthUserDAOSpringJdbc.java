@@ -1,11 +1,15 @@
-package guru.qa.niffler.db.dao;
+package guru.qa.niffler.db.dao.impl;
 
-import guru.qa.niffler.db.DataSourceProvider;
+import guru.qa.niffler.db.jdbc.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
-import guru.qa.niffler.db.mapper.UserEntityRowMapper;
-import guru.qa.niffler.db.model.Authority;
+import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.dao.UserDataUserDAO;
+import guru.qa.niffler.db.springjdbc.UserDataEntityRowMapper;
+import guru.qa.niffler.db.springjdbc.UserEntityRowMapper;
+import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.CurrencyValues;
-import guru.qa.niffler.db.model.UserEntity;
+import guru.qa.niffler.db.model.userdata.UserDataEntity;
+import guru.qa.niffler.db.model.auth.UserEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -72,23 +76,42 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
     }
 
     @Override
-    public UserEntity updateUser(UserEntity user) {
-        return null;
-    }
-
-    @Override
-    public void deleteUserById(UUID userId) {
-
-    }
-
-    @Override
-    public UserEntity getUserById(UUID userId) {
+    public UserEntity getUser(UUID userId) {
         return authJdbcTemplate.queryForObject(
-                "SELECT * FROM users WHERE id = ? ",
+                "SELECT * FROM users u " +
+                "JOIN authorities a ON u.id = a.user_id " +
+                        "WHERE u.id = ?",
                 UserEntityRowMapper.instance,
                 userId
         );
     }
+
+    @Override
+    public void updateUser(UserEntity user) {
+        authJdbcTemplate.update(
+                        "UPDATE users SET " +
+                                "password = ?," +
+                                "enabled = ?," +
+                                "account_non_expired = ?," +
+                                "account_non_locked = ?," +
+                                "credentials_non_expired = ? " +
+                                "WHERE id = ? ",
+                                pe.encode(user.getPassword()),
+                                user.getEnabled(),
+                                user.getAccountNonExpired(),
+                                user.getAccountNonLocked(),
+                                user.getCredentialsNonExpired(),
+                                user.getId());
+    }
+
+    @Override
+    public void deleteUserById(UUID userId) {
+         authTtpl.executeWithoutResult(status -> {
+            authJdbcTemplate.update("DELETE FROM authorities WHERE user_id = ?", userId);
+            authJdbcTemplate.update("DELETE FROM users WHERE id = ?", userId);
+        });
+    }
+
 
     @Override
     public int createUserInUserData(UserEntity user) {
@@ -100,8 +123,25 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
     }
 
     @Override
-    public void deleteUserByIdInUserData(UUID userId) {
-        userdataJdbcTemplate.update("DELETE FROM users WHERE id = ?", userId);
+    public UserDataEntity getUserInUserDataByUsername(String username) {
+        return userdataJdbcTemplate.queryForObject("SELECT * FROM users WHERE username = ?",
+                UserDataEntityRowMapper.instance,
+                username);
+    }
+
+    @Override
+    public void updateUserInUserData(UserDataEntity userDe) {
+        userdataJdbcTemplate.update("UPDATE users SET " +
+                "currency = ?," +
+                "firstname = ?," +
+                "surname = ?," +
+                "photo = ?," +
+                "WHERE id = ? ",
+                userDe.getCurrency(),
+                userDe.getFirstname(),
+                userDe.getSurname(),
+                userDe.getPhoto(),
+                userDe.getId());
     }
 
     @Override
