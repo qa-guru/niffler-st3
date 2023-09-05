@@ -12,7 +12,7 @@ public class UserDataUserDAOSpringJdbc implements UserDataUserDAO {
 
     private final JdbcTemplate userdataJdbcTemplate;
 
-    public UserDataUserDAOSpringJdbc(JdbcTemplate userdataJdbcTemplate) {
+    public UserDataUserDAOSpringJdbc() {
         JdbcTransactionManager userdataTm = new JdbcTransactionManager(
                 DataSourceProvider.INSTANCE.getDataSource(ServiceDB.USERDATA));
         this.userdataJdbcTemplate = new JdbcTemplate(userdataTm.getDataSource());

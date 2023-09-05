@@ -85,12 +85,12 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO {
         authTtpl.execute(status -> {
             authJdbcTemplate.update(con -> {
                 PreparedStatement authorityPs = con.prepareStatement("DELETE from authorities WHERE user_id = ?");
-                authorityPs.setObject(1, userId);
+                authorityPs.setObject(1, userId.getId());
                 return authorityPs;
             });
             authJdbcTemplate.update(con -> {
                 PreparedStatement usersPs = con.prepareStatement("DELETE from users WHERE id = ?");
-                usersPs.setObject(1, userId);
+                usersPs.setObject(1, userId.getId());
                 return usersPs;
             });
             return 0;
