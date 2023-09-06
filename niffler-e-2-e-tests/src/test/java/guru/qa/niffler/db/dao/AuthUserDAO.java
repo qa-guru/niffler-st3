@@ -20,5 +20,5 @@ public interface AuthUserDAO {
 
 	UserEntity getUser(String username);
 
-	void deleteUserByUsernameInUserData(UUID userId, String username);
+	void deleteUserByUsernameInUserData(String username);
 }

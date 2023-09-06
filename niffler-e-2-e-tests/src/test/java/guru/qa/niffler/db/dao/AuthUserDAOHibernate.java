@@ -29,7 +29,7 @@ public class AuthUserDAOHibernate implements AuthUserDAO {
 	}
 
 	@Override
-	public void deleteUserByUsernameInUserData(UUID userId, String username) {
+	public void deleteUserByUsernameInUserData(String username) {
 
 	}
 }

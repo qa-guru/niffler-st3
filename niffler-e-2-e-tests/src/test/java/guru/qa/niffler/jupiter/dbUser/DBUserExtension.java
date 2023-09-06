@@ -1,5 +1,6 @@
 package guru.qa.niffler.jupiter.dbUser;
 
+import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.AuthUserDAOJdbc;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
@@ -23,20 +24,7 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 	public void beforeEach(ExtensionContext context) throws Exception {
 		DBUser annotation = context.getRequiredTestMethod().getAnnotation(DBUser.class);
 		if (annotation != null) {
-			UserEntity user = new UserEntity();
-			user.setUsername(annotation.username());
-			user.setPassword(annotation.password());
-			user.setEnabled(true);
-			user.setAccountNonExpired(true);
-			user.setAccountNonLocked(true);
-			user.setCredentialsNonExpired(true);
-			user.setAuthorities(Arrays.stream(Authority.values())
-					.map(authority -> {
-						var ae = new AuthorityEntity();
-						ae.setAuthority(authority);
-						return ae;
-					}).toList()
-			);
+			UserEntity user = createUserEntity(annotation);
 			UUID uuid = authUserDAO.createUser(user);
 			user.setId(uuid);
 			userDataUserDAO.createUserInUserData(user);
@@ -61,5 +49,29 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 	@Override
 	public UserEntity resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
 		return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), UserEntity.class);
+	}
+
+	private UserEntity createUserEntity(DBUser annotation){
+		UserEntity user = new UserEntity();
+		if (annotation.username().isEmpty() || annotation.password().isEmpty()){
+			Faker faker = Faker.instance();
+			user.setUsername(faker.name().username());
+			user.setPassword(faker.internet().password());
+		} else {
+			user.setUsername(annotation.username());
+			user.setPassword(annotation.password());
+		}
+		user.setEnabled(true);
+		user.setAccountNonExpired(true);
+		user.setAccountNonLocked(true);
+		user.setCredentialsNonExpired(true);
+		user.setAuthorities(Arrays.stream(Authority.values())
+				.map(authority -> {
+					var ae = new AuthorityEntity();
+					ae.setAuthority(authority);
+					return ae;
+				}).toList()
+		);
+		return user;
 	}
 }

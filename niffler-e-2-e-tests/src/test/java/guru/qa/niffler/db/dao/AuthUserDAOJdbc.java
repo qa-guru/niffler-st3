@@ -199,8 +199,16 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public void deleteUserByUsernameInUserData(UUID userId, String username) {
-
+	public void deleteUserByUsernameInUserData(String username) {
+		String deleteSql = "DELETE FROM users WHERE username=?";
+		try (Connection conn = userdataDs.getConnection()) {
+			try (PreparedStatement usersPs = conn.prepareStatement(deleteSql)) {
+				usersPs.setString(1, username);
+				usersPs.executeUpdate();
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
