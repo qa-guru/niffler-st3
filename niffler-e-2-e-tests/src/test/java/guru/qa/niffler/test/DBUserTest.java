@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.$;
 @ExtendWith(DaoExtension.class)
 public class DBUserTest extends BaseWebTest {
 
-	private static final String USERNAME = "Adam 5";
+	private static final String USERNAME = "Adam fd";
 	private static final String PASSWORD = "12345678";
 
 	@DBUser

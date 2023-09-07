@@ -144,8 +144,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public void deleteUserByIdInUserData(UUID userId) {
-		UserEntity user = getUser(userId);
+	public void deleteUser(UserDataUserEntity user) {
 		userdataJdbcTemplate.update("DELETE FROM users WHERE username=?", user.getUsername());
 	}
 
@@ -161,11 +160,6 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 		userDataEntity.setFirstname(newFirstname);
 		userDataEntity.setSurname(newSurname);
 		return userDataEntity;
-	}
-
-	@Override
-	public void deleteUserByUsernameInUserData(String username) {
-		userdataJdbcTemplate.update("DELETE FROM users WHERE username=?", username);
 	}
 
 	@Override

@@ -124,12 +124,11 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 	}
 
 	@Override
-	public void deleteUserByIdInUserData(UUID userId) {
-		String username = getUser(userId).getUsername();
+	public void deleteUser(UserDataUserEntity user) {
 		String deleteSql = "DELETE FROM users WHERE username=?";
 		try (Connection conn = userdataDs.getConnection()) {
 			try (PreparedStatement usersPs = conn.prepareStatement(deleteSql)) {
-				usersPs.setString(1, username);
+				usersPs.setString(1, user.getUsername());
 				usersPs.executeUpdate();
 			}
 		} catch (SQLException e) {
@@ -205,19 +204,6 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 			throw new RuntimeException(e);
 		}
 		return user;
-	}
-
-	@Override
-	public void deleteUserByUsernameInUserData(String username) {
-		String deleteSql = "DELETE FROM users WHERE username=?";
-		try (Connection conn = userdataDs.getConnection()) {
-			try (PreparedStatement usersPs = conn.prepareStatement(deleteSql)) {
-				usersPs.setString(1, username);
-				usersPs.executeUpdate();
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	@Override

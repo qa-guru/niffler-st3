@@ -40,6 +40,7 @@ public abstract class JpaService {
 
 	protected <T> T txWithResult(Function<EntityManager, T> action) {
 		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
 		try {
 			T result = action.apply(em);
 			transaction.commit();

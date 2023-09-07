@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static guru.qa.niffler.db.model.CurrencyValues.RUB;
 
 public class LoginTest extends BaseWebTest {
 
@@ -58,7 +59,7 @@ public class LoginTest extends BaseWebTest {
 
 	@AfterEach
 	void deleteUser() {
-		userDataUserDAO.deleteUserByIdInUserData(authUser.getId());
+		userDataUserDAO.deleteUser(convertUserdata(authUser));
 		authUserDAO.deleteUser(authUser);
 	}
 
@@ -99,6 +100,13 @@ public class LoginTest extends BaseWebTest {
 		authUser.setAccountNonExpired(authUserEntity.getAccountNonExpired());
 		authUser.setAccountNonLocked(authUserEntity.getAccountNonLocked());
 		authUser.setCredentialsNonExpired(authUserEntity.getCredentialsNonExpired());
+	}
+
+	private UserDataUserEntity convertUserdata(AuthUserEntity authUser) {
+		UserDataUserEntity user = new UserDataUserEntity();
+		user.setUsername(authUser.getUsername());
+		user.setCurrency(RUB);
+		return user;
 	}
 }
 
