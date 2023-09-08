@@ -21,13 +21,12 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 
 	public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(DBUserExtension.class);
 
-	private AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
-
-	private UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
 	Faker faker = new Faker();
 
 	@Override
 	public void beforeEach(ExtensionContext context) throws Exception {
+		AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
+		UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
 		DBUser annotation = context.getRequiredTestMethod().getAnnotation(DBUser.class);
 		if (annotation != null) {
 			AuthUserEntity authUser = createAuthUserEntity(annotation);
@@ -43,6 +42,8 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 
 	@Override
 	public void afterTestExecution(ExtensionContext context) throws Exception {
+		AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
+		UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
 		AuthUserEntity user = context.getStore(NAMESPACE).get(getUserKey(context.getUniqueId()), AuthUserEntity.class);
 		userDataUserDAO.deleteUser(convertUser(user));
 		authUserDAO.deleteUser(user);
