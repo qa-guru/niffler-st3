@@ -3,31 +3,31 @@ package guru.qa.niffler.test;
 import com.codeborne.selenide.Selenide;
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.dao.impl.AuthUserDAOHibernate;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
-import guru.qa.niffler.db.model.Authority;
-import guru.qa.niffler.db.model.AuthorityEntity;
-import guru.qa.niffler.db.model.UserEntity;
-import guru.qa.niffler.jupiter.dao.Dao;
-import guru.qa.niffler.jupiter.dao.DaoExtension;
+import guru.qa.niffler.db.dao.impl.UserdataUserDAOHibernate;
+import guru.qa.niffler.db.model.CurrencyValues;
+import guru.qa.niffler.db.model.auth.Authority;
+import guru.qa.niffler.db.model.auth.AuthorityEntity;
+import guru.qa.niffler.db.model.auth.AuthUserEntity;
+import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Arrays;
 import java.util.UUID;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static guru.qa.niffler.db.model.CurrencyValues.RUB;
 
-@ExtendWith(DaoExtension.class)
 public class LoginTest extends BaseWebTest {
 
-	@Dao
-	private AuthUserDAO authUserDAO;
-	@Dao
-	private UserDataUserDAO userDataUserDAO;
-	private UserEntity user;
+	private AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
+	private UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
+	private AuthUserEntity authUser;
+	private UserDataUserEntity userdataUser;
 	Faker faker = new Faker();
 	String username = faker.name().username();
 	String newUsername = faker.name().username();
@@ -35,63 +35,78 @@ public class LoginTest extends BaseWebTest {
 
 	@BeforeEach
 	void createUser() {
-		user = new UserEntity();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setEnabled(true);
-		user.setAccountNonExpired(true);
-		user.setAccountNonLocked(true);
-		user.setCredentialsNonExpired(true);
-		user.setAuthorities(Arrays.stream(Authority.values()).map(a -> {
+		authUser = new AuthUserEntity();
+		authUser.setUsername(username);
+		authUser.setPassword(password);
+		authUser.setEnabled(true);
+		authUser.setAccountNonExpired(true);
+		authUser.setAccountNonLocked(true);
+		authUser.setCredentialsNonExpired(true);
+		authUser.setAuthorities(Arrays.stream(Authority.values()).map(a -> {
 			AuthorityEntity ae = new AuthorityEntity();
 			ae.setAuthority(a);
+			ae.setUser(authUser);
 			return ae;
 		}).toList());
-		authUserDAO.createUser(user);
-		userDataUserDAO.createUserInUserData(user);
+		UUID userId = authUserDAO.createUser(authUser);
+		authUser.setId(userId);
+
+		userdataUser = new UserDataUserEntity();
+		userdataUser.setUsername(username);
+		userdataUser.setCurrency(CurrencyValues.RUB);
+		userDataUserDAO.createUserInUserData(userdataUser);
 	}
 
 	@AfterEach
 	void deleteUser() {
-		userDataUserDAO.deleteUserByIdInUserData(user.getId());
-		authUserDAO.deleteUserById(user.getId());
+		userDataUserDAO.deleteUser(convertUserdata(authUser));
+		authUserDAO.deleteUser(authUser);
 	}
 
 	@Test
 	void mainPageShouldBeVisibleAfterLogIn() {
 		Selenide.open("http://127.0.0.1:3000/main");
 		$("a[href*='redirect']").click();
-		$("input[name='username']").setValue(user.getUsername());
-		$("input[name='password']").setValue(user.getPassword());
+		$("input[name='username']").setValue(authUser.getUsername());
+		$("input[name='password']").setValue(password);
 		$("button[type='submit']").click();
 		$(".main-content .main-content__section-stats").shouldBe(visible);
 	}
 
 	@Test
 	void mainPageShouldBeVisibleAfterLogInAfterUpdateUser() {
-		updateUserInDB(user.getId(), newUsername);
-		updateUserData(user.getId());
+		updateUserInDB(authUser);
+		updateUserData(authUser.getId());
 
 		Selenide.open("http://127.0.0.1:3000/main");
 		$("a[href*='redirect']").click();
-		$("input[name='username']").setValue(user.getUsername());
-		$("input[name='password']").setValue(user.getPassword());
+		$("input[name='username']").setValue(authUser.getUsername());
+		$("input[name='password']").setValue(authUser.getPassword());
 		$("button[type='submit']").click();
 		$(".main-content .main-content__section-stats").shouldBe(visible);
 	}
 
-	private void updateUserInDB(UUID userId, String username) {
-		userDataUserDAO.updateUserByIdInUserData(userId, username);
-		authUserDAO.updateUserById(userId, username);
+	private void updateUserInDB(AuthUserEntity user) {
+		UserDataUserEntity newUserData = new UserDataUserEntity();
+		newUserData.setUsername(user.getUsername());
+		userDataUserDAO.updateUserInUserData(newUserData);
+		authUserDAO.updateUser(user);
 	}
 
 	private void updateUserData(UUID userId) {
-		UserEntity userEntity = authUserDAO.getUser(userId);
-		user.setUsername(userEntity.getUsername());
-		user.setEnabled(userEntity.getEnabled());
-		user.setAccountNonExpired(userEntity.getAccountNonExpired());
-		user.setAccountNonLocked(userEntity.getAccountNonLocked());
-		user.setCredentialsNonExpired(userEntity.getCredentialsNonExpired());
+		AuthUserEntity authUserEntity = authUserDAO.getUser(userId);
+		authUser.setUsername(authUserEntity.getUsername());
+		authUser.setEnabled(authUserEntity.getEnabled());
+		authUser.setAccountNonExpired(authUserEntity.getAccountNonExpired());
+		authUser.setAccountNonLocked(authUserEntity.getAccountNonLocked());
+		authUser.setCredentialsNonExpired(authUserEntity.getCredentialsNonExpired());
+	}
+
+	private UserDataUserEntity convertUserdata(AuthUserEntity authUser) {
+		UserDataUserEntity user = new UserDataUserEntity();
+		user.setUsername(authUser.getUsername());
+		user.setCurrency(RUB);
+		return user;
 	}
 }
 
