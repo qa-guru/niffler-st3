@@ -13,11 +13,11 @@ import static com.codeborne.selenide.Selenide.$;
 @ExtendWith(DaoExtension.class)
 public class DBUserTest extends BaseWebTest {
 
-	private static final String USERNAME = "Adam 5";
+	private static final String USERNAME = "Adam fd";
 	private static final String PASSWORD = "12345678";
 
-	@DBUser(username = USERNAME, password = PASSWORD)
-	@Test()
+	@DBUser
+	@Test
 	void mainPageShouldBeVisibleAfterLogIn(AuthUserEntity user) {
 		Selenide.open("http://127.0.0.1:3000/main");
 		$("a[href*='redirect']").click();

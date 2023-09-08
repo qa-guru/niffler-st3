@@ -1,7 +1,6 @@
 package guru.qa.niffler.db.dao;
 
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
-import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -20,8 +19,4 @@ public interface AuthUserDAO {
 	AuthUserEntity getUser(UUID userId);
 
 	AuthUserEntity getUser(String username);
-
-	void deleteUserByUsernameInUserData(UUID userId, String username);
-
-	UserDataUserEntity getUserData(String username);
 }

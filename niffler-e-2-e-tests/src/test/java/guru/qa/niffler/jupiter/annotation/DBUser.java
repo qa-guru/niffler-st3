@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @ExtendWith(DBUserExtension.class)
 public @interface DBUser {
 
-	String username();
+	String username() default "";
 
-	String password();
+	String password() default "";
 }
