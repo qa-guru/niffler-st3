@@ -1,8 +1,9 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.oldTests;
 
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.test.BaseWebTest;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

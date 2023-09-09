@@ -13,8 +13,6 @@ import guru.qa.niffler.jupiter.annotation.DBUser;
 import org.junit.jupiter.api.extension.*;
 
 import java.util.Arrays;
-import java.util.UUID;
-
 import static guru.qa.niffler.db.model.CurrencyValues.RUB;
 
 public class DBUserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback {
@@ -25,9 +23,9 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 
 	@Override
 	public void beforeEach(ExtensionContext context) throws Exception {
+		DBUser annotation = context.getRequiredTestMethod().getAnnotation(DBUser.class);
 		AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
 		UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
-		DBUser annotation = context.getRequiredTestMethod().getAnnotation(DBUser.class);
 		if (annotation != null) {
 			AuthUserEntity authUser = createAuthUserEntity(annotation);
 			authUserDAO.createUser(authUser);
