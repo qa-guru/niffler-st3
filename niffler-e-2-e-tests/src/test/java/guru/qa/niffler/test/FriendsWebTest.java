@@ -8,11 +8,12 @@ import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static guru.qa.niffler.jupiter.User.UserType.WITH_FRIENDS;
 
 public class FriendsWebTest extends BaseWebTest {
-
     @BeforeEach
     void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
         Selenide.open("http://127.0.0.1:3000/main");
@@ -24,19 +25,22 @@ public class FriendsWebTest extends BaseWebTest {
 
     @Test
     @AllureId("101")
-    void friendShouldBeDisplayedInTable0(@User(userType = WITH_FRIENDS) UserJson userForTest) throws InterruptedException {
-        Thread.sleep(3000);
+    void friendShouldBeDisplayedInTable0() throws InterruptedException {
+        $("[data-tooltip-id=friends]").click();
+        $$("[data-tooltip-id=remove-friend]").shouldHave(size(1));
     }
 
     @Test
     @AllureId("102")
     void friendShouldBeDisplayedInTable1(@User(userType = WITH_FRIENDS) UserJson userForTest) throws InterruptedException {
-        Thread.sleep(3000);
+        $("[data-tooltip-id=friends]").click();
+        $$("[data-tooltip-id=remove-friend]").shouldHave(size(1));
     }
 
     @Test
     @AllureId("103")
     void friendShouldBeDisplayedInTable2(@User(userType = WITH_FRIENDS) UserJson userForTest) throws InterruptedException {
-        Thread.sleep(3000);
+        $("[data-tooltip-id=friends]").click();
+        $$("[data-tooltip-id=remove-friend]").shouldHave(size(1));
     }
 }

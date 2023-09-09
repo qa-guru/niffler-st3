@@ -7,14 +7,14 @@ import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.$;
-import static guru.qa.niffler.jupiter.User.UserType.INVITATION_SENT;
+import static com.codeborne.selenide.Selenide.$$;
+import static guru.qa.niffler.jupiter.User.UserType.INVITATION_RECEIVED;
 
-public class InvitationWebTest {
+public class InvitationReceivedWebTest {
     @BeforeEach
-    void doLogin(@User(userType = INVITATION_SENT) UserJson userForTest) {
+    void doLogin(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
         Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
         $("input[name='username']").setValue(userForTest.getUsername());
@@ -23,9 +23,9 @@ public class InvitationWebTest {
     }
 
     @Test
-    @AllureId("104")
-    void friendShouldNotBeDisplayedInTable(@User(userType = INVITATION_SENT) UserJson userForTest) throws InterruptedException {
+    @AllureId("105")
+    void friendShouldNotBeDisplayedInTable(@User(userType = INVITATION_RECEIVED) UserJson userForTest) throws InterruptedException {
         $("[data-tooltip-id=friends]").click();
-        $(byText("There are no friends yet!")).shouldBe(visible);
+        $$("[data-tooltip-id=submit-invitation]").shouldHave(size(1));
     }
 }
