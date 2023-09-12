@@ -15,10 +15,9 @@ public class AuthUserDAOHibernate extends JpaService implements AuthUserDAO {
     }
 
     @Override
-    public int createUser(AuthUserEntity user) {
+    public void createUser(AuthUserEntity user) {
         user.setPassword(pe.encode(user.getPassword()));
         persist(user);
-        return 0;
     }
 
     @Override
