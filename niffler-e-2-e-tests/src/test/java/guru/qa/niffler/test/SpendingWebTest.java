@@ -11,7 +11,6 @@ import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -20,7 +19,6 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
 
-@Disabled
 public class SpendingWebTest extends BaseWebTest {
 
     static {
@@ -28,11 +26,11 @@ public class SpendingWebTest extends BaseWebTest {
         Configuration.browserSize = "1980x1024";
     }
 
-    private static final String user = "stanislav6434";
+    private static final String user = "dima";
 
     @BeforeEach
     void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
-        Selenide.open("http://frontend.niffler.dc/main");
+        Selenide.open("http://127.0.0.1:3000/main");
         $("a[href*='redirect']").click();
         $("input[name='username']").setValue(userForTest.getUsername());
         $("input[name='password']").setValue(userForTest.getPassword());
@@ -40,8 +38,8 @@ public class SpendingWebTest extends BaseWebTest {
     }
 
     @Category(
-            category = "Рыбалка",
-            username = user
+            username = user,
+            category = "Рыбалка"
     )
     @Spend(
             username = user,
