@@ -5,7 +5,7 @@
     <persistence-unit name="niffler-st3" transaction-type="RESOURCE_LOCAL">
         <class>guru.qa.niffler.db.model.auth.UserEntity</class>
         <class>guru.qa.niffler.db.model.auth.AuthorityEntity</class>
-        <class>guru.qa.niffler.db.model.userdata.UserDataUserEntity</class>
+        <class>guru.qa.niffler.db.model.userdata.UserDataEntity</class>
         <class>guru.qa.niffler.db.model.userdata.FriendsEntity</class>
         <class>guru.qa.niffler.db.model.userdata.FriendsId</class>
     </persistence-unit>

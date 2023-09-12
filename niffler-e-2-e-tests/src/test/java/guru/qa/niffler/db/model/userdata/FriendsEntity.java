@@ -1,12 +1,6 @@
 package guru.qa.niffler.db.model.userdata;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -18,29 +12,29 @@ public class FriendsEntity {
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserDataUserEntity user;
+    private UserDataEntity user;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "friend_id", referencedColumnName = "id")
-    private UserDataUserEntity friend;
+    private UserDataEntity friend;
 
     @Column(name = "pending")
     private boolean pending;
 
-    public UserDataUserEntity getUser() {
+    public UserDataEntity getUser() {
         return user;
     }
 
-    public void setUser(UserDataUserEntity user) {
+    public void setUser(UserDataEntity user) {
         this.user = user;
     }
 
-    public UserDataUserEntity getFriend() {
+    public UserDataEntity getFriend() {
         return friend;
     }
 
-    public void setFriend(UserDataUserEntity friend) {
+    public void setFriend(UserDataEntity friend) {
         this.friend = friend;
     }
 
