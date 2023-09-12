@@ -27,7 +27,7 @@ public class SpendExtension implements BeforeEachCallback {
             spend.setSpendDate(new Date());
             spend.setCurrency(annotation.currency());
             SpendJson createdSpend = spendService.addSpend(spend);
-            context.getStore(NAMESPACE).put("spend", createdSpend);
+            context.getStore(NAMESPACE).put(context.getUniqueId(), createdSpend);
         }
     }
 }

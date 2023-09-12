@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 
 public class CategoryExtension implements BeforeEachCallback {
 
-    public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(CategoryExtension.class);
+    public static ExtensionContext.Namespace NAMESPACE;
 
     private SpendServiceClient spendServiceClient = new SpendServiceClient();
 
@@ -20,8 +20,7 @@ public class CategoryExtension implements BeforeEachCallback {
             category.setCategory(annotation.category());
             category.setUsername(annotation.username());
 
-            CategoryJson createdCategory = spendServiceClient.addCategory(category);
-            extensionContext.getStore(NAMESPACE).put("category", createdCategory);
+            spendServiceClient.addCategory(category);
         }
     }
 }

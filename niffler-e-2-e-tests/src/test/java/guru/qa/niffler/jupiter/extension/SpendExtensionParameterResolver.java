@@ -19,6 +19,6 @@ public class SpendExtensionParameterResolver implements ParameterResolver {
     public SpendJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return extensionContext
                 .getStore(SpendExtension.NAMESPACE)
-                .get("spend", SpendJson.class);
+                .get(extensionContext.getUniqueId(), SpendJson.class);
     }
 }
