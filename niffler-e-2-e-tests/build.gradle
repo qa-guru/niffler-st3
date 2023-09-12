@@ -80,15 +80,10 @@ sourceSets {
 }
 
 dependencies {
-    testImplementation ('org.junit.jupiter:junit-jupiter:5.10.0'){
-        exclude group: 'org.slf4j', module: 'slf4j-api'
-        exclude group: 'io.qameta.allure', module: 'allure-junit5'
-    }
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     // REST
     testImplementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    testImplementation ('com.squareup.retrofit2:converter-jackson:2.9.0'){
-        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
-    }
+    testImplementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
     testImplementation 'com.squareup.okhttp3:logging-interceptor:3.14.9'
     // DB
     testImplementation 'org.springframework:spring-jdbc:6.0.4'
@@ -114,7 +109,6 @@ dependencies {
     testImplementation "io.qameta.allure:allure-selenide:${allureVersion}"
     testImplementation ("io.qameta.allure:allure-grpc:${allureVersion}"){
         exclude group: 'io.grpc', module: 'grpc-core'
-        exclude group: 'com.google.guava', module: 'guava'
         exclude group: 'com.google.protobuf'
     }
     // WEB
@@ -144,8 +138,6 @@ dependencies {
         exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
         exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
         exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
-        exclude group: 'com.fasterxml.jackson', module: 'jackson-bom'
-        exclude group: 'commons-io', module: 'commons-io'
     }
     testImplementation 'com.github.tomakehurst:wiremock-standalone:2.27.2'
 }
