@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class UserEntityRowMapper implements RowMapper<AuthUserEntity> {
+public class AuthUserEntityRowMapper implements RowMapper<AuthUserEntity> {
 
-    public static final UserEntityRowMapper instance = new UserEntityRowMapper();
+    public static final AuthUserEntityRowMapper instance = new AuthUserEntityRowMapper();
 
     @Override
     public AuthUserEntity mapRow(ResultSet rs, int rowNum) throws SQLException {

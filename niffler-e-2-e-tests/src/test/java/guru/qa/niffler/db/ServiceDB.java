@@ -1,6 +1,7 @@
 package guru.qa.niffler.db;
 
 import guru.qa.niffler.config.Config;
+import org.apache.commons.lang3.StringUtils;
 
 public enum ServiceDB {
     AUTH("jdbc:postgresql://%s:%d/niffler-auth"),
@@ -21,5 +22,9 @@ public enum ServiceDB {
                 cfg.databaseHost(),
                 cfg.databasePort()
         );
+    }
+
+    public String p6spyUrl() {
+        return "jdbc:p6spy:postgresql:" + StringUtils.substringAfter(getUrl(), "jdbc:postgresql:");
     }
 }
