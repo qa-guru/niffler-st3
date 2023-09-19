@@ -2,6 +2,7 @@ package guru.qa.niffler.jupiter.extension;
 
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
+import guru.qa.niffler.db.dao.NifflerUserRepository;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
 import guru.qa.niffler.db.dao.impl.AuthUserDAOHibernate;
 import guru.qa.niffler.db.dao.impl.UserdataUserDAOHibernate;
@@ -24,14 +25,16 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 	@Override
 	public void beforeEach(ExtensionContext context) throws Exception {
 		DBUser annotation = context.getRequiredTestMethod().getAnnotation(DBUser.class);
-		AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
-		UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
+		NifflerUserRepository userRepository = new NifflerUserRepository();
+//		AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
+//		UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
 		if (annotation != null) {
 			AuthUserEntity authUser = createAuthUserEntity(annotation);
-			authUserDAO.createUser(authUser);
-			authUser.setId(authUserDAO.getUser(authUser.getUsername()).getId());
+			userRepository.createUserForTest(authUser);
+//			authUserDAO.createUser(authUser);
+//			authUser.setId(authUserDAO.getUser(authUser.getUsername()).getId());
 			UserDataUserEntity userdataUser = convertUser(authUser);
-			userDataUserDAO.createUserInUserData(userdataUser);
+//			userDataUserDAO.createUserInUserData(userdataUser);
 
 			context.getStore(NAMESPACE).put(getUserKey(context.getUniqueId()), authUser);
 			context.getStore(NAMESPACE).put(getUserDataKey(context.getUniqueId()), userdataUser);
@@ -40,11 +43,13 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 
 	@Override
 	public void afterTestExecution(ExtensionContext context) throws Exception {
-		AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
-		UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
+		NifflerUserRepository userRepository = new NifflerUserRepository();
+//		AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
+//		UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
 		AuthUserEntity user = context.getStore(NAMESPACE).get(getUserKey(context.getUniqueId()), AuthUserEntity.class);
-		userDataUserDAO.deleteUser(convertUser(user));
-		authUserDAO.deleteUser(user);
+		userRepository.removeUserAfterTest(user);
+//		userDataUserDAO.deleteUser(convertUser(user));
+//		authUserDAO.deleteUser(user);
 	}
 
 	@Override

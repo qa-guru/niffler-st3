@@ -8,6 +8,8 @@ import guru.qa.niffler.jupiter.extension.DaoExtension;
 import guru.qa.niffler.page.HeaderPage;
 import guru.qa.niffler.page.MainPage;
 import guru.qa.niffler.page.WelcomePage;
+import io.qameta.allure.Allure;
+import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +30,7 @@ public class LoginTest extends BaseWebTest {
 		headerPage = new HeaderPage();
 	}
 
+	@AllureId("1")
 	@DBUser
 	@Test
 	void mainPageShouldBeVisibleAfterLogInWithCorrectCredsTest(AuthUserEntity user) {
@@ -38,6 +41,9 @@ public class LoginTest extends BaseWebTest {
 		welcomePage.clickSignInButton();
 		mainPage.checkMainPageIsVisible();
 		headerPage.checkLogoutIconIsVisible();
+
+		Allure.addAttachment("xml_example", getClass().getClassLoader()
+				.getResourceAsStream("rest/spend0.json"));
 	}
 
 	@DBUser

@@ -30,7 +30,7 @@ public class UserdataUserDAOHibernate extends JpaService implements UserDataUser
 
 	@Override
 	public UserDataUserEntity getUserData(String username) {
-		return em.createQuery("select u from Users u where u.username=:username", UserDataUserEntity.class)
+		return em.createQuery("select u from UserDataUserEntity u where u.username=:username", UserDataUserEntity.class)
 				.setParameter("username", username)
 				.getSingleResult();
 	}

@@ -22,7 +22,7 @@
 
 <h5>Statement</h5>
 <div>
-    <pre><code>${data.preparedStatement}</code></pre>
+    <pre><code>${data.statement}</code></pre>
 </div>
 <h5>Query</h5>
 <div>
