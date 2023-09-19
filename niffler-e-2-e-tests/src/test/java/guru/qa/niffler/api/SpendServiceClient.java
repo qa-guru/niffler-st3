@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class SpendServiceClient extends RestService {
     public SpendServiceClient() {
-        super(config.nifflerSpendUrl());
+        super(CFG.nifflerSpendUrl());
     }
 
     private final SpendService spendService = retrofit.create(SpendService.class);
