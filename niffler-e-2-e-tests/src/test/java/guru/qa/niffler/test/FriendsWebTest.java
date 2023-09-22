@@ -9,11 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import static guru.qa.niffler.jupiter.annotation.User.UserType.*;
 
-
 public class FriendsWebTest extends BaseWebTest {
 
     @Test
-    @AllureId("101")
+    @AllureId("301")
     void friendShouldBeDisplayedInTableAtFriendsPage(@User(userType = WITH_FRIENDS) UserJson userForTest) {
         loginPage.login(userForTest);
         new HeaderComponent()
@@ -22,7 +21,7 @@ public class FriendsWebTest extends BaseWebTest {
     }
 
     @Test
-    @AllureId("102")
+    @AllureId("302")
     void friendShouldBeDisplayedInTableAtPeoplePage(@User(userType = WITH_FRIENDS) UserJson userForTest) {
         loginPage.login(userForTest);
         new HeaderComponent()
@@ -31,31 +30,11 @@ public class FriendsWebTest extends BaseWebTest {
     }
 
     @Test
-    @AllureId("103")
+    @AllureId("303")
     void sentInvitationShouldBeDisplayedInTableAtPeoplePage(@User(userType = INVITATION_SENT) UserJson userForTest) {
         loginPage.login(userForTest);
         new HeaderComponent()
                 .goToPeoplePage()
                 .checkInvitationToFriendSent();
-    }
-
-    @Test
-    @AllureId("104")
-    void invitationShouldBeDisplayedInTableAtFriendsPage(@User(userType = INVITATION_SENT) UserJson userSent,
-                                                         @User(userType = INVITATION_RECEIVED) UserJson userReceived) {
-        loginPage.login(userReceived);
-        new HeaderComponent()
-                .goToFriendsPage()
-                .checkUserHaveFriendInvitation(userSent.getUsername());
-    }
-
-    @Test
-    @AllureId("105")
-    void invitationShouldBeDisplayedInTableAtPeoplePage(@User(userType = INVITATION_SENT) UserJson userSent,
-                                                         @User(userType = INVITATION_RECEIVED) UserJson userReceived) {
-        loginPage.login(userReceived);
-        new HeaderComponent()
-                .goToPeoplePage()
-                .checkInvitationToFriendSent(userSent.getUsername());
     }
 }

@@ -3,8 +3,8 @@ package guru.qa.niffler.jupiter.extension;
 import com.github.javafaker.Faker;
 import guru.qa.niffler.db.dao.AuthUserDAO;
 import guru.qa.niffler.db.dao.UserDataUserDAO;
-import guru.qa.niffler.db.dao.impl.AuthUserDAOHibernate;
-import guru.qa.niffler.db.dao.impl.UserDataUserDAOHibernate;
+import guru.qa.niffler.db.dao.impl.AuthUserDAOSpringJdbc;
+import guru.qa.niffler.db.dao.impl.UserDataUserDAOSpringJdbc;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
@@ -14,13 +14,15 @@ import guru.qa.niffler.model.CurrencyValues;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.extension.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class DBUserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback  {
 
     public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(DBUserExtension.class);
-    private static final AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
-    private static final UserDataUserDAO userDataUserDAO = new UserDataUserDAOHibernate();
+    private static final AuthUserDAO authUserDAO = new AuthUserDAOSpringJdbc();
+    private static final UserDataUserDAO userDataUserDAO = new UserDataUserDAOSpringJdbc();
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
@@ -34,13 +36,13 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
             user.setAccountNonExpired(true);
             user.setAccountNonLocked(true);
             user.setCredentialsNonExpired(true);
-            user.setAuthorities(Arrays.stream(Authority.values())
+            user.setAuthorities(new ArrayList<>(Arrays.stream(Authority.values())
                     .map(a -> {
                         AuthorityEntity ae = new AuthorityEntity();
                         ae.setAuthority(a);
                         ae.setUser(user);
                         return ae;
-                    }).toList());
+                    }).collect(Collectors.toList())));
             authUserDAO.createUser(user);
             UserDataUserEntity userData = new UserDataUserEntity();
             userData.setUsername(user.getUsername());

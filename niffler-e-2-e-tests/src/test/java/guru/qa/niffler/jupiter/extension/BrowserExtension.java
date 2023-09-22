@@ -1,9 +1,10 @@
 package guru.qa.niffler.jupiter.extension;
 
-import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
 import org.openqa.selenium.OutputType;
@@ -11,12 +12,23 @@ import org.openqa.selenium.TakesScreenshot;
 
 import java.io.ByteArrayInputStream;
 
-public class BrowserExtension implements AfterEachCallback, TestExecutionExceptionHandler {
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.Selenide.open;
+
+public class BrowserExtension implements BeforeEachCallback,AfterEachCallback, TestExecutionExceptionHandler {
+
+
+    @Override
+    public void beforeEach(ExtensionContext extensionContext) throws Exception {
+        Configuration.browser = "chrome";
+        Configuration.browserSize = "1980x1024";
+        open("http://127.0.0.1:3000/main");
+    }
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
         if (WebDriverRunner.hasWebDriverStarted()) {
-            Selenide.closeWebDriver();
+            closeWebDriver();
         }
     }
 
