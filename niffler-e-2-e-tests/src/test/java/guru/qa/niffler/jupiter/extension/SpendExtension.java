@@ -11,7 +11,6 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
 
     public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(SpendExtension.class);
 
-
     private SpendServiceClient spendService = new SpendServiceClient();
 
     @Override

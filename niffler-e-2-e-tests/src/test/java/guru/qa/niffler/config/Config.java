@@ -11,6 +11,8 @@ public interface Config {
 
     String databaseHost();
 
+    String nifflerFrontUrl();
+
     String nifflerSpendUrl();
 
     default String databaseUser() {
@@ -24,4 +26,6 @@ public interface Config {
     default int databasePort() {
         return 5432;
     }
+
+    String nifflerAuthUrl();
 }

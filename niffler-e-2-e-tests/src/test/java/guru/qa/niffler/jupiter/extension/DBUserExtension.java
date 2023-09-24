@@ -1,14 +1,12 @@
 package guru.qa.niffler.jupiter.extension;
 
 import com.github.javafaker.Faker;
-import guru.qa.niffler.db.dao.AuthUserDAO;
-import guru.qa.niffler.db.dao.UserDataUserDAO;
-import guru.qa.niffler.db.dao.impl.AuthUserDAOSpringJdbc;
-import guru.qa.niffler.db.dao.impl.UserDataUserDAOSpringJdbc;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
+import guru.qa.niffler.db.repository.UserRepository;
+import guru.qa.niffler.db.repository.UserRepositorySpringJdbc;
 import guru.qa.niffler.jupiter.annotation.DBUser;
 import guru.qa.niffler.model.CurrencyValues;
 import io.qameta.allure.AllureId;
@@ -21,8 +19,7 @@ import java.util.stream.Collectors;
 public class DBUserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback  {
 
     public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(DBUserExtension.class);
-    private static final AuthUserDAO authUserDAO = new AuthUserDAOSpringJdbc();
-    private static final UserDataUserDAO userDataUserDAO = new UserDataUserDAOSpringJdbc();
+    private UserRepository userRepository = new UserRepositorySpringJdbc();
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
@@ -43,12 +40,11 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
                         ae.setUser(user);
                         return ae;
                     }).collect(Collectors.toList())));
-            authUserDAO.createUser(user);
+            userRepository.createUserForTest(user);
             UserDataUserEntity userData = new UserDataUserEntity();
             userData.setUsername(user.getUsername());
             userData.setCurrency(CurrencyValues.RUB);
 
-            userDataUserDAO.createUserInUserData(userData);
             context.getStore(NAMESPACE).put(getAllureId(context), user);
         }
     }
@@ -70,8 +66,7 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
         AuthUserEntity userFromTest = context.getStore(NAMESPACE).get(getAllureId(context), AuthUserEntity.class);
-        authUserDAO.deleteUser(userFromTest);
-        userDataUserDAO.deleteUserByNameInUserData(userFromTest.getUsername());
+        userRepository.removeAfterTest(userFromTest);
     }
 
     private String getAllureId(ExtensionContext context) {

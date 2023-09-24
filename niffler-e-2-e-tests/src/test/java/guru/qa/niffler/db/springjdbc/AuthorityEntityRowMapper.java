@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class AuthorityEntityRowMapper implements RowMapper<AuthorityEntity> {
 
@@ -13,8 +14,9 @@ public class AuthorityEntityRowMapper implements RowMapper<AuthorityEntity> {
 
     @Override
     public AuthorityEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-        AuthorityEntity authorityEntity = new AuthorityEntity();
-        authorityEntity.setAuthority(Authority.valueOf(rs.getString("authority")));
-        return authorityEntity;
+        AuthorityEntity user = new AuthorityEntity();
+        user.setId(rs.getObject("id", UUID.class));
+        user.setAuthority(Authority.valueOf(rs.getString("authority")));
+        return user;
     }
 }

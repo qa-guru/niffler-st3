@@ -82,7 +82,10 @@ sourceSets {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     // REST
-    testImplementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    testImplementation ('com.squareup.retrofit2:retrofit:2.9.0') {
+        exclude group: 'com.squareup.okhttp3'
+        exclude group: 'com.squareup.okio'
+    }
     testImplementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
     testImplementation 'com.squareup.okhttp3:logging-interceptor:3.14.9'
     // DB
