@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface ApiLogin {
 
-	String username() default "ivanov";
+	String username() default "";
 
-	String password() default "12345678";
+	String password() default "";
 }

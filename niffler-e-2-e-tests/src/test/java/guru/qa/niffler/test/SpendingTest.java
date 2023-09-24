@@ -39,8 +39,7 @@ public class SpendingTest extends BaseWebTest {
 	}
 
 	@DBUser
-//	@ApiLogin(username = "", password = "")
-	@ApiLogin()
+	@ApiLogin
 	@Test
 	void createSpendingTest() {
 		alertPopup = new AlertPopup();

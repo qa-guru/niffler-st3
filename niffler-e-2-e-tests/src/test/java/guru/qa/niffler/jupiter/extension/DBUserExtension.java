@@ -28,7 +28,7 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 		NifflerUserRepository userRepository = new NifflerUserRepository();
 //		AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
 //		UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
-		if (annotation != null) {
+		if (annotation == null) {
 			AuthUserEntity authUser = createAuthUserEntity(annotation);
 			userRepository.createUserForTest(authUser);
 //			authUserDAO.createUser(authUser);
@@ -54,13 +54,12 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 
 	@Override
 	public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-		return parameterContext.getParameter().getType().isAssignableFrom(AuthUserEntity.class) &&
-				extensionContext.getTestMethod().isPresent() &&
-				extensionContext.getTestMethod().get().isAnnotationPresent(DBUser.class);
+		return parameterContext.getParameter().getType().isAssignableFrom(AuthUserEntity.class)
+				&& extensionContext.getRequiredTestMethod().isAnnotationPresent(DBUser.class);
 	}
 	@Override
 	public AuthUserEntity resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-		return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId() + "user", AuthUserEntity.class);
+		return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), AuthUserEntity.class);
 	}
 
 	private AuthUserEntity createAuthUserEntity (DBUser annotation){
@@ -90,11 +89,15 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
 		return user;
 	}
 
-	private String getUserKey(String uniqueId) {
+	private static String getUserKey(String uniqueId) {
 		return uniqueId + "user";
 	}
 
 	private String getUserDataKey(String uniqueId) {
 		return uniqueId + "userdata";
+	}
+
+	public static AuthUserEntity getContextUser(ExtensionContext extensionContext){
+		return extensionContext.getStore(NAMESPACE).get(getUserKey(extensionContext.getUniqueId()), AuthUserEntity.class);
 	}
 }
