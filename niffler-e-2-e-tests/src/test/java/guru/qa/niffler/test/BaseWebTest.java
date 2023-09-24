@@ -10,10 +10,8 @@ import guru.qa.niffler.page.components.HeaderComponent;
 public abstract class BaseWebTest {
 
     protected static final Config CFG = Config.getInstance();
-
     protected LoginPage loginPage = new LoginPage();
     protected HeaderComponent headerComponent = new HeaderComponent();
     protected Faker faker = new Faker();
-
     protected static final String defaultPassword = "12345";
 }

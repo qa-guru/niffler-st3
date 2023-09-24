@@ -13,7 +13,6 @@ import org.openqa.selenium.TakesScreenshot;
 import java.io.ByteArrayInputStream;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
-import static com.codeborne.selenide.Selenide.open;
 
 public class BrowserExtension implements BeforeEachCallback,AfterEachCallback, TestExecutionExceptionHandler {
 
@@ -22,7 +21,6 @@ public class BrowserExtension implements BeforeEachCallback,AfterEachCallback, T
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
         Configuration.browser = "chrome";
         Configuration.browserSize = "1980x1024";
-        open("http://127.0.0.1:3000/main");
     }
 
     @Override

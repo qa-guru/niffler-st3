@@ -9,7 +9,6 @@ import guru.qa.niffler.db.repository.UserRepository;
 import guru.qa.niffler.db.repository.UserRepositorySpringJdbc;
 import guru.qa.niffler.jupiter.annotation.DBUser;
 import guru.qa.niffler.model.CurrencyValues;
-import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.extension.*;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class DBUserExtension implements BeforeEachCallback, ParameterResolver, AfterTestExecutionCallback  {
 
     public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(DBUserExtension.class);
-    private UserRepository userRepository = new UserRepositorySpringJdbc();
+    private final UserRepository userRepository = new UserRepositorySpringJdbc();
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
@@ -45,7 +44,7 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
             userData.setUsername(user.getUsername());
             userData.setCurrency(CurrencyValues.RUB);
 
-            context.getStore(NAMESPACE).put(getAllureId(context), user);
+            context.getStore(NAMESPACE).put(context.getUniqueId(), user);
         }
     }
 
@@ -60,20 +59,12 @@ public class DBUserExtension implements BeforeEachCallback, ParameterResolver, A
     public AuthUserEntity resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return extensionContext
                 .getStore(NAMESPACE)
-                .get(getAllureId(extensionContext), AuthUserEntity.class);
+                .get(extensionContext.getUniqueId(), AuthUserEntity.class);
     }
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
-        AuthUserEntity userFromTest = context.getStore(NAMESPACE).get(getAllureId(context), AuthUserEntity.class);
+        AuthUserEntity userFromTest = context.getStore(NAMESPACE).get(context.getUniqueId(), AuthUserEntity.class);
         userRepository.removeAfterTest(userFromTest);
-    }
-
-    private String getAllureId(ExtensionContext context) {
-        AllureId allureId = context.getRequiredTestMethod().getAnnotation(AllureId.class);
-        if (allureId == null) {
-            throw new IllegalStateException("Annotation @AllureId must be present!");
-        }
-        return allureId.value();
     }
 }

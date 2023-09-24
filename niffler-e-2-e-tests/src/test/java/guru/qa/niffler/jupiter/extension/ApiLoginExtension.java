@@ -6,7 +6,9 @@ import guru.qa.niffler.api.AuthServiceClient;
 import guru.qa.niffler.api.context.CookieContext;
 import guru.qa.niffler.api.context.SessionStorageContext;
 import guru.qa.niffler.config.Config;
+import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.jupiter.annotation.ApiLogin;
+import guru.qa.niffler.jupiter.annotation.DBUser;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -14,15 +16,25 @@ import org.openqa.selenium.Cookie;
 
 import java.io.IOException;
 
+import static guru.qa.niffler.jupiter.extension.DBUserExtension.NAMESPACE;
+
 public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecutionCallback {
 
     private final AuthServiceClient authServiceClient = new AuthServiceClient();
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
-        ApiLogin annotation = extensionContext.getRequiredTestMethod().getAnnotation(ApiLogin.class);
-        if (annotation != null) {
-            doLogin(annotation.username(), annotation.password());
+        ApiLogin annotationLogin = extensionContext.getRequiredTestMethod().getAnnotation(ApiLogin.class);
+        if (annotationLogin != null) {
+            String userName = annotationLogin.username();
+            String password = annotationLogin.password();
+            DBUser dbUser = extensionContext.getRequiredTestMethod().getAnnotation(DBUser.class);
+            if (dbUser != null) {
+                AuthUserEntity userFromTest = extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), AuthUserEntity.class);
+                userName = userFromTest.getUsername();
+                password = userFromTest.getPassword();
+            }
+            doLogin(userName, password);
         }
     }
 
