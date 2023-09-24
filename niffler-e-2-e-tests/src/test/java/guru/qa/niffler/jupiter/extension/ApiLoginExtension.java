@@ -15,21 +15,25 @@ import org.openqa.selenium.Cookie;
 
 import java.io.IOException;
 
-import static guru.qa.niffler.jupiter.extension.DBUserExtension.getContextUser;
-
 public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecutionCallback {
 
 	private final AuthServiceClient authServiceClient = new AuthServiceClient();
 
 	@Override
 	public void beforeEach(ExtensionContext extensionContext) {
+		String username;
+		String password;
 		ApiLogin annotation = extensionContext.getRequiredTestMethod().getAnnotation(ApiLogin.class);
-		if (annotation != null) {
-			if (annotation.username().equals("")) {
-				AuthUserEntity user = getContextUser(extensionContext);
-				doLogin(user.getUsername(), user.getPassword());
-			} else doLogin(annotation.username(), annotation.password());
+		if (annotation.username().equals("") || annotation.password().equals("")) {
+			AuthUserEntity dbUser = DBUserExtension.getContextUser(extensionContext);
+			username = dbUser.getUsername();
+			password = dbUser.getPassword();
 		}
+		else {
+			username = annotation.username();
+			password = annotation.password();
+		}
+		doLogin(username, password);
 	}
 
 	private void doLogin(String username, String password) {
@@ -51,7 +55,7 @@ public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecution
 	}
 
 	@Override
-	public void afterTestExecution(ExtensionContext extensionCcontext) throws Exception {
+	public void afterTestExecution(ExtensionContext extensionContext) {
 		SessionStorageContext.getInstance().clearContext();
 		CookieContext.getInstance().clearContext();
 	}
