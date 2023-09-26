@@ -32,6 +32,7 @@ public class UserDataService {
     private static final Logger LOG = LoggerFactory.getLogger(UserDataService.class);
 
     private static final CurrencyValues DEFAULT_USER_CURRENCY = CurrencyValues.RUB;
+
     private final UserRepository userRepository;
 
     @Autowired
@@ -203,7 +204,7 @@ public class UserDataService {
                 .toList();
     }
 
-    private @Nonnull UserEntity getRequiredUser(@Nonnull String username) {
+    @Nonnull UserEntity getRequiredUser(@Nonnull String username) {
         UserEntity user = userRepository.findByUsername(username);
         if (user == null) {
             throw new NotFoundException("Can`t find user by username: " + username);

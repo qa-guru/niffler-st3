@@ -127,6 +127,19 @@ public class UserEntity {
         this.friends.addAll(friendsEntities);
     }
 
+    public void addInvites(UserEntity... invites) {
+        List<FriendsEntity> friendsEntities = Stream.of(invites)
+                .map(f -> {
+                    FriendsEntity fe = new FriendsEntity();
+                    fe.setUser(f);
+                    fe.setFriend(this);
+                    fe.setPending(true);
+                    return fe;
+                }).toList();
+
+        this.invites.addAll(friendsEntities);
+    }
+
     public void removeFriends(UserEntity... friends) {
         for (UserEntity friend : friends) {
             getFriends().removeIf(f -> f.getFriend().getId().equals(friend.getId()));
@@ -137,20 +150,5 @@ public class UserEntity {
         for (UserEntity invite : invitations) {
             getInvites().removeIf(i -> i.getUser().getId().equals(invite.getId()));
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(username, that.username) && currency == that.currency && Objects.equals(firstname, that.firstname) && Objects.equals(surname, that.surname) && Arrays.equals(photo, that.photo) && Objects.equals(friends, that.friends) && Objects.equals(invites, that.invites);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(id, username, currency, firstname, surname, friends, invites);
-        result = 31 * result + Arrays.hashCode(photo);
-        return result;
     }
 }

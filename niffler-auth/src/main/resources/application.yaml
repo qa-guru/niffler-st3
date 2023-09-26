@@ -38,7 +38,7 @@ spring:
 logging:
   level:
     root: INFO
-    org.springframework.kafka: DEBUG
+    org.springframework.kafka: INFO
     org.springframework.web: INFO
     org.springframework.security: INFO
     org.springframework.security.oauth2: INFO
