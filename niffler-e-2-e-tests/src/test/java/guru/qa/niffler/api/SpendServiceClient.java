@@ -5,10 +5,10 @@ import io.qameta.allure.Step;
 
 import java.io.IOException;
 
-public class SpendServiceClient extends RestService{
+public class SpendServiceClient extends RestService {
 
 	public SpendServiceClient() {
-		super(config.nifflerSpendUrl());
+		super(CFG.nifflerSpendUrl());
 	}
 
 	private final SpendService spendService = retrofit.create(SpendService.class);
@@ -16,5 +16,5 @@ public class SpendServiceClient extends RestService{
 	@Step("Create spend")
 	public SpendJson addSpend(SpendJson spend) throws IOException {
 		return spendService.addSpend(spend).execute().body();
-	};
+	}
 }

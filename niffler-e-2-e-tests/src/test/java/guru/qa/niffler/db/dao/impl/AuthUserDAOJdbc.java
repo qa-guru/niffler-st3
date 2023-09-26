@@ -18,6 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import static guru.qa.niffler.db.model.CurrencyValues.RUB;
+
 public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	private static DataSource authDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.AUTH);
@@ -114,7 +116,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 							"VALUES (?, ?)",
 					PreparedStatement.RETURN_GENERATED_KEYS)) {
 				usersPs.setString(1, user.getUsername());
-				usersPs.setString(2, CurrencyValues.RUB.name());
+				usersPs.setString(2, RUB.name());
 				createdRows = usersPs.executeUpdate();
 			}
 		} catch (SQLException e) {
@@ -268,7 +270,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 					user.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
 					user.setFirstname(rs.getString("firstname"));
 					user.setSurname(rs.getString("surname"));
-					user.setPhoto(rs.getString("photo").getBytes());
+//					user.setPhoto(rs.getString("photo").getBytes());
 				}
 			}
 		} catch (SQLException e) {
