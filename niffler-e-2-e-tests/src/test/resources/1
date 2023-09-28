@@ -1,0 +1,491 @@
++--- jakarta.xml.bind:jakarta.xml.bind-api:4.0.0
+|    \--- jakarta.activation:jakarta.activation-api:2.1.0
++--- org.junit.jupiter:junit-jupiter:5.10.0
+|    +--- org.junit:junit-bom:5.10.0
+|    |    +--- org.junit.jupiter:junit-jupiter:5.10.0 (c)
+|    |    +--- org.junit.jupiter:junit-jupiter-api:5.10.0 (c)
+|    |    +--- org.junit.jupiter:junit-jupiter-engine:5.10.0 (c)
+|    |    +--- org.junit.jupiter:junit-jupiter-params:5.10.0 (c)
+|    |    +--- org.junit.platform:junit-platform-commons:1.10.0 (c)
+|    |    \--- org.junit.platform:junit-platform-engine:1.10.0 (c)
+|    +--- org.junit.jupiter:junit-jupiter-api:5.10.0
+|    |    +--- org.junit:junit-bom:5.10.0 (*)
+|    |    +--- org.opentest4j:opentest4j:1.3.0
+|    |    \--- org.junit.platform:junit-platform-commons:1.10.0
+|    |         \--- org.junit:junit-bom:5.10.0 (*)
+|    +--- org.junit.jupiter:junit-jupiter-params:5.10.0
+|    |    +--- org.junit:junit-bom:5.10.0 (*)
+|    |    \--- org.junit.jupiter:junit-jupiter-api:5.10.0 (*)
+|    \--- org.junit.jupiter:junit-jupiter-engine:5.10.0grpc-common
+|         +--- org.junit:junit-bom:5.10.0 (*)
+|         +--- org.junit.platform:junit-platform-engine:1.10.0
+|         |    +--- org.junit:junit-bom:5.10.0 (*)
+|         |    +--- org.opentest4j:opentest4j:1.3.0
+|         |    \--- org.junit.platform:junit-platform-commons:1.10.0 (*)
+|         \--- org.junit.jupiter:junit-jupiter-api:5.10.0 (*)
++--- com.squareup.retrofit2:retrofit:2.9.0
+|    \--- com.squareup.okhttp3:okhttp:3.14.9
+|         \--- com.squareup.okio:okio:1.17.2
++--- com.squareup.retrofit2:converter-jackson:2.9.0
+|    \--- com.squareup.retrofit2:retrofit:2.9.0 (*)
++--- com.squareup.okhttp3:logging-interceptor:3.14.9
+|    \--- com.squareup.okhttp3:okhttp:3.14.9 (*)
++--- org.springframework:spring-jdbc:6.0.4
+|    +--- org.springframework:spring-beans:6.0.4
+|    |    \--- org.springframework:spring-core:6.0.4
+|    |         \--- org.springframework:spring-jcl:6.0.4
+|    +--- org.springframework:spring-core:6.0.4 (*)
+|    \--- org.springframework:spring-tx:6.0.4
+|         +--- org.springframework:spring-beans:6.0.4 (*)
+|         \--- org.springframework:spring-core:6.0.4 (*)
++--- org.postgresql:postgresql:42.5.3
+|    \--- org.checkerframework:checker-qual:3.5.0 -> 3.33.0
++--- p6spy:p6spy:3.9.1
++--- org.hibernate:hibernate-core:6.1.7.Final
+|    \--- org.hibernate.orm:hibernate-core:6.1.7.Final
+|         +--- jakarta.persistence:jakarta.persistence-api:3.0.0
+|         +--- jakarta.transaction:jakarta.transaction-api:2.0.0
+|         +--- org.jboss.logging:jboss-logging:3.4.3.Final
+|         +--- org.hibernate.common:hibernate-commons-annotations:6.0.6.Final
+|         +--- org.jboss:jandex:2.4.2.Final
+|         +--- com.fasterxml:classmate:1.5.1
+|         +--- net.bytebuddy:byte-buddy:1.12.18 -> 1.14.4
+|         +--- org.glassfish.jaxb:jaxb-runtime:3.0.2
+|         |    +--- com.sun.activation:jakarta.activation:2.0.1
+|         |    \--- org.glassfish.jaxb:jaxb-core:3.0.2
+|         |         +--- com.sun.activation:jakarta.activation:2.0.1
+|         |         +--- org.glassfish.jaxb:txw2:3.0.2
+|         |         \--- com.sun.istack:istack-commons-runtime:4.0.1
+|         +--- jakarta.inject:jakarta.inject-api:2.0.0
+|         \--- org.antlr:antlr4-runtime:4.10.1
++--- com.github.vertical-blank:sql-formatter:2.0.3
++--- org.springframework.security:spring-security-crypto:6.1.0
++--- io.qameta.allure:allure-attachments:2.21.0
+|    +--- io.qameta.allure:allure-java-commons:2.21.0
+|    |    +--- org.slf4j:slf4j-api:1.7.36 -> 2.0.7
+|    |    \--- io.qameta.allure:allure-model:2.21.0
+|    \--- org.freemarker:freemarker:2.3.31
++--- io.qameta.allure:allure-junit5:2.21.0
+|    \--- io.qameta.allure:allure-junit-platform:2.21.0
+|         +--- io.qameta.allure:allure-java-commons:2.21.0 (*)
+|         \--- io.qameta.allure:allure-test-filter:2.21.0
+|              \--- io.qameta.allure:allure-java-commons:2.21.0 (*)
++--- io.qameta.allure:allure-selenide:2.21.0
+|    \--- io.qameta.allure:allure-java-commons:2.21.0 (*)
++--- io.qameta.allure:allure-okhttp3:2.21.0
+|    +--- io.qameta.allure:allure-attachments:2.21.0 (*)
+|    \--- com.squareup.okhttp3:okhttp:3.14.9 (*)
++--- io.qameta.allure:allure-grpc:2.21.0
+|    +--- io.qameta.allure:allure-attachments:2.21.0 (*)
+|    \--- com.google.protobuf:protobuf-java-util:3.21.11
+|         +--- com.google.protobuf:protobuf-java:3.21.11 -> 3.21.12
+|         +--- com.google.errorprone:error_prone_annotations:2.5.1 -> 2.18.0
+|         +--- com.google.j2objc:j2objc-annotations:1.3 -> 2.8
+|         +--- com.google.code.findbugs:jsr305:3.0.2
+|         \--- com.google.code.gson:gson:2.8.9 -> 2.9.0
++--- com.codeborne:selenide:6.17.0
+|    +--- com.google.guava:guava:32.1.2-jre
+|    |    +--- com.google.guava:guava-parent:32.1.2-jre
+|    |    |    +--- com.google.code.findbugs:jsr305:3.0.2 (c)
+|    |    |    +--- org.checkerframework:checker-qual:3.33.0 (c)
+|    |    |    +--- com.google.errorprone:error_prone_annotations:2.18.0 (c)
+|    |    |    \--- com.google.j2objc:j2objc-annotations:2.8 (c)
+|    |    +--- com.google.guava:failureaccess:1.0.1
+|    |    +--- com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava
+|    |    +--- com.google.code.findbugs:jsr305 -> 3.0.2
+|    |    +--- org.checkerframework:checker-qual -> 3.33.0
+|    |    \--- com.google.errorprone:error_prone_annotations -> 2.18.0
+|    +--- org.apache.commons:commons-lang3:3.13.0
+|    +--- commons-io:commons-io:2.13.0
+|    +--- org.seleniumhq.selenium:selenium-java:4.11.0
+|    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    +--- org.seleniumhq.selenium:selenium-chrome-driver:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    +--- org.seleniumhq.selenium:selenium-chromium-driver:4.11.0
+|    |    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    |    +--- org.seleniumhq.selenium:selenium-json:4.11.0
+|    |    |    |    |    \--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0
+|    |    |    |         +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    |         +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    |         +--- io.netty:netty-buffer:4.1.92.Final
+|    |    |    |         |    \--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         +--- io.netty:netty-codec-http:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport:4.1.92.Final
+|    |    |    |         |    |    +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |    |    +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |    |    \--- io.netty:netty-resolver:4.1.92.Final
+|    |    |    |         |    |         \--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-codec:4.1.92.Final
+|    |    |    |         |    |    +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |    |    +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |    |    \--- io.netty:netty-transport:4.1.92.Final (*)
+|    |    |    |         |    \--- io.netty:netty-handler:4.1.92.Final
+|    |    |    |         |         +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |         +--- io.netty:netty-resolver:4.1.92.Final (*)
+|    |    |    |         |         +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |         +--- io.netty:netty-transport:4.1.92.Final (*)
+|    |    |    |         |         +--- io.netty:netty-transport-native-unix-common:4.1.92.Final
+|    |    |    |         |         |    +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |         |    +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |         |    \--- io.netty:netty-transport:4.1.92.Final (*)
+|    |    |    |         |         \--- io.netty:netty-codec:4.1.92.Final (*)
+|    |    |    |         +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         +--- io.netty:netty-transport-classes-epoll:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport:4.1.92.Final (*)
+|    |    |    |         |    \--- io.netty:netty-transport-native-unix-common:4.1.92.Final (*)
+|    |    |    |         +--- io.netty:netty-transport-classes-kqueue:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport:4.1.92.Final (*)
+|    |    |    |         |    \--- io.netty:netty-transport-native-unix-common:4.1.92.Final (*)
+|    |    |    |         +--- io.netty:netty-transport-native-epoll:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport:4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport-native-unix-common:4.1.92.Final (*)
+|    |    |    |         |    \--- io.netty:netty-transport-classes-epoll:4.1.92.Final (*)
+|    |    |    |         +--- io.netty:netty-transport-native-kqueue:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-common:4.1.92.Final
+|    |    |    |         |    +--- io.netty:netty-buffer:4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport:4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport-native-unix-common:4.1.92.Final (*)
+|    |    |    |         |    \--- io.netty:netty-transport-classes-kqueue:4.1.92.Final (*)
+|    |    |    |         +--- io.netty:netty-transport-native-unix-common:4.1.92.Final (*)
+|    |    |    |         +--- io.netty:netty-transport:4.1.92.Final (*)
+|    |    |    |         +--- io.opentelemetry:opentelemetry-api:1.26.0
+|    |    |    |         |    \--- io.opentelemetry:opentelemetry-context:1.26.0
+|    |    |    |         +--- io.opentelemetry:opentelemetry-context:1.26.0
+|    |    |    |         +--- io.opentelemetry:opentelemetry-exporter-logging:1.26.0
+|    |    |    |         |    +--- io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi:1.26.0
+|    |    |    |         |    |    +--- io.opentelemetry:opentelemetry-sdk-metrics:1.26.0
+|    |    |    |         |    |    |    +--- io.opentelemetry:opentelemetry-extension-incubator:1.26.0-alpha
+|    |    |    |         |    |    |    |    \--- io.opentelemetry:opentelemetry-api:1.26.0 (*)
+|    |    |    |         |    |    |    +--- io.opentelemetry:opentelemetry-api:1.26.0 (*)
+|    |    |    |         |    |    |    \--- io.opentelemetry:opentelemetry-sdk-common:1.26.0
+|    |    |    |         |    |    |         +--- io.opentelemetry:opentelemetry-semconv:1.26.0-alpha
+|    |    |    |         |    |    |         |    \--- io.opentelemetry:opentelemetry-api:1.26.0 (*)
+|    |    |    |         |    |    |         \--- io.opentelemetry:opentelemetry-api:1.26.0 (*)
+|    |    |    |         |    |    +--- io.opentelemetry:opentelemetry-sdk-logs:1.26.0-alpha
+|    |    |    |         |    |    |    +--- io.opentelemetry:opentelemetry-api-logs:1.26.0-alpha
+|    |    |    |         |    |    |    |    \--- io.opentelemetry:opentelemetry-api:1.26.0 (*)
+|    |    |    |         |    |    |    +--- io.opentelemetry:opentelemetry-api-events:1.26.0-alpha
+|    |    |    |         |    |    |    |    \--- io.opentelemetry:opentelemetry-api:1.26.0 (*)
+|    |    |    |         |    |    |    \--- io.opentelemetry:opentelemetry-sdk-common:1.26.0 (*)
+|    |    |    |         |    |    \--- io.opentelemetry:opentelemetry-sdk:1.26.0
+|    |    |    |         |    |         +--- io.opentelemetry:opentelemetry-sdk-logs:1.26.0-alpha (*)
+|    |    |    |         |    |         +--- io.opentelemetry:opentelemetry-api:1.26.0 (*)
+|    |    |    |         |    |         +--- io.opentelemetry:opentelemetry-sdk-common:1.26.0 (*)
+|    |    |    |         |    |         +--- io.opentelemetry:opentelemetry-sdk-trace:1.26.0
+|    |    |    |         |    |         |    +--- io.opentelemetry:opentelemetry-semconv:1.26.0-alpha (*)
+|    |    |    |         |    |         |    +--- io.opentelemetry:opentelemetry-api:1.26.0 (*)
+|    |    |    |         |    |         |    \--- io.opentelemetry:opentelemetry-sdk-common:1.26.0 (*)
+|    |    |    |         |    |         \--- io.opentelemetry:opentelemetry-sdk-metrics:1.26.0 (*)
+|    |    |    |         |    +--- io.opentelemetry:opentelemetry-sdk:1.26.0 (*)
+|    |    |    |         |    +--- io.opentelemetry:opentelemetry-sdk-metrics:1.26.0 (*)
+|    |    |    |         |    \--- io.opentelemetry:opentelemetry-sdk-logs:1.26.0-alpha (*)
+|    |    |    |         +--- io.opentelemetry:opentelemetry-sdk-common:1.26.0 (*)
+|    |    |    |         +--- io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi:1.26.0 (*)
+|    |    |    |         +--- io.opentelemetry:opentelemetry-sdk-extension-autoconfigure:1.26.0-alpha
+|    |    |    |         |    +--- io.opentelemetry:opentelemetry-semconv:1.26.0-alpha (*)
+|    |    |    |         |    +--- io.opentelemetry:opentelemetry-sdk:1.26.0 (*)
+|    |    |    |         |    +--- io.opentelemetry:opentelemetry-sdk-metrics:1.26.0 (*)
+|    |    |    |         |    +--- io.opentelemetry:opentelemetry-sdk-logs:1.26.0-alpha (*)
+|    |    |    |         |    \--- io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi:1.26.0 (*)
+|    |    |    |         +--- io.opentelemetry:opentelemetry-sdk-trace:1.26.0 (*)
+|    |    |    |         +--- io.opentelemetry:opentelemetry-sdk:1.26.0 (*)
+|    |    |    |         +--- io.opentelemetry:opentelemetry-semconv:1.26.0-alpha (*)
+|    |    |    |         +--- net.bytebuddy:byte-buddy:1.14.4
+|    |    |    |         +--- org.apache.commons:commons-exec:1.3
+|    |    |    |         +--- org.asynchttpclient:async-http-client:2.12.3
+|    |    |    |         |    +--- org.asynchttpclient:async-http-client-netty-utils:2.12.3
+|    |    |    |         |    |    +--- io.netty:netty-buffer:4.1.60.Final -> 4.1.92.Final (*)
+|    |    |    |         |    |    \--- com.sun.activation:jakarta.activation:1.2.2 -> 2.0.1
+|    |    |    |         |    +--- io.netty:netty-codec-http:4.1.60.Final -> 4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-handler:4.1.60.Final -> 4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-codec-socks:4.1.60.Final -> 4.1.79.Final
+|    |    |    |         |    |    +--- io.netty:netty-common:4.1.79.Final -> 4.1.92.Final
+|    |    |    |         |    |    +--- io.netty:netty-buffer:4.1.79.Final -> 4.1.92.Final (*)
+|    |    |    |         |    |    +--- io.netty:netty-transport:4.1.79.Final -> 4.1.92.Final (*)
+|    |    |    |         |    |    \--- io.netty:netty-codec:4.1.79.Final -> 4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-handler-proxy:4.1.60.Final -> 4.1.79.Final
+|    |    |    |         |    |    +--- io.netty:netty-common:4.1.79.Final -> 4.1.92.Final
+|    |    |    |         |    |    +--- io.netty:netty-buffer:4.1.79.Final -> 4.1.92.Final (*)
+|    |    |    |         |    |    +--- io.netty:netty-transport:4.1.79.Final -> 4.1.92.Final (*)
+|    |    |    |         |    |    +--- io.netty:netty-codec:4.1.79.Final -> 4.1.92.Final (*)
+|    |    |    |         |    |    +--- io.netty:netty-codec-socks:4.1.79.Final (*)
+|    |    |    |         |    |    \--- io.netty:netty-codec-http:4.1.79.Final -> 4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport-native-epoll:4.1.60.Final -> 4.1.92.Final (*)
+|    |    |    |         |    +--- io.netty:netty-transport-native-kqueue:4.1.60.Final -> 4.1.92.Final (*)
+|    |    |    |         |    +--- org.reactivestreams:reactive-streams:1.0.3
+|    |    |    |         |    +--- com.typesafe.netty:netty-reactive-streams:2.0.4
+|    |    |    |         |    |    +--- io.netty:netty-handler:4.1.43.Final -> 4.1.92.Final (*)
+|    |    |    |         |    |    \--- org.reactivestreams:reactive-streams:1.0.3
+|    |    |    |         |    \--- com.sun.activation:jakarta.activation:1.2.2 -> 2.0.1
+|    |    |    |         +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    |         +--- org.seleniumhq.selenium:selenium-http:4.11.0
+|    |    |    |         |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    |         |    +--- dev.failsafe:failsafe:3.3.1
+|    |    |    |         |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    |         |    \--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    |         +--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    |         \--- org.seleniumhq.selenium:selenium-manager:4.11.0
+|    |    |    |              +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    |              +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    |              \--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-manager:4.11.0 (*)
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-devtools-v113:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    +--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-devtools-v114:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    +--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-devtools-v115:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    +--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-devtools-v85:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    +--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-edge-driver:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    +--- org.seleniumhq.selenium:selenium-chromium-driver:4.11.0 (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-manager:4.11.0 (*)
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-firefox-driver:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    +--- org.seleniumhq.selenium:selenium-devtools-v85:4.11.0 (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-http:4.11.0 (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-manager:4.11.0 (*)
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-ie-driver:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    +--- org.seleniumhq.selenium:selenium-manager:4.11.0 (*)
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    +--- org.seleniumhq.selenium:selenium-safari-driver:4.11.0
+|    |    |    +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |    |    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |    |    +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |    |    \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    |    \--- org.seleniumhq.selenium:selenium-support:4.11.0
+|    |         +--- com.google.auto.service:auto-service-annotations:1.0.1
+|    |         +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    |         +--- net.bytebuddy:byte-buddy:1.14.4
+|    |         +--- org.seleniumhq.selenium:selenium-api:4.11.0
+|    |         +--- org.seleniumhq.selenium:selenium-json:4.11.0 (*)
+|    |         \--- org.seleniumhq.selenium:selenium-remote-driver:4.11.0 (*)
+|    +--- org.slf4j:slf4j-api:2.0.7
+|    \--- com.codeborne:selenide-core:6.17.0
+|         +--- com.google.guava:guava:32.1.2-jre (*)
+|         +--- org.apache.commons:commons-lang3:3.13.0
+|         +--- commons-io:commons-io:2.13.0
+|         +--- org.apache.commons:commons-compress:1.23.0
+|         +--- org.apache.httpcomponents.client5:httpclient5:5.2.1
+|         |    +--- org.apache.httpcomponents.core5:httpcore5:5.2
+|         |    +--- org.apache.httpcomponents.core5:httpcore5-h2:5.2
+|         |    |    \--- org.apache.httpcomponents.core5:httpcore5:5.2
+|         |    \--- org.slf4j:slf4j-api:1.7.36 -> 2.0.7
+|         +--- org.seleniumhq.selenium:selenium-java:4.11.0 (*)
+|         +--- org.slf4j:slf4j-api:2.0.7
+|         \--- org.opentest4j:opentest4j:1.3.0
++--- com.github.javafaker:javafaker:1.0.2
+|    +--- org.apache.commons:commons-lang3:3.5 -> 3.13.0
+|    +--- org.yaml:snakeyaml:1.23
+|    \--- com.github.mifmif:generex:1.0.2
+|         \--- dk.brics.automaton:automaton:1.11-8
++--- commons-io:commons-io:2.11.0 -> 2.13.0
++--- com.google.code.findbugs:jsr305:3.0.2
++--- io.grpc:grpc-protobuf:1.52.1
+|    +--- io.grpc:grpc-api:1.52.1
+|    |    +--- io.grpc:grpc-context:1.52.1
+|    |    +--- com.google.code.findbugs:jsr305:3.0.2
+|    |    +--- com.google.errorprone:error_prone_annotations:2.14.0 -> 2.18.0
+|    |    \--- com.google.guava:guava:31.1-android -> 32.1.2-jre (*)
+|    +--- com.google.code.findbugs:jsr305:3.0.2
+|    +--- com.google.protobuf:protobuf-java:3.21.7 -> 3.21.12
+|    +--- com.google.api.grpc:proto-google-common-protos:2.9.0
+|    |    \--- com.google.protobuf:protobuf-java:3.21.1 -> 3.21.12
+|    +--- io.grpc:grpc-protobuf-lite:1.52.1
+|    |    +--- io.grpc:grpc-api:1.52.1 (*)
+|    |    +--- com.google.code.findbugs:jsr305:3.0.2
+|    |    \--- com.google.guava:guava:31.1-android -> 32.1.2-jre (*)
+|    \--- com.google.guava:guava:31.1-android -> 32.1.2-jre (*)
++--- io.grpc:grpc-stub:1.52.1
+|    +--- io.grpc:grpc-api:1.52.1 (*)
+|    +--- com.google.guava:guava:31.1-android -> 32.1.2-jre (*)
+|    \--- com.google.errorprone:error_prone_annotations:2.14.0 -> 2.18.0
++--- io.grpc:grpc-netty:1.52.1
+|    +--- io.grpc:grpc-core:1.52.1
+|    |    +--- io.grpc:grpc-api:1.52.1 (*)
+|    |    +--- com.google.code.gson:gson:2.9.0
+|    |    +--- com.google.android:annotations:4.1.1.4
+|    |    +--- org.codehaus.mojo:animal-sniffer-annotations:1.21
+|    |    +--- com.google.errorprone:error_prone_annotations:2.14.0 -> 2.18.0
+|    |    +--- com.google.guava:guava:31.1-android -> 32.1.2-jre (*)
+|    |    \--- io.perfmark:perfmark-api:0.25.0
+|    +--- io.netty:netty-codec-http2:4.1.79.Final
+|    |    +--- io.netty:netty-common:4.1.79.Final -> 4.1.92.Final
+|    |    +--- io.netty:netty-buffer:4.1.79.Final -> 4.1.92.Final (*)
+|    |    +--- io.netty:netty-transport:4.1.79.Final -> 4.1.92.Final (*)
+|    |    +--- io.netty:netty-codec:4.1.79.Final -> 4.1.92.Final (*)
+|    |    +--- io.netty:netty-handler:4.1.79.Final -> 4.1.92.Final (*)
+|    |    \--- io.netty:netty-codec-http:4.1.79.Final -> 4.1.92.Final (*)
+|    +--- io.netty:netty-handler-proxy:4.1.79.Final (*)
+|    +--- com.google.guava:guava:31.1-android -> 32.1.2-jre (*)
+|    +--- com.google.errorprone:error_prone_annotations:2.14.0 -> 2.18.0
+|    +--- io.perfmark:perfmark-api:0.25.0
+|    \--- io.netty:netty-transport-native-unix-common:4.1.79.Final -> 4.1.92.Final (*)
++--- com.google.protobuf:protobuf-java:3.21.12
++--- project :niffler-grpc-common
+|    +--- io.grpc:grpc-protobuf:1.52.1 (*)
+|    +--- io.grpc:grpc-stub:1.52.1 (*)
+|    \--- com.google.protobuf:protobuf-java:3.21.12
++--- com.sun.xml.messaging.saaj:saaj-impl:3.0.1
+|    +--- jakarta.xml.soap:jakarta.xml.soap-api:3.0.0
+|    |    \--- jakarta.activation:jakarta.activation-api:2.1.0
+|    +--- org.jvnet.staxex:stax-ex:2.1.0
+|    |    \--- jakarta.activation:jakarta.activation-api:2.1.0
+|    +--- jakarta.activation:jakarta.activation-api:2.1.0
+|    \--- org.eclipse.angus:angus-activation:1.0.0
+|         \--- jakarta.activation:jakarta.activation-api:2.1.0
++--- org.apache.kafka:kafka-clients:3.5.0
+|    +--- com.github.luben:zstd-jni:1.5.5-1
+|    +--- org.lz4:lz4-java:1.8.0
+|    +--- org.xerial.snappy:snappy-java:1.1.10.0
+|    \--- org.slf4j:slf4j-api:1.7.36 -> 2.0.7
++--- com.github.tomakehurst:wiremock-jre8:2.35.0
+|    +--- org.slf4j:slf4j-api:1.7.36 -> 2.0.7
+|    +--- org.eclipse.jetty:jetty-bom:9.4.49.v20220914
+|    |    +--- org.eclipse.jetty:jetty-alpn-java-client:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-alpn-java-server:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-alpn-openjdk8-client:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-alpn-openjdk8-server:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-alpn-server:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty.http2:http2-server:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-proxy:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-server:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-servlet:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-servlets:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-webapp:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-alpn-client:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-io:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty.http2:http2-common:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-util:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-client:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-http:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-security:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-util-ajax:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-continuation:9.4.49.v20220914 (c)
+|    |    +--- org.eclipse.jetty:jetty-xml:9.4.49.v20220914 (c)
+|    |    \--- org.eclipse.jetty.http2:http2-hpack:9.4.49.v20220914 (c)
+|    +--- org.eclipse.jetty:jetty-server -> 9.4.49.v20220914
+|    |    +--- javax.servlet:javax.servlet-api:3.1.0
+|    |    +--- org.eclipse.jetty:jetty-http:9.4.49.v20220914
+|    |    |    +--- org.eclipse.jetty:jetty-util:9.4.49.v20220914
+|    |    |    \--- org.eclipse.jetty:jetty-io:9.4.49.v20220914
+|    |    |         \--- org.eclipse.jetty:jetty-util:9.4.49.v20220914
+|    |    \--- org.eclipse.jetty:jetty-io:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty:jetty-servlet -> 9.4.49.v20220914
+|    |    +--- org.eclipse.jetty:jetty-security:9.4.49.v20220914
+|    |    |    \--- org.eclipse.jetty:jetty-server:9.4.49.v20220914 (*)
+|    |    \--- org.eclipse.jetty:jetty-util-ajax:9.4.49.v20220914
+|    |         \--- org.eclipse.jetty:jetty-util:9.4.49.v20220914
+|    +--- org.eclipse.jetty:jetty-servlets -> 9.4.49.v20220914
+|    |    +--- org.eclipse.jetty:jetty-continuation:9.4.49.v20220914
+|    |    +--- org.eclipse.jetty:jetty-http:9.4.49.v20220914 (*)
+|    |    +--- org.eclipse.jetty:jetty-util:9.4.49.v20220914
+|    |    \--- org.eclipse.jetty:jetty-io:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty:jetty-webapp -> 9.4.49.v20220914
+|    |    +--- org.eclipse.jetty:jetty-xml:9.4.49.v20220914
+|    |    |    \--- org.eclipse.jetty:jetty-util:9.4.49.v20220914
+|    |    \--- org.eclipse.jetty:jetty-servlet:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty:jetty-proxy -> 9.4.49.v20220914
+|    |    +--- org.eclipse.jetty:jetty-util:9.4.49.v20220914
+|    |    \--- org.eclipse.jetty:jetty-client:9.4.49.v20220914
+|    |         +--- org.eclipse.jetty:jetty-http:9.4.49.v20220914 (*)
+|    |         \--- org.eclipse.jetty:jetty-io:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty.http2:http2-server -> 9.4.49.v20220914
+|    |    +--- org.eclipse.jetty.http2:http2-common:9.4.49.v20220914
+|    |    |    \--- org.eclipse.jetty.http2:http2-hpack:9.4.49.v20220914
+|    |    |         +--- org.eclipse.jetty:jetty-util:9.4.49.v20220914
+|    |    |         +--- org.eclipse.jetty:jetty-http:9.4.49.v20220914 (*)
+|    |    |         \--- org.eclipse.jetty:jetty-io:9.4.49.v20220914 (*)
+|    |    \--- org.eclipse.jetty:jetty-server:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty:jetty-alpn-server -> 9.4.49.v20220914
+|    |    \--- org.eclipse.jetty:jetty-server:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty:jetty-alpn-java-server -> 9.4.49.v20220914
+|    |    +--- org.eclipse.jetty:jetty-io:9.4.49.v20220914 (*)
+|    |    \--- org.eclipse.jetty:jetty-alpn-server:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty:jetty-alpn-openjdk8-server -> 9.4.49.v20220914
+|    |    +--- org.eclipse.jetty:jetty-alpn-server:9.4.49.v20220914 (*)
+|    |    \--- org.eclipse.jetty:jetty-io:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty:jetty-alpn-java-client -> 9.4.49.v20220914
+|    |    \--- org.eclipse.jetty:jetty-alpn-client:9.4.49.v20220914
+|    |         \--- org.eclipse.jetty:jetty-io:9.4.49.v20220914 (*)
+|    +--- org.eclipse.jetty:jetty-alpn-openjdk8-client -> 9.4.49.v20220914
+|    |    \--- org.eclipse.jetty:jetty-alpn-client:9.4.49.v20220914 (*)
+|    +--- com.google.guava:guava:31.1-jre -> 32.1.2-jre (*)
+|    +--- com.fasterxml.jackson:jackson-bom:2.13.4.20221013
+|    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.13.4 (c)
+|    |    +--- com.fasterxml.jackson.core:jackson-core:2.13.4 (c)
+|    |    \--- com.fasterxml.jackson.core:jackson-databind:2.13.4.2 (c)
+|    +--- com.fasterxml.jackson.core:jackson-core -> 2.13.4
+|    |    \--- com.fasterxml.jackson:jackson-bom:2.13.4 -> 2.13.4.20221013 (*)
+|    +--- com.fasterxml.jackson.core:jackson-annotations -> 2.13.4
+|    |    \--- com.fasterxml.jackson:jackson-bom:2.13.4 -> 2.13.4.20221013 (*)
+|    +--- com.fasterxml.jackson.core:jackson-databind -> 2.13.4.2
+|    |    +--- com.fasterxml.jackson.core:jackson-annotations:2.13.4 (*)
+|    |    +--- com.fasterxml.jackson.core:jackson-core:2.13.4 (*)
+|    |    \--- com.fasterxml.jackson:jackson-bom:2.13.4 -> 2.13.4.20221013 (*)
+|    +--- org.apache.httpcomponents.client5:httpclient5:5.1.3 -> 5.2.1 (*)
+|    +--- org.xmlunit:xmlunit-core:2.9.0
+|    +--- org.xmlunit:xmlunit-legacy:2.9.0
+|    |    \--- org.xmlunit:xmlunit-core:2.9.0
+|    +--- org.xmlunit:xmlunit-placeholders:2.9.0
+|    |    \--- org.xmlunit:xmlunit-core:2.9.0
+|    +--- net.javacrumbs.json-unit:json-unit-core:2.36.0
+|    |    \--- org.hamcrest:hamcrest-core:2.2
+|    |         \--- org.hamcrest:hamcrest:2.2
+|    +--- com.jayway.jsonpath:json-path:2.7.0
+|    |    +--- net.minidev:json-smart:2.4.7 -> 2.4.8
+|    |    |    \--- net.minidev:accessors-smart:2.4.8
+|    |    \--- org.slf4j:slf4j-api:1.7.33 -> 2.0.7
+|    +--- org.ow2.asm:asm:9.4
+|    +--- net.sf.jopt-simple:jopt-simple:5.0.4
+|    +--- org.apache.commons:commons-lang3:3.12.0 -> 3.13.0
+|    +--- com.github.jknack:handlebars:4.3.1
+|    |    \--- org.slf4j:slf4j-api:1.7.32 -> 2.0.7
+|    +--- com.github.jknack:handlebars-helpers:4.3.1
+|    |    +--- com.github.jknack:handlebars:4.3.1 (*)
+|    |    \--- org.apache.commons:commons-lang3:3.12.0 -> 3.13.0
+|    +--- commons-fileupload:commons-fileupload:1.4
+|    +--- commons-io:commons-io:2.11.0 -> 2.13.0
+|    \--- net.minidev:json-smart:2.4.8 (c)
+\--- com.github.tomakehurst:wiremock-standalone:2.27.2
