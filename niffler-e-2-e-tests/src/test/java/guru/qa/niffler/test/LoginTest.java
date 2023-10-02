@@ -3,9 +3,7 @@ package guru.qa.niffler.test;
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.db.model.auth.UserEntity;
 import guru.qa.niffler.jupiter.annotation.DBUser;
-import guru.qa.niffler.jupiter.extension.DaoExtension;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
