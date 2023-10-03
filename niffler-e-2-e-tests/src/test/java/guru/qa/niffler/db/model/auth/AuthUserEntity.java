@@ -17,7 +17,7 @@ import java.util.UUID;
 import static jakarta.persistence.FetchType.EAGER;
 
 @Entity
-@Table(name = "users")
+@Table(name = "\"user\"")
 public class AuthUserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

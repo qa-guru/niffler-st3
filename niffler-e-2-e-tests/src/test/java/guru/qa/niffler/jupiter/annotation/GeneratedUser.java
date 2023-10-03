@@ -1,16 +1,20 @@
 package guru.qa.niffler.jupiter.annotation;
 
+import org.junit.jupiter.api.extension.ExtensionContext;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface ApiLogin {
-    String username() default "";
+@Target(ElementType.PARAMETER)
+public @interface GeneratedUser {
 
-    String password() default "";
+    Selector selector() default Selector.NESTED;
 
-    GenerateUser user() default @GenerateUser(handleAnnotation = false);
+
+    enum Selector {
+        NESTED, OUTER
+    }
 }

@@ -48,7 +48,7 @@ public class UsersDAOSpringJdbc implements AuthUserDAO, UserdataUserDAO {
             KeyHolder kh = new GeneratedKeyHolder();
 
             authJdbcTpl.update(con -> {
-                PreparedStatement ps = con.prepareStatement("INSERT INTO users " +
+                PreparedStatement ps = con.prepareStatement("INSERT INTO \"user\" " +
                                 "(username, password, enabled, account_non_expired, account_non_locked, credentials_non_expired) " +
                                 "VALUES (?, ?, ?, ?, ?, ?)",
                         Statement.RETURN_GENERATED_KEYS);
@@ -61,7 +61,7 @@ public class UsersDAOSpringJdbc implements AuthUserDAO, UserdataUserDAO {
                 return ps;
             }, kh);
             final UUID generatedUserId = (UUID) kh.getKeyList().get(0).get("id");
-            authJdbcTpl.batchUpdate("INSERT INTO authorities (user_id, authority) VALUES (?, ?)", new BatchPreparedStatementSetter() {
+            authJdbcTpl.batchUpdate("INSERT INTO authority (user_id, authority) VALUES (?, ?)", new BatchPreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
                     ps.setObject(1, generatedUserId);
@@ -81,7 +81,7 @@ public class UsersDAOSpringJdbc implements AuthUserDAO, UserdataUserDAO {
     @Override
     public AuthUserEntity updateUser(AuthUserEntity user) {
         authTransactionTpl.execute(status -> {
-            authJdbcTpl.update("UPDATE users SET " +
+            authJdbcTpl.update("UPDATE \"user\" SET " +
                             "password = ?, " +
                             "enabled = ?, " +
                             "account_non_expired = ?, " +
@@ -95,8 +95,8 @@ public class UsersDAOSpringJdbc implements AuthUserDAO, UserdataUserDAO {
                     user.getCredentialsNonExpired(),
                     user.getId()
             );
-            authJdbcTpl.update("DELETE FROM authorities WHERE user_id = ?", user.getId());
-            authJdbcTpl.batchUpdate("INSERT INTO authorities (user_id, authority) VALUES (?, ?)", new BatchPreparedStatementSetter() {
+            authJdbcTpl.update("DELETE FROM authority WHERE user_id = ?", user.getId());
+            authJdbcTpl.batchUpdate("INSERT INTO authority (user_id, authority) VALUES (?, ?)", new BatchPreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
                     ps.setObject(1, user.getId());
@@ -116,8 +116,8 @@ public class UsersDAOSpringJdbc implements AuthUserDAO, UserdataUserDAO {
     @Override
     public void deleteUser(AuthUserEntity user) {
         authTransactionTpl.execute(status -> {
-            authJdbcTpl.update("DELETE FROM authorities WHERE user_id = ?", user.getId());
-            authJdbcTpl.update("DELETE FROM users WHERE id = ?", user.getId());
+            authJdbcTpl.update("DELETE FROM authority WHERE user_id = ?", user.getId());
+            authJdbcTpl.update("DELETE FROM \"user\" WHERE id = ?", user.getId());
             return null;
         });
     }
@@ -125,12 +125,12 @@ public class UsersDAOSpringJdbc implements AuthUserDAO, UserdataUserDAO {
     @Override
     public AuthUserEntity getUserById(UUID userId) {
         AuthUserEntity authUser = authJdbcTpl.queryForObject(
-                "SELECT * FROM users WHERE id = ?",
+                "SELECT * FROM \"user\" WHERE id = ?",
                 AuthUserEntityRowMapper.instance, userId
         );
         authUser.setAuthorities(
                 authJdbcTpl.query(
-                        "SELECT * FROM authorities WHERE user_id = ?",
+                        "SELECT * FROM authority WHERE user_id = ?",
                         AuthorityEntityRowMapper.instance, userId
                 ));
         return authUser;
@@ -139,7 +139,7 @@ public class UsersDAOSpringJdbc implements AuthUserDAO, UserdataUserDAO {
     @Override
     public int createUserInUserData(UserDataUserEntity user) {
         return userdataJdbcTpl.update(
-                "INSERT INTO users (username, currency) VALUES (?, ?)",
+                "INSERT INTO \"user\" (username, currency) VALUES (?, ?)",
                 user.getUsername(),
                 CurrencyValues.RUB.name()
         );
@@ -147,13 +147,13 @@ public class UsersDAOSpringJdbc implements AuthUserDAO, UserdataUserDAO {
 
     @Override
     public void deleteUserInUserData(UserDataUserEntity user) {
-        userdataJdbcTpl.update("DELETE FROM users WHERE id = ?", user.getId());
+        userdataJdbcTpl.update("DELETE FROM \"user\" WHERE id = ?", user.getId());
     }
 
     @Override
     public UserDataUserEntity getUserInUserDataByUsername(String username) {
         return userdataJdbcTpl.queryForObject(
-                "SELECT * FROM users WHERE username = ? ",
+                "SELECT * FROM \"user\" WHERE username = ? ",
                 UserDataUserEntityRowMapper.instance,
                 username
         );

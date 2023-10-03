@@ -41,7 +41,7 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
     public void beforeEach(ExtensionContext context) throws Exception {
         Parameter[] parameters = context.getRequiredTestMethod().getParameters();
         for (Parameter parameter : parameters) {
-            if (parameter.getType().isAssignableFrom(UserJson.class)) {
+            if (parameter.getType().isAssignableFrom(UserJson.class) && parameter.isAnnotationPresent(User.class)) {
                 User parameterAnnotation = parameter.getAnnotation(User.class);
                 User.UserType userType = parameterAnnotation.userType();
                 Queue<UserJson> usersQueueByType = usersQueue.get(parameterAnnotation.userType());

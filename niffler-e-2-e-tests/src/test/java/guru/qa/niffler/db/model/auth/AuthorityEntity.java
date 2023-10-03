@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "authorities")
+@Table(name = "authority")
 public class AuthorityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

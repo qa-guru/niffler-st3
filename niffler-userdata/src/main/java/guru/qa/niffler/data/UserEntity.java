@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 @Entity
-@Table(name = "users")
+@Table(name = "\"user\"")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
