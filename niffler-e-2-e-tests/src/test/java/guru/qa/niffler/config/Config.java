@@ -1,7 +1,5 @@
 package guru.qa.niffler.config;
 
-import org.apache.kafka.common.protocol.types.Field;
-
 public interface Config {
 
 	static Config getInstance() {
@@ -18,6 +16,9 @@ public interface Config {
 	String nifflerSpendUrl();
 
 	String nifflerAuthUrl();
+	String getCurrencyGrpcAddress();
+	int getCurrencyGrpcPort();
+
 
 	default String databaseUser() {
 		return "postgres";
