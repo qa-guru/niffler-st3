@@ -3,7 +3,6 @@ package guru.qa.niffler.jupiter.extension;
 import guru.qa.niffler.api.CategoryService;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.model.CategoryJson;
-import io.qameta.allure.Step;
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -32,8 +31,7 @@ public class CategoryExtension implements BeforeEachCallback {
             category.setUsername(annotation.username());
             category.setCategory(annotation.category());
 
-            CategoryJson createdCategory =
-                    categoryService.addCategory(category).execute().body();
+            categoryService.addCategory(category).execute().body();
         }
     }
 }

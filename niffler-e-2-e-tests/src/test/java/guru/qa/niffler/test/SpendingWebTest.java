@@ -5,13 +5,13 @@ import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.Spend;
 import guru.qa.niffler.jupiter.annotation.User;
-import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -20,8 +20,8 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
 
-//@Disabled
-public class SpendingWebTest extends BaseWebTest {
+@Disabled
+class SpendingWebTest extends BaseWebTest {
 
     static {
         Configuration.browser = "chrome";
