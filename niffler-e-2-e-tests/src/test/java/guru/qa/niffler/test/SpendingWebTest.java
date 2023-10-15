@@ -2,6 +2,7 @@ package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.Spend;
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.CurrencyValues;
@@ -20,7 +21,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
 
 @Disabled
-public class SpendingWebTest extends BaseWebTest {
+class SpendingWebTest extends BaseWebTest {
 
     static {
         Configuration.browser = "chrome";
@@ -38,6 +39,10 @@ public class SpendingWebTest extends BaseWebTest {
         $("button[type='submit']").click();
     }
 
+    @Category(
+            username = user,
+            category = "Рыбалка"
+    )
     @Spend(
             username = user,
             description = "Рыбалка на Ладоге",
