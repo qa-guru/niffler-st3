@@ -17,9 +17,9 @@ public class GatewayGqlServiceClient extends RestService {
     @Step("Send /graphql request")
     public JsonNode graphql(JsonNode body) throws IOException {
         return gqlService.graphql(
-                "Bearer " + SessionStorageContext.getInstance().getToken(),
+                        "Bearer " + SessionStorageContext.getInstance().getToken(),
                         body
-                        )
+                )
                 .execute()
                 .body();
     }

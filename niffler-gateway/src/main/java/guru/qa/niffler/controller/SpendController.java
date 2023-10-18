@@ -5,10 +5,11 @@ import guru.qa.niffler.model.DataFilterValues;
 import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.model.StatisticJson;
 import guru.qa.niffler.service.StatisticAggregator;
+import guru.qa.niffler.service.UserDataClient;
 import guru.qa.niffler.service.api.RestSpendClient;
-import guru.qa.niffler.service.api.RestUserDataClient;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,13 +30,15 @@ import java.util.List;
 public class SpendController {
 
     private final RestSpendClient restSpendClient;
-    private final RestUserDataClient restUserDataClient;
+    private final UserDataClient userDataClient;
     private final StatisticAggregator statisticAggregator;
 
     @Autowired
-    public SpendController(RestSpendClient restSpendClient, RestUserDataClient restUserDataClient, StatisticAggregator statisticAggregator) {
+    public SpendController(RestSpendClient restSpendClient,
+                           @Qualifier("soap") UserDataClient userDataClient,
+                           StatisticAggregator statisticAggregator) {
         this.restSpendClient = restSpendClient;
-        this.restUserDataClient = restUserDataClient;
+        this.userDataClient = userDataClient;
         this.statisticAggregator = statisticAggregator;
     }
 
@@ -52,7 +55,7 @@ public class SpendController {
     public SpendJson addSpend(@Valid @RequestBody SpendJson spend,
                               @AuthenticationPrincipal Jwt principal) {
         String username = principal.getClaim("sub");
-        CurrencyValues userCurrency = restUserDataClient.currentUser(username).getCurrency();
+        CurrencyValues userCurrency = userDataClient.currentUser(username).getCurrency();
         spend.setUsername(username);
         spend.setCurrency(userCurrency);
 

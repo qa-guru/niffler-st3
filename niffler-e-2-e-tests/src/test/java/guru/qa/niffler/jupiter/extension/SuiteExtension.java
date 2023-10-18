@@ -22,6 +22,7 @@ public interface SuiteExtension extends BeforeAllCallback {
 
     default void beforeAllTests(ExtensionContext extensionContext) {
     }
+
     default void afterAllTests() {
     }
 }

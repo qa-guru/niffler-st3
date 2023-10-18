@@ -1,7 +1,5 @@
 package guru.qa.niffler.jupiter.annotation;
 
-import org.junit.jupiter.api.extension.ExtensionContext;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

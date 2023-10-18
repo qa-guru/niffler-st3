@@ -26,7 +26,7 @@ public class UserController {
     private final UserDataClient userDataClient;
 
     @Autowired
-    public UserController(@Qualifier("rest") UserDataClient userDataClient) {
+    public UserController(@Qualifier("soap") UserDataClient userDataClient) {
         this.userDataClient = userDataClient;
     }
 

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.jupiter.annotation.User;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 

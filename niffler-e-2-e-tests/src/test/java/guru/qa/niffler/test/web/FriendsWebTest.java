@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.ResourceLock;
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static guru.qa.niffler.jupiter.annotation.GeneratedUser.Selector.NESTED;
 import static guru.qa.niffler.jupiter.annotation.GeneratedUser.Selector.OUTER;

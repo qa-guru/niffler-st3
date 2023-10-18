@@ -1,6 +1,5 @@
 package guru.qa.niffler.service;
 
-import graphql.ErrorClassification;
 import graphql.GraphQLError;
 import graphql.schema.DataFetchingEnvironment;
 import guru.qa.niffler.ex.ToManySubQueriesException;

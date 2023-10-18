@@ -6,7 +6,6 @@ import guru.qa.grpc.niffler.grpc.CurrencyValues;
 import guru.qa.grpc.niffler.grpc.NifflerCurrencyServiceGrpc;
 import guru.qa.niffler.config.Config;
 import io.grpc.Channel;
-import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.qameta.allure.AllureId;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,10 +21,10 @@ public class NifflerCurrencyGrpcTest {
 
     protected static final Config CFG = Config.getInstance();
 
-        private static Channel channel = ManagedChannelBuilder.forAddress(
-                CFG.nifflerCurrencyUrl(),
-                CFG.nifflerCurrencyPort()
-        ).build();
+    private static Channel channel = ManagedChannelBuilder.forAddress(
+            CFG.nifflerCurrencyUrl(),
+            CFG.nifflerCurrencyPort()
+    ).build();
 
     private NifflerCurrencyServiceGrpc.NifflerCurrencyServiceBlockingStub stub = NifflerCurrencyServiceGrpc
             .newBlockingStub(channel);

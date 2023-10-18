@@ -2,10 +2,7 @@ package guru.qa.niffler.jupiter.extension;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import guru.qa.niffler.jupiter.annotation.GeneratedUser;
 import guru.qa.niffler.jupiter.annotation.GqlRequest;
-import guru.qa.niffler.model.UserJson;
-import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
@@ -20,7 +17,7 @@ public class GraphQlRequestResolver implements ParameterResolver {
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-         return parameterContext.getParameter().isAnnotationPresent(GqlRequest.class) &&
+        return parameterContext.getParameter().isAnnotationPresent(GqlRequest.class) &&
                 parameterContext.getParameter().getType().isAssignableFrom(JsonNode.class);
     }
 

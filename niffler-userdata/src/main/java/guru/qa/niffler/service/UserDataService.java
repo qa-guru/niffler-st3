@@ -204,7 +204,8 @@ public class UserDataService {
                 .toList();
     }
 
-    @Nonnull UserEntity getRequiredUser(@Nonnull String username) {
+    @Nonnull
+    UserEntity getRequiredUser(@Nonnull String username) {
         UserEntity user = userRepository.findByUsername(username);
         if (user == null) {
             throw new NotFoundException("Can`t find user by username: " + username);

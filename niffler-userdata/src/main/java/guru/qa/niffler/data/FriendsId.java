@@ -1,7 +1,6 @@
 package guru.qa.niffler.data;
 
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.UUID;
 
 public class FriendsId implements Serializable {
