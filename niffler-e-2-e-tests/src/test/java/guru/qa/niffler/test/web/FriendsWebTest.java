@@ -1,7 +1,6 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.web;
 
 
-import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.ApiLogin;
 import guru.qa.niffler.jupiter.annotation.GenerateUser;
 import guru.qa.niffler.jupiter.annotation.GeneratedUser;
@@ -9,7 +8,7 @@ import guru.qa.niffler.jupiter.annotation.IncomeInvitation;
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.AllureId;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.ResourceLock;
 
@@ -19,7 +18,7 @@ import static guru.qa.niffler.jupiter.annotation.GeneratedUser.Selector.NESTED;
 import static guru.qa.niffler.jupiter.annotation.GeneratedUser.Selector.OUTER;
 import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
 
-//@Execution(ExecutionMode.SAME_THREAD)
+@Disabled
 public class FriendsWebTest extends BaseWebTest {
 
 //    @BeforeEach

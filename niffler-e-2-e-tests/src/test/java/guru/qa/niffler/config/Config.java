@@ -28,4 +28,14 @@ public interface Config {
     }
 
     String nifflerAuthUrl();
+
+    String nifflerUserdataUrl();
+
+    String nifflerCurrencyUrl();
+
+    default int nifflerCurrencyPort() {
+        return 8092;
+    }
+
+    String nifflerGatewayUrl();
 }

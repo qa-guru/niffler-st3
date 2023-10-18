@@ -1,5 +1,8 @@
 package guru.qa.niffler.controller.graphql;
 
+import graphql.schema.DataFetchingEnvironment;
+import graphql.schema.SelectedField;
+import guru.qa.niffler.ex.ToManySubQueriesException;
 import guru.qa.niffler.model.FriendJson;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.model.graphql.UpdateUserInfoInput;
@@ -39,7 +42,18 @@ public class UserGraphqlController {
     }
 
     @QueryMapping
-    public UserJsonGQL user(@AuthenticationPrincipal Jwt principal) {
+    public UserJsonGQL user(@AuthenticationPrincipal Jwt principal,
+                            DataFetchingEnvironment env) {
+        List<SelectedField> friendsSelectors = env.getSelectionSet().getFieldsGroupedByResultKey().get("friends");
+        List<SelectedField> invitationSelectors = env.getSelectionSet().getFieldsGroupedByResultKey().get("invitations");
+
+        if (friendsSelectors != null && friendsSelectors.size() > 2) {
+            throw new ToManySubQueriesException("Can`t fetch over 2 sub-queries for friends!");
+        }
+        if (invitationSelectors != null && invitationSelectors.size() > 2) {
+            throw new ToManySubQueriesException("Can`t fetch over 2 sub-queries for invitations!");
+        }
+
         String username = principal.getClaim("sub");
         UserJson userJson = restUserDataClient.currentUser(username);
         UserJsonGQL userJsonGQL = UserJsonGQL.fromUserJson(userJson);
