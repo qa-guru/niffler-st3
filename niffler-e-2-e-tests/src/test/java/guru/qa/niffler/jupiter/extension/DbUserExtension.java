@@ -27,8 +27,8 @@ public class DbUserExtension implements BeforeEachCallback, AfterEachCallback, P
     public void beforeEach(ExtensionContext context) throws Exception {
         AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
         UserDataUserDAO userDataUserDAO = new UserdataUserDAOHibernate();
-        DBUser annotation = context.getRequiredTestMethod().getAnnotation(DBUser.class);
-        if (annotation != null) {
+        DBUser dbUser = context.getRequiredTestMethod().getAnnotation(DBUser.class);
+        if (dbUser != null) {
             UserEntity authUser = new UserEntity();
             authUser.setUsername(faker.name().username());
             authUser.setPassword(defaultPassword);
