@@ -31,11 +31,13 @@ public class ApiLoginExtension implements BeforeEachCallback, AfterTestExecution
         if (apiLogin != null) {
             username = apiLogin.username();
             password = apiLogin.password();
-            DBUser dbUser = extensionContext.getRequiredTestMethod().getAnnotation(DBUser.class);
-            if (dbUser != null || username.isEmpty() || password.isEmpty()) {
-                UserEntity user = extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), UserEntity.class);
-                username = user.getUsername();
-                password = defaultPassword;
+            if(username.isEmpty() || password.isEmpty()) {
+                DBUser dbUser = extensionContext.getRequiredTestMethod().getAnnotation(DBUser.class);
+                if (dbUser != null) {
+                    UserEntity user = extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), UserEntity.class);
+                    username = user.getUsername();
+                    password = defaultPassword;
+                }
             }
             doLogin(username, password);
         }
