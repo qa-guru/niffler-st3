@@ -13,6 +13,10 @@ public interface Config {
 
     String nifflerSpendUrl();
 
+    default String baseUrl() {
+        return "http://127.0.0.1:3000";
+    }
+
     default String databaseUser() {
         return "postgres";
     }

@@ -1,7 +1,5 @@
 package guru.qa.niffler.test;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.Spend;
 import guru.qa.niffler.jupiter.annotation.User;
@@ -19,24 +17,16 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
+import static guru.qa.niffler.test.pages.LoginPage.doLogin;
 
 @Disabled
 class SpendingWebTest extends BaseWebTest {
 
-    static {
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1980x1024";
-    }
-
     private static final String user = "dima";
 
     @BeforeEach
-    void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
-        Selenide.open("http://127.0.0.1:3000/main");
-        $("a[href*='redirect']").click();
-        $("input[name='username']").setValue(userForTest.getUsername());
-        $("input[name='password']").setValue(userForTest.getPassword());
-        $("button[type='submit']").click();
+    void beforeEach(@User(userType = WITH_FRIENDS) UserJson userForTest) {
+        doLogin(userForTest);
     }
 
     @Category(
