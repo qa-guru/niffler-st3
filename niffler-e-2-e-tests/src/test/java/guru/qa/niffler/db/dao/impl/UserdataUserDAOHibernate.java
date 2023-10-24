@@ -1,12 +1,12 @@
 package guru.qa.niffler.db.dao.impl;
 
 import guru.qa.niffler.db.ServiceDB;
-import guru.qa.niffler.db.dao.UserDataUserDAO;
+import guru.qa.niffler.db.dao.UserdataUserDAO;
 import guru.qa.niffler.db.jpa.EntityManagerFactoryProvider;
 import guru.qa.niffler.db.jpa.JpaService;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 
-public class UserdataUserDAOHibernate extends JpaService implements UserDataUserDAO {
+public class UserdataUserDAOHibernate extends JpaService implements UserdataUserDAO {
 	public UserdataUserDAOHibernate() {
 		super(EntityManagerFactoryProvider.INSTANCE.getDataSource(ServiceDB.USERDATA)
 				.createEntityManager());
@@ -34,4 +34,15 @@ public class UserdataUserDAOHibernate extends JpaService implements UserDataUser
 				.setParameter("username", username)
 				.getSingleResult();
 	}
+
+	@Override
+	public void addFriendForUser(UserDataUserEntity user, UserDataUserEntity friend) {
+
+	}
+
+	@Override
+	public void addInvitationForFriend(UserDataUserEntity user, UserDataUserEntity friend) {
+
+	}
+
 }

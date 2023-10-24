@@ -14,6 +14,8 @@ import java.util.Base64;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class AuthServiceClient extends RestService {
+	private final AuthService authService = retrofit.create(AuthService.class);
+
 	public AuthServiceClient() {
 		super(CFG.nifflerAuthUrl(), true,
 				new ReceivedCookieInterceptor(),
@@ -22,12 +24,10 @@ public class AuthServiceClient extends RestService {
 		);
 	}
 
-	private final AuthService authService = retrofit.create(AuthService.class);
-
 	@Step("Do api login")
 	public void doLogin(String username, String password) throws IOException {
-		SessionStorageContext sessionStorageContext = SessionStorageContext.getInstance();
-		CookieContext cookieContext = CookieContext.getInstance();
+		SessionStorageContext sessionStorageContext = SessionStorageContext.getInstance().init();
+		CookieContext cookieContext = CookieContext.getInstance().init();
 		authService.authorize(
 				"code",
 				"client",
@@ -52,6 +52,6 @@ public class AuthServiceClient extends RestService {
 				sessionStorageContext.getCodeVerifier()
 		).execute().body();
 
-		sessionStorageContext.setToken(response.get("id_token").asText());
+//		sessionStorageContext.setToken(response.get("id_token").asText());
 	}
 }

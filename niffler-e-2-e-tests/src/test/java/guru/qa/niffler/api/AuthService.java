@@ -64,7 +64,7 @@ public interface AuthService {
 	// Location: http://127.0.0.1:3000/authorized?code=0kPJiFvP9paUjgDwBwDU3Pjrt5tflpgJoeDI9S0frLiIIYxbEUfUgcDx_FMW3bDydchiO485cC5iuKpeUCfPPOePKIgcKjeHh5KJz4l93rckEpBbWA5OlNtCxAoQrEkv
 
 
-	@POST("/oauth2/token")
+	@POST("oauth2/token")
 	Call<JsonNode> token(
 			@Header("Authorization") String basicAuthorization,
 			@Query("client_id") String clientId,

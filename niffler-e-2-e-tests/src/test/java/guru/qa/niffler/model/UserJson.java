@@ -2,8 +2,11 @@ package guru.qa.niffler.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import guru.qa.niffler.db.model.auth.AuthUserEntity;
+import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 import guru.qa.niffler.jupiter.annotation.User;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,6 +29,9 @@ public class UserJson {
 
     transient String password;
     transient User.UserType userType;
+    transient List<UserJson> friends;
+    transient List<UserJson> incomeInvitations;
+    transient List<UserJson> outcomeInvitations;
 
     public UserJson() {
     }
@@ -114,4 +120,43 @@ public class UserJson {
     public void setUserType(User.UserType userType) {
         this.userType = userType;
     }
+
+    public List<UserJson> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<UserJson> friends) {
+        this.friends = friends;
+    }
+
+    public List<UserJson> getIncomeInvitations() {
+        return incomeInvitations;
+    }
+
+    public void setIncomeInvitations(List<UserJson> incomeInvitations) {
+        this.incomeInvitations = incomeInvitations;
+    }
+
+    public List<UserJson> getOutcomeInvitations() {
+        return outcomeInvitations;
+    }
+
+    public void setOutcomeInvitations(List<UserJson> outcomeInvitations) {
+        this.outcomeInvitations = outcomeInvitations;
+    }
+
+    public static UserJson fromEntity(AuthUserEntity entity) {
+        UserJson user = new UserJson();
+        user.setId(entity.getId());
+        user.setUsername(entity.getUsername());
+        return user;
+    }
+
+    public static UserJson fromEntity(UserDataUserEntity entity) {
+        UserJson user = new UserJson();
+        user.setId(entity.getId());
+        user.setUsername(entity.getUsername());
+        return user;
+    }
+
 }

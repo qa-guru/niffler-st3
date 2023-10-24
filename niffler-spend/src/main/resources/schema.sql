@@ -2,19 +2,19 @@
 
 create extension if not exists "uuid-ossp";
 
-create table if not exists categories
+create table if not exists category
 (
     id          UUID unique         not null default uuid_generate_v1() primary key,
     category    varchar(255)        not null,
     username    varchar(50)         not null
 );
 
-alter table categories
+alter table category
     owner to postgres;
 
-create unique index if not exists ix_category_username on categories (category, username);
+create unique index if not exists ix_category_username on category (category, username);
 
-create table if not exists spends
+create table if not exists spend
 (
     id          UUID unique  not null default uuid_generate_v1() primary key,
     username    varchar(50)  not null,
@@ -23,10 +23,10 @@ create table if not exists spends
     amount      float        not null,
     description varchar(255) not null,
     category_id UUID         not null,
-    constraint fk_spends_categories foreign key (category_id) references categories (id)
+    constraint fk_spends_categories foreign key (category_id) references category (id)
 );
 
-alter table spends
+alter table spend
     owner to postgres;
 
 -- delete from categories;

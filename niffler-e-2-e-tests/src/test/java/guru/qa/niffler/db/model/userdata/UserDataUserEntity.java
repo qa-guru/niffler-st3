@@ -1,13 +1,14 @@
 package guru.qa.niffler.db.model.userdata;
 
 import guru.qa.niffler.db.model.CurrencyValues;
+import guru.qa.niffler.model.UserJson;
 import jakarta.persistence.*;
 
 import java.util.*;
 import java.util.stream.Stream;
 
 @Entity
-@Table(name = "users")
+@Table(name = "\"user\"")
 public class UserDataUserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -138,5 +139,12 @@ public class UserDataUserEntity {
         int result = Objects.hash(id, username, currency, firstname, surname, friends, invites);
         result = 31 * result + Arrays.hashCode(photo);
         return result;
+    }
+
+    public static UserDataUserEntity userDataUserEntityFromUserJson(UserJson user) {
+        UserDataUserEntity entity = new UserDataUserEntity();
+        entity.setId(user.getId());
+        entity.setUsername(user.getUsername());
+        return entity;
     }
 }

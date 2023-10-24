@@ -2,7 +2,6 @@ package guru.qa.niffler.jupiter.extension;
 
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
-import io.qameta.allure.AllureId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.*;
 
@@ -12,11 +11,12 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+
 public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutionCallback, ParameterResolver {
 
 	public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(UserQueueExtension.class);
 
-	private static Map<User.UserType, Queue<UserJson>> usersQueue = new ConcurrentHashMap<>();
+	private static final Map<User.UserType, Queue<UserJson>> usersQueue = new ConcurrentHashMap<>();
 
 	static {
 		Queue<UserJson> usersWithFriends = new ConcurrentLinkedQueue<>();
@@ -33,24 +33,20 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
 		usersQueue.put(User.UserType.INVITATION_RECEIVED, usersInRc);
 	}
 
-	//ivanov, irina - with friends
-	//ivanov146, marina invitation send
-	//sofia, mihail invitation received
-
 	@Override
-	public void beforeEach(ExtensionContext context) {
+	public void beforeEach(ExtensionContext extensionContext) {
 		Parameter[] parameters;
-		Optional<Method> beforeEachMethod =  Arrays.stream(context.getRequiredTestClass().getDeclaredMethods())
+		Optional<Method> beforeEachMethod =  Arrays.stream(extensionContext.getRequiredTestClass().getDeclaredMethods())
 				.filter(method -> method.isAnnotationPresent(BeforeEach.class)).findFirst();
 		if(beforeEachMethod.isPresent()) {
 			parameters = beforeEachMethod.get().getParameters();
 		} else {
-			parameters = context.getRequiredTestMethod().getParameters();
+			parameters = extensionContext.getRequiredTestMethod().getParameters();
 		}
 
 		Map<User.UserType, UserJson> candidatesForTest = new HashMap<>();
 		for (Parameter parameter : parameters) {
-			if (parameter.getType().isAssignableFrom(UserJson.class)) {
+			if (parameter.getType().isAssignableFrom(UserJson.class) && parameter.isAnnotationPresent(User.class)) {
 				User parameterAnnotation = parameter.getAnnotation(User.class);
 				User.UserType userType = parameterAnnotation.userType();
 				Queue<UserJson> userQueueByType = usersQueue.get(userType);
@@ -62,12 +58,13 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
 				candidatesForTest.put(userType, candidateForTest);
 			}
 		}
-		context.getStore(NAMESPACE).put(getAllureId(context), candidatesForTest);
+		extensionContext.getStore(NAMESPACE).put(extensionContext.getUniqueId(), candidatesForTest);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void afterTestExecution(ExtensionContext context) throws Exception {
-		Map<User.UserType, UserJson> usersFromTest = context.getStore(NAMESPACE).get(getAllureId(context), Map.class);
+	public void afterTestExecution(ExtensionContext extensionContext) {
+		Map<User.UserType, UserJson> usersFromTest = extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), Map.class);
 		for (User.UserType userType : usersFromTest.keySet()) {
 			usersQueue.get(userType).add(usersFromTest.get(userType));
 		}
@@ -82,16 +79,7 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
 	@Override
 	public UserJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
 		User.UserType userType = parameterContext.getParameter().getAnnotation(User.class).userType();
-		return (UserJson) extensionContext.getStore(NAMESPACE).get(getAllureId(extensionContext), Map.class).get(userType);
-	}
-
-
-	private String getAllureId(ExtensionContext context) {
-		AllureId allureId = context.getRequiredTestMethod().getAnnotation(AllureId.class);
-		if (allureId == null) {
-			throw new IllegalStateException("Annotation @AllureId must be present");
-		}
-		return allureId.value();
+		return (UserJson) extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), Map.class).get(userType);
 	}
 
 	private static UserJson bindUser(String userName, String password) {

@@ -1,6 +1,9 @@
 package guru.qa.niffler.page;
 
+import guru.qa.niffler.model.UserJson;
 import io.qameta.allure.Step;
+
+import java.util.List;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$$x;
@@ -29,9 +32,17 @@ public class PeoplePage {
 				.scrollIntoView(false).getText();
 	}
 
-	@Step("Статус пользователя {username} соответсвует '{status}'")
+	@Step("Статус пользователя {username} соответствует '{status}'")
 	public void checkStatusUser(String friendName, String status) {
 		$x(String.format(STATUS_COLUMN, friendName))
 				.scrollIntoView(false).shouldHave(text(status));
+	}
+
+	@Step("Статус пользователей {invitations} соответствует '{status}'")
+	public void checkOutcomeInvitations(List<UserJson> invitations, String status) {
+		for (UserJson invitation : invitations) {
+			$x(String.format(STATUS_COLUMN, invitation.getUsername()))
+					.scrollIntoView(false).shouldHave(text(status));
+		}
 	}
 }

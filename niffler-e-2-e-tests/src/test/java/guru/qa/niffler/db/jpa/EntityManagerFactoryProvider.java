@@ -5,6 +5,7 @@ import guru.qa.niffler.db.ServiceDB;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,5 +33,9 @@ public enum EntityManagerFactoryProvider {
 			entityManagerFactory.createEntityManager();
 			return entityManagerFactory;
 		});
+	}
+
+	public Collection<EntityManagerFactory> allStoredEntityManagerFactories() {
+		return dataSourceStore.values();
 	}
 }

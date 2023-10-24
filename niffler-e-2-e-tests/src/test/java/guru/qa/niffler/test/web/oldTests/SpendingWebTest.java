@@ -2,6 +2,7 @@ package guru.qa.niffler.test.web.oldTests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import guru.qa.niffler.jupiter.annotation.ApiLogin;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.Spend;
 import guru.qa.niffler.model.CurrencyValues;
@@ -46,6 +47,7 @@ public class SpendingWebTest extends BaseWebTest {
 			username = USERNAME,
 			category = CATEGORY
 	)
+	@ApiLogin()
 	@Spend(
 			username = USERNAME,
 			description = DESCRIPTION,

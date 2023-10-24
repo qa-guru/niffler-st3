@@ -1,55 +1,60 @@
 package guru.qa.niffler.test.web.oldTests;
 
-import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.jupiter.annotation.User;
+import guru.qa.niffler.jupiter.annotation.*;
 import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.page.FriendPage;
+import guru.qa.niffler.page.HeaderPage;
+import guru.qa.niffler.page.PeoplePage;
+import guru.qa.niffler.page.WelcomePage;
 import guru.qa.niffler.test.web.BaseWebTest;
 import io.qameta.allure.AllureId;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static guru.qa.niffler.jupiter.annotation.User.UserType.INVITATION_SEND;
-import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
+import static com.codeborne.selenide.Selenide.open;
+import static guru.qa.niffler.Constants.PENDING_INVITATION;
 
 public class FriendsWebTest extends BaseWebTest {
 
-	@BeforeEach
-	void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
-		Selenide.open("http://127.0.0.1:3000/main");
-		$("a[href*='redirect']").click();
-		$("input[name='username']").setValue(userForTest.getUsername());
-		$("input[name='password']").setValue(userForTest.getPassword());
-		$("button[type='submit']").click();
+	FriendPage fp = new FriendPage();
+	HeaderPage hp = new HeaderPage();
+	PeoplePage pp = new PeoplePage();
+	WelcomePage wp = new WelcomePage();
+
+	@AllureId("103")
+	@Test
+	@ApiLogin(
+			user = @GenerateUser(
+					outcomeInvitations = @OutcomeInvitation(count = 2)))
+	void outcomeInvitationsShouldBeDisplayed(@GeneratedUser UserJson createdUser) {
+		open(CFG.nifflerFrontUrl() + "/main");
+		wp.clickLoginButton();
+		hp.clickPeopleIcon();
+		pp.checkOutcomeInvitations(createdUser.getOutcomeInvitations(), PENDING_INVITATION);
+
 	}
 
+	@AllureId("104")
 	@Test
-	@AllureId("100")
-	void friendsShouldBeDisplayedInTable100(@User(userType = WITH_FRIENDS) UserJson user1, @User(userType = INVITATION_SEND) UserJson user2){
-		$("[data-tooltip-id='friends']").click();
-		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
-		$("[data-tooltip-id='people']").click();
-		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
+	@ApiLogin(
+			user = @GenerateUser(
+					incomeInvitations = @IncomeInvitation(count = 2)))
+	void incomeInvitationsShouldBeDisplayed(@GeneratedUser UserJson createdUser) {
+		open(CFG.nifflerFrontUrl() + "/main");
+		wp.clickLoginButton();
+		hp.clickFriendsIcon();
+		fp.checkIncomeInvitationsIsVisible(createdUser.getIncomeInvitations());
+
 	}
 
+	@AllureId("105")
+	@ApiLogin(
+			user = @GenerateUser(
+					friends = @Friend(count = 2)))
 	@Test
-	@AllureId("101")
-	void friendsShouldBeDisplayedInTable101(@User(userType = WITH_FRIENDS) UserJson userForTest){
-		$("[data-tooltip-id='friends']").click();
-		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
-		$("[data-tooltip-id='people']").click();
-		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
-	}
-
-	@Test
-	@AllureId("102")
-	void friendsShouldBeDisplayedInTable102(){
-		$("[data-tooltip-id='friends']").click();
-		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
-		$("[data-tooltip-id='people']").click();
-		$$(".abstract-table tbody tr").findBy(text("You are friends")).shouldBe(visible);
+	void friendsShouldBeDisplayed(@GeneratedUser UserJson createdUser) {
+		open(CFG.nifflerFrontUrl() + "/main");
+		wp.clickLoginButton();
+		hp.clickFriendsIcon();
+		fp.checkFriendsIsVisible(createdUser.getFriends());
 	}
 }

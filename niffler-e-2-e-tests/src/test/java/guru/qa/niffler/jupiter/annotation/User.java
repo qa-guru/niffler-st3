@@ -15,6 +15,7 @@ public @interface User {
 
 	UserType userType();
 
+	//only for study
 	enum UserType {
 		WITH_FRIENDS, INVITATION_SEND, INVITATION_RECEIVED
 	}

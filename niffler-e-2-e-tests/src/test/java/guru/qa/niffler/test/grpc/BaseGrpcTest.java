@@ -18,7 +18,7 @@ public class BaseGrpcTest {
 
 	static {
 		channel = ManagedChannelBuilder
-				.forAddress(CFG.getCurrencyGrpcAddress(), CFG.getCurrencyGrpcPort())
+				.forAddress(CFG.currencyGrpcAddress(), CFG.currencyGrpcPort())
 				.intercept(new AllureGrpc())
 				.usePlaintext()
 				.build();

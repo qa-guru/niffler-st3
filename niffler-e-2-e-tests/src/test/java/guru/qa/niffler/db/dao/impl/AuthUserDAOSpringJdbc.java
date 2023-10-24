@@ -4,7 +4,7 @@ import com.github.javafaker.Faker;
 import guru.qa.niffler.db.jdbc.DataSourceProvider;
 import guru.qa.niffler.db.ServiceDB;
 import guru.qa.niffler.db.dao.AuthUserDAO;
-import guru.qa.niffler.db.dao.UserDataUserDAO;
+import guru.qa.niffler.db.dao.UserdataUserDAO;
 import guru.qa.niffler.db.springjdbc.AuthorityEntityRowMapper;
 import guru.qa.niffler.db.springjdbc.UserDataEntityRowMapper;
 import guru.qa.niffler.db.springjdbc.UserEntityRowMapper;
@@ -27,7 +27,7 @@ import java.util.UUID;
 
 import static guru.qa.niffler.model.CurrencyValues.RUB;
 
-public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
+public class AuthUserDAOSpringJdbc implements AuthUserDAO {
 
 	private final TransactionTemplate authTtpl;
 	private final TransactionTemplate userdataTtpl;
@@ -55,7 +55,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 			KeyHolder kh = new GeneratedKeyHolder();
 
 			authJdbcTemplate.update(con -> {
-				PreparedStatement ps = con.prepareStatement("INSERT INTO users " +
+				PreparedStatement ps = con.prepareStatement("INSERT INTO \"user\" " +
 						"(username, password, enabled, account_non_expired, " +
 						"account_non_locked, credentials_non_expired) " +
 						"VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -68,7 +68,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 				return ps;
 			}, kh);
 			final UUID userId = (UUID) kh.getKeyList().get(0).get("id");
-			authJdbcTemplate.batchUpdate("INSERT INTO authorities (user_id, authority) " +
+			authJdbcTemplate.batchUpdate("INSERT INTO authority (user_id, authority) " +
 					"VALUES (?, ?)", new BatchPreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -87,8 +87,8 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 
 	@Override
 	public void deleteUser(AuthUserEntity user) {
-		authJdbcTemplate.update("DELETE FROM authorities WHERE user_id = ? ", user.getId());
-		authJdbcTemplate.update("DELETE FROM users WHERE id=?", user.getId());
+		authJdbcTemplate.update("DELETE FROM authority WHERE user_id = ? ", user.getId());
+		authJdbcTemplate.update("DELETE FROM \"user\" WHERE id=?", user.getId());
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 		boolean accountNonExpired = true;
 		boolean accountNonLocked = true;
 		boolean credentialsNonExpired = true;
-		authJdbcTemplate.update("UPDATE users SET username=?, enabled=?, account_non_expired=?, " +
+		authJdbcTemplate.update("UPDATE \"user\" SET username=?, enabled=?, account_non_expired=?, " +
 						"account_non_locked=?, credentials_non_expired=? WHERE id=?::uuid",
 				user.getUsername(), enabled, accountNonExpired,
 				accountNonLocked, credentialsNonExpired, user.getId().toString());
@@ -107,12 +107,12 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	@Override
 	public AuthUserEntity getUser(UUID userId) {
 		AuthUserEntity user = authJdbcTemplate.queryForObject(
-				"SELECT * FROM users WHERE id=?::uuid",
+				"SELECT * FROM \"user\" WHERE id=?::uuid",
 				UserEntityRowMapper.instance,
 				userId.toString());
 
 		List<AuthorityEntity> authorities = authJdbcTemplate.query(
-				"SELECT * FROM authorities WHERE user_id=?::uuid",
+				"SELECT * FROM authority WHERE user_id=?::uuid",
 				AuthorityEntityRowMapper.instance,
 				userId.toString());
 
@@ -123,49 +123,16 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
 	@Override
 	public AuthUserEntity getUser(String username) {
 		AuthUserEntity user = authJdbcTemplate.queryForObject(
-				"SELECT * FROM users WHERE username=?",
+				"SELECT * FROM \"user\" WHERE username=?",
 				UserEntityRowMapper.instance,
 				username);
 
 
 		List<AuthorityEntity> authorities = authJdbcTemplate.query(
-				"SELECT * FROM authorities WHERE user_id=?::uuid",
+				"SELECT * FROM authority WHERE user_id=?::uuid",
 				AuthorityEntityRowMapper.instance,
 				user.getId());
 		user.setAuthorities(authorities);
 		return user;
-	}
-
-	@Override
-	public int createUserInUserData(UserDataUserEntity user) {
-		return userdataJdbcTemplate.update(
-				"INSERT INTO users (username, currency) VALUES (?, ?)",
-				user.getUsername(), RUB.name());
-	}
-
-	@Override
-	public void deleteUser(UserDataUserEntity user) {
-		userdataJdbcTemplate.update("DELETE FROM users WHERE username=?", user.getUsername());
-	}
-
-	@Override
-	public UserDataUserEntity updateUserInUserData(UserDataUserEntity user) {
-		UserDataUserEntity userDataEntity = new UserDataUserEntity();
-		String newUsername = faker.name().username();
-		String newFirstname = faker.name().firstName();
-		String newSurname = faker.name().lastName();
-		userdataJdbcTemplate.update("UPDATE users SET username=?, firstname=?, surname=? WHERE username=?",
-				newUsername, newFirstname, newSurname, user.getUsername());
-		userDataEntity.setUsername(newUsername);
-		userDataEntity.setFirstname(newFirstname);
-		userDataEntity.setSurname(newSurname);
-		return userDataEntity;
-	}
-
-	@Override
-	public UserDataUserEntity getUserData(String username) {
-		return userdataJdbcTemplate.queryForObject(
-				"SELECT * FROM users WHERE username=?",
-				UserDataEntityRowMapper.instance, username);
 	}
 }

@@ -1,5 +1,8 @@
 package guru.qa.niffler.db.model.auth;
 
+import guru.qa.niffler.db.model.CurrencyValues;
+import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
+import guru.qa.niffler.model.UserJson;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -7,10 +10,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static guru.qa.niffler.db.model.CurrencyValues.RUB;
 import static jakarta.persistence.FetchType.EAGER;
 
 @Entity
-@Table(name = "users")
+@Table(name = "\"user\"")
 public class AuthUserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -136,5 +140,19 @@ public class AuthUserEntity {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, username, password, enabled, accountNonExpired, accountNonLocked, credentialsNonExpired, authorities);
+	}
+
+	public static AuthUserEntity authUserEntityFromUserJson(UserJson user) {
+		AuthUserEntity entity = new AuthUserEntity();
+		entity.setId(user.getId());
+		entity.setUsername(user.getUsername());
+		return entity;
+	}
+
+	public static UserDataUserEntity toUserDataUserEntity (AuthUserEntity authUserEntity) {
+		UserDataUserEntity entity = new UserDataUserEntity();
+		entity.setUsername(authUserEntity.getUsername());
+		entity.setCurrency(RUB);
+		return entity;
 	}
 }

@@ -1,8 +1,7 @@
 package guru.qa.niffler.db.dao;
 
-import guru.qa.niffler.db.dao.impl.AuthUserDAOHibernate;
-import guru.qa.niffler.db.dao.impl.AuthUserDAOJdbc;
-import guru.qa.niffler.db.dao.impl.UserdataUserDAOHibernate;
+import guru.qa.niffler.db.dao.impl.AuthUserDAOSpringJdbc;
+import guru.qa.niffler.db.dao.impl.UserDataUserDAOSpringJdbc;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
 
@@ -10,8 +9,8 @@ import static guru.qa.niffler.db.model.CurrencyValues.RUB;
 
 public class NifflerUserRepository {
 
-	private final AuthUserDAO authUserDAO = new AuthUserDAOHibernate();
-	private final UserDataUserDAO userDataUserDAO= new UserdataUserDAOHibernate();
+	private final AuthUserDAO authUserDAO = new AuthUserDAOSpringJdbc();
+	private final UserdataUserDAO userDataUserDAO= new UserDataUserDAOSpringJdbc();
 
 	public void createUserForTest(AuthUserEntity user){
 		authUserDAO.createUser(user);
@@ -31,4 +30,7 @@ public class NifflerUserRepository {
 		return user;
 	}
 
+	private void addFriendForUser(UserDataUserEntity user, UserDataUserEntity friend){
+		userDataUserDAO.addFriendForUser(user, friend);
+	}
 }
