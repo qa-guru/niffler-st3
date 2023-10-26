@@ -41,9 +41,8 @@ public class UserDataService {
     }
 
     @KafkaListener(topics = "users", groupId = "userdata")
-    public void listener(@Payload UserJson user, ConsumerRecord<String, UserJson> cr) {
+    public void listener(@Payload UserJson user) {
         LOG.info("### Kafka topic [users] received message: " + user.getUsername());
-        LOG.info("### Kafka consumer record: " + cr.toString());
         UserEntity userDataEntity = new UserEntity();
         userDataEntity.setUsername(user.getUsername());
         userDataEntity.setCurrency(DEFAULT_USER_CURRENCY);

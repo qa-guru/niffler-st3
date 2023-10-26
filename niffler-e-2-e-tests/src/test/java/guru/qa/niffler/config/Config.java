@@ -1,5 +1,7 @@
 package guru.qa.niffler.config;
 
+import java.util.List;
+
 public interface Config {
 
     static Config getInstance() {
@@ -38,4 +40,10 @@ public interface Config {
     }
 
     String nifflerGatewayUrl();
+
+    String kafkaAddress();
+
+    default List<String> kafkaTopics() {
+        return List.of("users");
+    }
 }

@@ -21,10 +21,18 @@ public class AddCookieInterceptor implements Interceptor {
 
         if (jsessionIdCookie != null || xsrfTokenCookie != null) {
             builder.removeAll("Cookie");
-            builder.add("Cookie",
-                    cookieContext.getJSessionIdFormattedCookie()
-                            + ";"
-                            + cookieContext.getXsrfTokenFormattedCookie());
+
+            String resultCookie = "";
+
+            if (jsessionIdCookie != null) {
+                resultCookie = cookieContext.getJSessionIdFormattedCookie() + ";";
+            }
+            if (xsrfTokenCookie != null) {
+                resultCookie  = resultCookie + cookieContext.getXsrfTokenFormattedCookie();
+            }
+
+
+            builder.add("Cookie", resultCookie);
         }
 
         Headers newHeaders = builder.build();

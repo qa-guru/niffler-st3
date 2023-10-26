@@ -53,4 +53,9 @@ public class DockerConfig implements Config {
     public String nifflerGatewayUrl() {
         return "http://gateway.niffler.dc:8090";
     }
+
+    @Override
+    public String kafkaAddress() {
+        return "kafka:9092";
+    }
 }

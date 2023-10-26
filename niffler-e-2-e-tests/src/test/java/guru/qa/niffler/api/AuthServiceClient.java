@@ -54,4 +54,12 @@ public class AuthServiceClient extends RestService {
 
         sessionStorageContext.setToken(response.get("id_token").asText());
     }
+
+    @Step("Do register")
+    public int doRegister(String username, String password) throws IOException {
+        CookieContext cookieContext = CookieContext.getInstance();
+        authService.requestRegisterForm().execute();
+        return authService.register(username, password, password, cookieContext.getXsrfTokenCookieValue())
+                .execute().code();
+    }
 }

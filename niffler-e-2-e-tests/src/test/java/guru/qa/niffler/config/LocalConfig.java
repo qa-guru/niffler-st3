@@ -47,4 +47,9 @@ public class LocalConfig implements Config {
     public String nifflerGatewayUrl() {
         return "http://127.0.0.1:8090";
     }
+
+    @Override
+    public String kafkaAddress() {
+        return "localhost:9092";
+    }
 }
