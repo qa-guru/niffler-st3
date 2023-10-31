@@ -110,10 +110,7 @@ dependencies {
     }
     testImplementation "io.qameta.allure:allure-okhttp3:${allureVersion}"
     testImplementation "io.qameta.allure:allure-selenide:${allureVersion}"
-    testImplementation ("io.qameta.allure:allure-grpc:${allureVersion}"){
-        exclude group: 'io.grpc', module: 'grpc-core'
-        exclude group: 'com.google.protobuf'
-    }
+    testImplementation "io.qameta.allure:allure-grpc:${allureVersion}"
     // WEB
     testImplementation "com.codeborne:selenide:${selenideVersion}"
     // Utils

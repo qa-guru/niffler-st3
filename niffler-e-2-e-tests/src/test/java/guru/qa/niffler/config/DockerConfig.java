@@ -32,5 +32,15 @@ public class DockerConfig implements Config {
     public String nifflerAuthUrl() {
         return "http://auth.niffler.dc";
     }
+
+    @Override
+    public String getCurrencyGrpcAddress() {
+        return "niffler-currency";
+    }
+
+    @Override
+    public int getCurrencyGrpcPort() {
+        return 8092;
+    }
 }
 
