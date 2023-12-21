@@ -27,60 +27,67 @@ public class UserEntity {
         return username;
     }
 
-    public void setUsername(String username) {
+    public UserEntity setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public UserEntity setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public Boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(Boolean enabled) {
+    public UserEntity setEnabled(Boolean enabled) {
         this.enabled = enabled;
+        return this;
     }
 
     public Boolean getAccountNonExpired() {
         return accountNonExpired;
     }
 
-    public void setAccountNonExpired(Boolean accountNonExpired) {
+    public UserEntity setAccountNonExpired(Boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
+        return this;
     }
 
     public Boolean getAccountNonLocked() {
         return accountNonLocked;
     }
 
-    public void setAccountNonLocked(Boolean accountNonLocked) {
+    public UserEntity setAccountNonLocked(Boolean accountNonLocked) {
         this.accountNonLocked = accountNonLocked;
+        return this;
     }
 
     public Boolean getCredentialsNonExpired() {
         return credentialsNonExpired;
     }
 
-    public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
+    public UserEntity setCredentialsNonExpired(Boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
+        return this;
     }
 
     public List<AuthorityEntity> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(List<AuthorityEntity> authorities) {
+    public UserEntity setAuthorities(List<AuthorityEntity> authorities) {
         this.authorities = authorities;
+        return this;
     }
 
-    public void addAuthorities(AuthorityEntity... authorities) {
+    public UserEntity addAuthorities(AuthorityEntity... authorities) {
         this.authorities.addAll(List.of(authorities));
+        return this;
     }
-
 }
